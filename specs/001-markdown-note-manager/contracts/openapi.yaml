@@ -1,0 +1,399 @@
+openapi: 3.0.3
+info:
+  title: Markdownノート管理API
+  description: |
+    Markdownノート管理アプリケーションのREST API仕様書。
+    ノートの作成、取得、更新、削除機能を提供します。
+  version: 1.0.0
+  contact:
+    name: Markdownノート管理アプリ開発チーム
+
+servers:
+  - url: http://localhost:8000
+    description: ローカル開発環境
+  - url: https://api.example.com
+    description: 本番環境 (将来的に Azure App Service)
+
+tags:
+  - name: notes
+    description: ノート管理操作
+
+paths:
+  /notes:
+    get:
+      tags:
+        - notes
+      summary: ノート一覧取得
+      description: |
+        すべてのノートを取得します。
+        作成日時または更新日時でソート可能で、ページネーションをサポートします。
+      operationId: listNotes
+      parameters:
+        - name: sort_by
+          in: query
+          description: ソート対象のフィールド
+          required: false
+          schema:
+            type: string
+            enum: [created_at, updated_at]
+            default: created_at
+        - name: order
+          in: query
+          description: ソート順
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: desc
+        - name: skip
+          in: query
+          description: スキップする件数 (ページネーション)
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: limit
+          in: query
+          description: 取得する件数 (ページネーション)
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: ノート一覧の取得に成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Note'
+                  total:
+                    type: integer
+                    description: 全ノート数
+                    example: 42
+                  skip:
+                    type: integer
+                    description: スキップした件数
+                    example: 0
+                  limit:
+                    type: integer
+                    description: 取得した件数
+                    example: 20
+        '503':
+          description: データベース接続エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      tags:
+        - notes
+      summary: 新規ノート作成
+      description: |
+        新しいノートを作成します。
+        タイトルは必須で、本文は任意です。
+      operationId: createNote
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NoteCreate'
+      responses:
+        '201':
+          description: ノートの作成に成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+        '422':
+          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+        '503':
+          description: データベース接続エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /notes/{note_id}:
+    get:
+      tags:
+        - notes
+      summary: ノート取得
+      description: 指定されたIDのノートを取得します。
+      operationId: getNote
+      parameters:
+        - name: note_id
+          in: path
+          description: ノートのUUID v4
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 550e8400-e29b-41d4-a716-446655440000
+      responses:
+        '200':
+          description: ノートの取得に成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+        '404':
+          description: ノートが見つからない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: データベース接続エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      tags:
+        - notes
+      summary: ノート更新
+      description: |
+        指定されたIDのノートを更新します。
+        タイトルと本文の両方またはいずれかを更新できます。
+      operationId: updateNote
+      parameters:
+        - name: note_id
+          in: path
+          description: ノートのUUID v4
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 550e8400-e29b-41d4-a716-446655440000
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NoteUpdate'
+      responses:
+        '200':
+          description: ノートの更新に成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+        '404':
+          description: ノートが見つからない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+        '503':
+          description: データベース接続エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - notes
+      summary: ノート削除
+      description: 指定されたIDのノートを削除します。
+      operationId: deleteNote
+      parameters:
+        - name: note_id
+          in: path
+          description: ノートのUUID v4
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 550e8400-e29b-41d4-a716-446655440000
+      responses:
+        '204':
+          description: ノートの削除に成功 (レスポンスボディなし)
+        '404':
+          description: ノートが見つからない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: データベース接続エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /health:
+    get:
+      tags:
+        - health
+      summary: ヘルスチェック
+      description: |
+        APIサーバーの健全性を確認します。
+        MongoDBへの接続状態も含めて報告します。
+      operationId: healthCheck
+      responses:
+        '200':
+          description: サーバーは正常に動作中
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  database:
+                    type: string
+                    example: connected
+        '503':
+          description: サーバーまたはデータベースに問題あり
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  database:
+                    type: string
+                    example: disconnected
+
+components:
+  schemas:
+    Note:
+      type: object
+      required:
+        - id
+        - title
+        - content
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ノートの一意識別子 (UUID v4)
+          example: 550e8400-e29b-41d4-a716-446655440000
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+          description: ノートのタイトル
+          example: サンプルノート
+        content:
+          type: string
+          maxLength: 50000
+          description: Markdown形式の本文
+          example: |
+            # 見出し
+
+            これはサンプルのMarkdownノートです。
+
+            - リスト項目1
+            - リスト項目2
+        created_at:
+          type: string
+          format: date-time
+          description: 作成日時 (ISO 8601形式)
+          example: 2026-02-12T10:00:00Z
+        updated_at:
+          type: string
+          format: date-time
+          description: 最終更新日時 (ISO 8601形式)
+          example: 2026-02-12T10:30:00Z
+
+    NoteCreate:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+          description: ノートのタイトル
+          example: 新しいノート
+        content:
+          type: string
+          maxLength: 50000
+          description: Markdown形式の本文 (任意)
+          default: ""
+          example: |
+            # 新しいノート
+
+            ここに内容を書きます。
+
+    NoteUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+          description: ノートのタイトル (任意)
+          example: 更新されたタイトル
+        content:
+          type: string
+          maxLength: 50000
+          description: Markdown形式の本文 (任意)
+          example: |
+            # 更新された内容
+
+            新しい情報を追加しました。
+
+    Error:
+      type: object
+      required:
+        - detail
+      properties:
+        detail:
+          type: string
+          description: エラーメッセージ
+          example: ノートが見つかりません
+
+    ValidationError:
+      type: object
+      required:
+        - detail
+      properties:
+        detail:
+          type: array
+          items:
+            type: object
+            properties:
+              loc:
+                type: array
+                items:
+                  type: string
+                description: エラーが発生したフィールドのパス
+                example: ["body", "title"]
+              msg:
+                type: string
+                description: エラーメッセージ
+                example: タイトルは空白のみにできません
+              type:
+                type: string
+                description: エラーの種類
+                example: value_error
