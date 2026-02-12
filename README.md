@@ -23,6 +23,15 @@ your-repository/
 │       └── <skill-name>/
 │           └── SKILL.md
 │
+├── .specify/                              # 開発プロセステンプレート
+│   ├── memory/
+│   │   └── constitution.md                # プロジェクト憲章 (推奨)
+│   └── templates/                         # 仕様書・計画書テンプレート
+│       ├── constitution-template.md
+│       ├── spec-template.md
+│       ├── plan-template.md
+│       └── tasks-template.md
+│
 ├── .vscode/
 │   ├── settings.json                      # VS Code / Copilot 設定
 │   └── mcp.json                           # MCP サーバー設定
@@ -41,7 +50,18 @@ your-repository/
 | `.github/copilot-instructions.md`        | リポジトリ全体に適用される基本指示       | 全 Copilot 機能            |
 | `.github/instructions/*.instructions.md` | 特定モジュールや特定パスに適用される指示 | Coding Agent, Code Review  |
 | `.claude/skills/*/SKILL.md`              | タスク固有のスキル定義                   | Coding agent, CLI, VS Code |
+| `.specify/memory/constitution.md`        | プロジェクト憲章（開発原則・品質基準）   | 開発プロセス全体           |
 | `AGENTS.md`                              | エージェント向け指示 (階層継承)          | AI エージェント全般        |
+
+### 開発プロセステンプレート
+
+| ファイル                                   | 説明                                   | 対象                  |
+| ------------------------------------------ | -------------------------------------- | --------------------- |
+| `.specify/memory/constitution.md`          | プロジェクト憲章（開発原則・品質基準） | 開発プロセス全体      |
+| `.specify/templates/constitution-template.md` | プロジェクト憲章のテンプレート         | 新規プロジェクト作成時 |
+| `.specify/templates/spec-template.md`      | 機能仕様書テンプレート                 | 機能設計時            |
+| `.specify/templates/plan-template.md`      | 実装計画書テンプレート                 | 実装計画作成時        |
+| `.specify/templates/tasks-template.md`     | タスクリストテンプレート               | タスク分解時          |
 
 ### VS Code 専用
 
@@ -95,6 +115,47 @@ your-repository/
 
 **推奨**: スキルは `.claude/skills/` に統一することで、GitHub Copilot と Claude
 Code の両方で利用可能
+
+## プロジェクト憲章（Constitution）について
+
+`.specify/memory/constitution.md` は、プロジェクト固有の開発原則、技術スタック要件、品質基準、
+開発ワークフローを定義するプロジェクト憲章です。憲章はすべての開発プラクティスに優先し、
+コードレビューやCI/CDでの検証基準となります。
+
+### 憲章の主な内容
+
+#### 基本原則
+
+プロジェクトが遵守すべき交渉不可能なルールを定義します。例：
+- 最新の安定バージョンの利用
+- 型安全性の厳守（TypeScript strict mode、Python type hints）
+- テスト駆動開発（TDD）の採用
+- API ユニットテスト必須
+- コミット前リンター実行
+- シークレット管理の徹底
+
+#### 技術スタック要件
+
+使用する言語、フレームワーク、ツールを明示します。新規技術の導入は憲章の改訂を経て行います。
+
+#### 品質基準
+
+コードカバレッジ、静的解析、ドキュメント要件などの測定可能な品質目標を定義します。
+
+#### 開発ワークフロー
+
+ブランチ戦略、コードレビュープロセス、リリース手順などを規定します。
+
+#### ガバナンス
+
+憲章の修正手順、コンプライアンス検証方法、例外処理を明確化します。
+
+### 憲章の活用方法
+
+1. **新規プロジェクト作成時**: テンプレート（`.specify/templates/constitution-template.md`）から作成
+2. **機能開発時**: 仕様書・計画書・タスクテンプレートが自動的に憲章を参照
+3. **コードレビュー時**: レビュアーは憲章遵守を確認
+4. **CI/CD**: 自動チェック可能な項目（リンター、型チェック、テストカバレッジ）を自動化
 
 ## Copilot Instructions について
 

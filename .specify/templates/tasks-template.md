@@ -10,7 +10,12 @@
 **前提条件**:
 `plan.md` (必須), `spec.md` (ユーザーストーリーに必須), `research.md`, `data-model.md`, `contracts/`
 
-**テスト**: 以下の例にはテストタスクが含まれています。テストはオプションです - 機能仕様で明示的に要求された場合のみ含めてください。
+**Constitution 準拠**: すべてのタスクは `.specify/memory/constitution.md` の基本原則に従うこと
+- TDD（テスト駆動開発）を採用: テストを先に書き、実装前に失敗を確認（Red-Green-Refactor）
+- すべての API にユニットテストを記述
+- 型安全性の確保（TypeScript strict mode、Python type hints）
+- コミット前にリンター・フォーマッターを実行
+- シークレットをコードに含めない
 
 **構成**: タスクはユーザーストーリーごとにグループ化されており、各ストーリーの独立した実装とテストが可能です。
 
@@ -81,23 +86,30 @@
 
 **独立テスト**: [このストーリーが単独で動作することを確認する方法]
 
-### ユーザーストーリー 1 のテスト（オプション - テストが要求された場合のみ）⚠️
+### ユーザーストーリー 1 のテスト（Constitution に従い TDD を適用）🔴
 
-> **注意: これらのテストを最初に書き、実装前に失敗することを確認してください**
+> **重要 (Constitution III. TDD 原則)**: これらのテストを最初に書き、実装前に失敗することを確認してください（Red-Green-Refactor サイクル）
+
+> **重要 (Constitution IV. API ユニットテスト必須)**: すべての API エンドポイントにユニットテストを記述すること
 
 - [ ] T010 [P] [US1] tests/contract/test_[name].py で [エンドポイント] のコントラクトテスト
 - [ ] T011 [P] [US1] tests/integration/test_[name].py で [ユーザージャーニー] の統合テスト
+- [ ] T012 [P] [US1] tests/unit/test_[component].py で [コンポーネント] のユニットテスト
+
+**チェックポイント**: すべてのテストが失敗（Red）することを確認してから次へ進む
 
 ### ユーザーストーリー 1 の実装
 
-- [ ] T012 [P] [US1] src/models/[entity1].py に [Entity1] モデルを作成
-- [ ] T013 [P] [US1] src/models/[entity2].py に [Entity2] モデルを作成
-- [ ] T014 [US1] src/services/[service].py に [Service] を実装（T012, T013 に依存）
-- [ ] T015 [US1] src/[location]/[file].py に [エンドポイント/機能] を実装
-- [ ] T016 [US1] バリデーションとエラーハンドリングを追加
-- [ ] T017 [US1] ユーザーストーリー 1 の操作用ロギングを追加
+- [ ] T013 [P] [US1] src/models/[entity1].py に [Entity1] モデルを作成（型安全性確保: type hints 必須）
+- [ ] T014 [P] [US1] src/models/[entity2].py に [Entity2] モデルを作成（型安全性確保: type hints 必須）
+- [ ] T015 [US1] src/services/[service].py に [Service] を実装（T013, T014 に依存、型安全性確保）
+- [ ] T016 [US1] src/[location]/[file].py に [エンドポイント/機能] を実装
+- [ ] T017 [US1] バリデーションとエラーハンドリングを追加
+- [ ] T018 [US1] ユーザーストーリー 1 の操作用ロギングを追加
+- [ ] T019 [US1] リンター・フォーマッター実行（Constitution V. 準拠）
+- [ ] T020 [US1] すべてのテストが通過（Green）することを確認
 
-**チェックポイント**: この時点でユーザーストーリー 1 は完全に機能し、独立してテスト可能であるべき
+**チェックポイント**: この時点でユーザーストーリー 1 は完全に機能し、独立してテスト可能であるべき（Green 状態）
 
 ---
 
@@ -107,17 +119,24 @@
 
 **独立テスト**: [このストーリーが単独で動作することを確認する方法]
 
-### ユーザーストーリー 2 のテスト（オプション - テストが要求された場合のみ）⚠️
+### ユーザーストーリー 2 のテスト（Constitution に従い TDD を適用）🔴
 
-- [ ] T018 [P] [US2] tests/contract/test_[name].py で [エンドポイント] のコントラクトテスト
-- [ ] T019 [P] [US2] tests/integration/test_[name].py で [ユーザージャーニー] の統合テスト
+> **重要**: TDD サイクルに従い、テストを先に書き、実装前に失敗を確認
+
+- [ ] T021 [P] [US2] tests/contract/test_[name].py で [エンドポイント] のコントラクトテスト
+- [ ] T022 [P] [US2] tests/integration/test_[name].py で [ユーザージャーニー] の統合テスト
+- [ ] T023 [P] [US2] tests/unit/test_[component].py で [コンポーネント] のユニットテスト
+
+**チェックポイント**: すべてのテストが失敗（Red）することを確認
 
 ### ユーザーストーリー 2 の実装
 
-- [ ] T020 [P] [US2] src/models/[entity].py に [Entity] モデルを作成
-- [ ] T021 [US2] src/services/[service].py に [Service] を実装
-- [ ] T022 [US2] src/[location]/[file].py に [エンドポイント/機能] を実装
-- [ ] T023 [US2] ユーザーストーリー 1 のコンポーネントと統合（必要な場合）
+- [ ] T024 [P] [US2] src/models/[entity].py に [Entity] モデルを作成（型安全性確保）
+- [ ] T025 [US2] src/services/[service].py に [Service] を実装（型安全性確保）
+- [ ] T026 [US2] src/[location]/[file].py に [エンドポイント/機能] を実装
+- [ ] T027 [US2] ユーザーストーリー 1 のコンポーネントと統合（必要な場合）
+- [ ] T028 [US2] リンター・フォーマッター実行
+- [ ] T029 [US2] すべてのテストが通過（Green）することを確認
 
 **チェックポイント**: この時点でユーザーストーリー 1 と 2 の両方が独立して動作するべき
 
@@ -129,16 +148,23 @@
 
 **独立テスト**: [このストーリーが単独で動作することを確認する方法]
 
-### ユーザーストーリー 3 のテスト（オプション - テストが要求された場合のみ）⚠️
+### ユーザーストーリー 3 のテスト（Constitution に従い TDD を適用）🔴
 
-- [ ] T024 [P] [US3] tests/contract/test_[name].py で [エンドポイント] のコントラクトテスト
-- [ ] T025 [P] [US3] tests/integration/test_[name].py で [ユーザージャーニー] の統合テスト
+> **重要**: TDD サイクルに従い、テストを先に書き、実装前に失敗を確認
+
+- [ ] T030 [P] [US3] tests/contract/test_[name].py で [エンドポイント] のコントラクトテスト
+- [ ] T031 [P] [US3] tests/integration/test_[name].py で [ユーザージャーニー] の統合テスト
+- [ ] T032 [P] [US3] tests/unit/test_[component].py で [コンポーネント] のユニットテスト
+
+**チェックポイント**: すべてのテストが失敗（Red）することを確認
 
 ### ユーザーストーリー 3 の実装
 
-- [ ] T026 [P] [US3] src/models/[entity].py に [Entity] モデルを作成
-- [ ] T027 [US3] src/services/[service].py に [Service] を実装
-- [ ] T028 [US3] src/[location]/[file].py に [エンドポイント/機能] を実装
+- [ ] T033 [P] [US3] src/models/[entity].py に [Entity] モデルを作成（型安全性確保）
+- [ ] T034 [US3] src/services/[service].py に [Service] を実装（型安全性確保）
+- [ ] T035 [US3] src/[location]/[file].py に [エンドポイント/機能] を実装
+- [ ] T036 [US3] リンター・フォーマッター実行
+- [ ] T037 [US3] すべてのテストが通過（Green）することを確認
 
 **チェックポイント**: すべてのユーザーストーリーが独立して機能するべき
 
