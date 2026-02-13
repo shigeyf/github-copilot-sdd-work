@@ -1,6 +1,6 @@
 """NoteService のユニットテスト
 
-NoteService.list_notes() のテストを記述（ビジネスロジック）。
+NoteService.list_notes() と NoteService.create_note() のテストを記述。
 """
 
 from datetime import UTC, datetime
@@ -8,7 +8,7 @@ from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from src.models.note import NoteInDB, NoteListResponse
+from src.models.note import NoteCreate, NoteInDB, NoteListResponse, NoteResponse
 from src.services.note_service import NoteService
 
 
@@ -141,3 +141,109 @@ class TestNoteServiceListNotes:
         )
         assert result.skip == 0
         assert result.limit == 20
+
+
+class TestNoteServiceCreateNote:
+    """NoteService.create_note() のテスト"""
+
+    @pytest.mark.asyncio
+    async def test_create_note_returns_response(
+        self,
+        service: NoteService,
+        mock_repository: MagicMock,
+    ) -> None:
+        """ノートを作成してレスポンスを返すことを確認する"""
+        created_note = NoteInDB(
+            id="550e8400-e29b-41d4-a716-446655440010",
+            title="新しいノート",
+            content="# テスト",
+            created_at=datetime(2026, 1, 1, 0, 0, 0, tzinfo=UTC),
+            updated_at=datetime(2026, 1, 1, 0, 0, 0, tzinfo=UTC),
+        )
+        mock_repository.create = AsyncMock(return_value=created_note)
+        mock_repository.find_by_title = AsyncMock(return_value=[])
+
+        note_data = NoteCreate(title="新しいノート", content="# テスト")
+        result = await service.create_note(note_data)
+
+        assert isinstance(result, NoteResponse)
+        assert result.title == "新しいノート"
+        assert result.content == "# テスト"
+        assert result.id == "550e8400-e29b-41d4-a716-446655440010"
+
+    @pytest.mark.asyncio
+    async def test_create_note_calls_repository(
+        self,
+        service: NoteService,
+        mock_repository: MagicMock,
+    ) -> None:
+        """リポジトリの create メソッドが呼び出されることを確認する"""
+        created_note = NoteInDB(
+            id="550e8400-e29b-41d4-a716-446655440010",
+            title="テスト",
+            content="",
+            created_at=datetime(2026, 1, 1, 0, 0, 0, tzinfo=UTC),
+            updated_at=datetime(2026, 1, 1, 0, 0, 0, tzinfo=UTC),
+        )
+        mock_repository.create = AsyncMock(return_value=created_note)
+        mock_repository.find_by_title = AsyncMock(return_value=[])
+
+        note_data = NoteCreate(title="テスト", content="")
+        await service.create_note(note_data)
+
+        mock_repository.create.assert_called_once()
+
+    @pytest.mark.asyncio
+    async def test_create_note_handles_duplicate_title(
+        self,
+        service: NoteService,
+        mock_repository: MagicMock,
+    ) -> None:
+        """同名タイトルが存在する場合、番号を付加することを確認する"""
+        existing_notes = [
+            NoteInDB(
+                id="existing-1",
+                title="テスト",
+                content="",
+                created_at=datetime(2026, 1, 1, 0, 0, 0, tzinfo=UTC),
+                updated_at=datetime(2026, 1, 1, 0, 0, 0, tzinfo=UTC),
+            ),
+        ]
+        created_note = NoteInDB(
+            id="new-id",
+            title="テスト (2)",
+            content="",
+            created_at=datetime(2026, 1, 1, 0, 0, 0, tzinfo=UTC),
+            updated_at=datetime(2026, 1, 1, 0, 0, 0, tzinfo=UTC),
+        )
+        mock_repository.find_by_title = AsyncMock(return_value=existing_notes)
+        mock_repository.create = AsyncMock(return_value=created_note)
+
+        note_data = NoteCreate(title="テスト", content="")
+        result = await service.create_note(note_data)
+
+        assert result.title == "テスト (2)"
+
+    @pytest.mark.asyncio
+    async def test_create_note_sets_timestamps(
+        self,
+        service: NoteService,
+        mock_repository: MagicMock,
+    ) -> None:
+        """created_at と updated_at が設定されることを確認する"""
+        now = datetime(2026, 1, 1, 0, 0, 0, tzinfo=UTC)
+        created_note = NoteInDB(
+            id="new-id",
+            title="テスト",
+            content="",
+            created_at=now,
+            updated_at=now,
+        )
+        mock_repository.create = AsyncMock(return_value=created_note)
+        mock_repository.find_by_title = AsyncMock(return_value=[])
+
+        note_data = NoteCreate(title="テスト", content="")
+        result = await service.create_note(note_data)
+
+        assert result.created_at is not None
+        assert result.updated_at is not None

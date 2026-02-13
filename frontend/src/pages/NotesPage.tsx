@@ -3,6 +3,7 @@
  *
  * ノートの一覧を表示し、空状態メッセージも管理する。
  */
+import { Link } from 'react-router-dom'
 import { useNotes } from '../hooks/useNotes'
 import NoteList from '../components/NoteList'
 
@@ -37,6 +38,12 @@ function NotesPage() {
     <div>
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-lg font-semibold text-gray-900">ノート一覧</h2>
+        <Link
+          to="/notes/new"
+          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        >
+          新規作成
+        </Link>
       </div>
       <div className="bg-white shadow rounded-lg">
         <NoteList notes={notes} />

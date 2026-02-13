@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import NotesPage from './pages/NotesPage'
+import CreateNotePage from './pages/CreateNotePage'
 
 /**
  * ルートコンポーネント
@@ -17,7 +18,7 @@ function App() {
       <main className="max-w-7xl mx-auto px-4 py-6">
         <Routes>
           <Route path="/" element={<NotesPage />} />
-          <Route path="/notes/new" element={<div>ノート作成（実装予定）</div>} />
+          <Route path="/notes/new" element={<CreateNotePage />} />
           <Route path="/notes/:id/edit" element={<div>ノート編集（実装予定）</div>} />
         </Routes>
       </main>
