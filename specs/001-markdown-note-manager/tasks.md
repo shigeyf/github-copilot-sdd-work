@@ -65,7 +65,7 @@
 - [ ] T016 [P] backend/src/services/__init__.py を作成してサービスパッケージを初期化
 - [ ] T017 [P] backend/src/api/__init__.py を作成して API パッケージを初期化
 - [ ] T018 backend/src/main.py に /health エンドポイントを実装（MongoDB 接続状態を確認）
-- [ ] T018a backend/src/main.py に起動時 MongoDB 接続エラーハンドリングを実装（FR-020 対応: 接続失敗時にエラーメッセージをログ出力し、適切に処理）
+- [ ] T018a backend/src/main.py に起動時 MongoDB 接続エラーハンドリングを実装（FR-020 対応: 接続失敗時にエラーメッセージを標準エラー出力とログに表示し、アプリケーション起動を中断）
 - [ ] T019 [P] backend/tests/conftest.py に pytest フィクスチャ（MongoDB テストクライアント、FastAPI テストクライアント）を作成
 - [ ] T020 [P] frontend/src/main.tsx に React アプリケーションのエントリーポイントを作成
 - [ ] T021 [P] frontend/src/App.tsx にルートコンポーネントとルーティング設定を作成
