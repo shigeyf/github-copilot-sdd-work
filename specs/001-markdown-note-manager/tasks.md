@@ -55,25 +55,25 @@
 
 **⚠️ 重要**: このフェーズが完了するまでユーザーストーリーの作業は開始できません
 
-- [ ] T010 backend/src/config.py に環境変数と設定管理を実装（Pydantic Settings を使用）
-- [ ] T009 backend/src/utils/db.py に MongoDB 接続管理を実装（motor を使用、T010 の config.py に依存）
-- [ ] T011 backend/src/main.py に FastAPI アプリケーションのエントリーポイントを作成（T009 の db.py に依存）
-- [ ] T012 [P] backend/src/main.py に CORS ミドルウェアを設定（フロントエンドのオリジンを許可）
-- [ ] T013 [P] backend/src/api/routes.py に API ルーター集約を作成
-- [ ] T014 [P] backend/src/models/__init__.py を作成してモデルパッケージを初期化
-- [ ] T015 [P] backend/src/repositories/__init__.py を作成してリポジトリパッケージを初期化
-- [ ] T016 [P] backend/src/services/__init__.py を作成してサービスパッケージを初期化
-- [ ] T017 [P] backend/src/api/__init__.py を作成して API パッケージを初期化
-- [ ] T018 backend/src/main.py に /health エンドポイントを実装（MongoDB 接続状態を確認）
-- [ ] T018a backend/src/main.py に起動時 MongoDB 接続エラーハンドリングを実装（FR-020 対応: 接続失敗時にエラーメッセージを標準エラー出力とログに表示し、アプリケーション起動を中断）
-- [ ] T019 [P] backend/tests/conftest.py に pytest フィクスチャ（MongoDB テストクライアント、FastAPI テストクライアント）を作成
-- [ ] T020 [P] frontend/src/main.tsx に React アプリケーションのエントリーポイントを作成
-- [ ] T021 [P] frontend/src/App.tsx にルートコンポーネントとルーティング設定を作成
-- [ ] T022 [P] frontend/src/services/noteService.ts に axios を使用した API クライアントの基礎を実装
-- [ ] T023 [P] frontend/src/types/note.ts に Note、CreateNoteRequest、UpdateNoteRequest の TypeScript 型定義を作成
-- [ ] T024 [P] frontend/vite.config.ts に Vite 設定（プロキシ設定でバックエンドに接続）を作成
-- [ ] T025 [P] frontend/tsconfig.json に TypeScript strict mode 設定を作成
-- [ ] T026 リンター・フォーマッター実行（backend と frontend 両方）
+- [x] T010 backend/src/config.py に環境変数と設定管理を実装（Pydantic Settings を使用）
+- [x] T009 backend/src/utils/db.py に MongoDB 接続管理を実装（motor を使用、T010 の config.py に依存）
+- [x] T011 backend/src/main.py に FastAPI アプリケーションのエントリーポイントを作成（T009 の db.py に依存）
+- [x] T012 [P] backend/src/main.py に CORS ミドルウェアを設定（フロントエンドのオリジンを許可）
+- [x] T013 [P] backend/src/api/routes.py に API ルーター集約を作成
+- [x] T014 [P] backend/src/models/__init__.py を作成してモデルパッケージを初期化
+- [x] T015 [P] backend/src/repositories/__init__.py を作成してリポジトリパッケージを初期化
+- [x] T016 [P] backend/src/services/__init__.py を作成してサービスパッケージを初期化
+- [x] T017 [P] backend/src/api/__init__.py を作成して API パッケージを初期化
+- [x] T018 backend/src/main.py に /health エンドポイントを実装（MongoDB 接続状態を確認）
+- [x] T018a backend/src/main.py に起動時 MongoDB 接続エラーハンドリングを実装（FR-020 対応: 接続失敗時にエラーメッセージを標準エラー出力とログに表示し、アプリケーション起動を中断）
+- [x] T019 [P] backend/tests/conftest.py に pytest フィクスチャ（MongoDB テストクライアント、FastAPI テストクライアント）を作成
+- [x] T020 [P] frontend/src/main.tsx に React アプリケーションのエントリーポイントを作成
+- [x] T021 [P] frontend/src/App.tsx にルートコンポーネントとルーティング設定を作成
+- [x] T022 [P] frontend/src/services/noteService.ts に axios を使用した API クライアントの基礎を実装
+- [x] T023 [P] frontend/src/types/note.ts に Note、CreateNoteRequest、UpdateNoteRequest の TypeScript 型定義を作成
+- [x] T024 [P] frontend/vite.config.ts に Vite 設定（プロキシ設定でバックエンドに接続）を作成
+- [x] T025 [P] frontend/tsconfig.json に TypeScript strict mode 設定を作成
+- [x] T026 リンター・フォーマッター実行（backend と frontend 両方）
 
 **チェックポイント**: 基盤準備完了 - ヘルスチェックエンドポイントが動作し、フロントエンドがバックエンドに接続可能
 
