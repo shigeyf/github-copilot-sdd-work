@@ -263,3 +263,8 @@ Thumbs.db
 docker-compose.override.yaml
 venv/
 node_modules/
+
+# Playwright
+test-results/
+playwright-report/
+blob-report/
