@@ -38,14 +38,14 @@
 
 **目的**: プロジェクトの初期化と基本構造
 
-- [ ] T001 backend/ と frontend/ ディレクトリを作成してプロジェクト構造をセットアップ
-- [ ] T002 backend/pyproject.toml に FastAPI、motor、Pydantic、pytest の依存関係を含む Python プロジェクトを初期化
-- [ ] T003 frontend/package.json に React、TypeScript、Vite、TipTap、react-markdown の依存関係を含む Node.js プロジェクトを初期化
-- [ ] T004 [P] backend/ に Black、Ruff、mypy のリンティングとフォーマットツールを設定
-- [ ] T005 [P] frontend/ に ESLint、Prettier のリンティングとフォーマットツールを設定
-- [ ] T006 [P] backend/.env.example と frontend/.env.example に環境変数サンプルを作成
-- [ ] T007 [P] docker-compose.yaml に MongoDB、バックエンド、フロントエンドのサービスを定義
-- [ ] T008 [P] backend/README.md と frontend/README.md に基本的なセットアップ手順を記述
+- [x] T001 backend/ と frontend/ ディレクトリを作成してプロジェクト構造をセットアップ
+- [x] T002 backend/pyproject.toml に FastAPI、motor、Pydantic、pytest の依存関係を含む Python プロジェクトを初期化
+- [x] T003 frontend/package.json に React、TypeScript、Vite、TipTap、react-markdown の依存関係を含む Node.js プロジェクトを初期化
+- [x] T004 [P] backend/ に Black、Ruff、mypy のリンティングとフォーマットツールを設定
+- [x] T005 [P] frontend/ に ESLint、Prettier のリンティングとフォーマットツールを設定
+- [x] T006 [P] backend/.env.example と frontend/.env.example に環境変数サンプルを作成
+- [x] T007 [P] docker-compose.yaml に MongoDB、バックエンド、フロントエンドのサービスを定義
+- [x] T008 [P] backend/README.md と frontend/README.md に基本的なセットアップ手順を記述
 
 ---
 
