@@ -377,3 +377,34 @@ class TestNoteServiceUpdateNote:
             content=None,
         )
         assert result.title == "タイトルのみ更新"
+
+
+class TestNoteServiceDeleteNote:
+    """NoteService.delete_note() のテスト"""
+
+    @pytest.mark.asyncio
+    async def test_delete_note_calls_repository(
+        self,
+        service: NoteService,
+        mock_repository: MagicMock,
+    ) -> None:
+        """リポジトリの delete メソッドが呼び出されることを確認する"""
+        mock_repository.delete = AsyncMock(return_value=True)
+
+        await service.delete_note("550e8400-e29b-41d4-a716-446655440001")
+
+        mock_repository.delete.assert_called_once_with(
+            "550e8400-e29b-41d4-a716-446655440001"
+        )
+
+    @pytest.mark.asyncio
+    async def test_delete_note_raises_not_found(
+        self,
+        service: NoteService,
+        mock_repository: MagicMock,
+    ) -> None:
+        """存在しないノートの場合 ValueError を発生させることを確認する"""
+        mock_repository.delete = AsyncMock(return_value=False)
+
+        with pytest.raises(ValueError, match="ノートが見つかりません"):
+            await service.delete_note("non-existent-id")

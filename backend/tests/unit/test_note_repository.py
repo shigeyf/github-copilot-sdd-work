@@ -377,3 +377,40 @@ class TestNoteRepositoryUpdate:
         update_data = call_args[0][1]["$set"]
         assert "content" in update_data
         assert "title" not in update_data
+
+
+class TestNoteRepositoryDelete:
+    """NoteRepository.delete() のテスト"""
+
+    @pytest.mark.asyncio
+    async def test_delete_returns_true_when_found(
+        self,
+        repository: NoteRepository,
+        mock_collection: MagicMock,
+    ) -> None:
+        """存在するノートを削除した場合 True を返すことを確認する"""
+        mock_collection.delete_one = AsyncMock(
+            return_value=MagicMock(deleted_count=1)
+        )
+
+        result = await repository.delete("550e8400-e29b-41d4-a716-446655440001")
+
+        assert result is True
+        mock_collection.delete_one.assert_called_once_with(
+            {"_id": "550e8400-e29b-41d4-a716-446655440001"}
+        )
+
+    @pytest.mark.asyncio
+    async def test_delete_returns_false_when_not_found(
+        self,
+        repository: NoteRepository,
+        mock_collection: MagicMock,
+    ) -> None:
+        """存在しないノートを削除した場合 False を返すことを確認する"""
+        mock_collection.delete_one = AsyncMock(
+            return_value=MagicMock(deleted_count=0)
+        )
+
+        result = await repository.delete("non-existent-id")
+
+        assert result is False

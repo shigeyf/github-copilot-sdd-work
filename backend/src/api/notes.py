@@ -7,7 +7,7 @@ from typing import Annotated
 
 import structlog
 from fastapi import APIRouter, HTTPException, Query
-from starlette.status import HTTP_201_CREATED, HTTP_404_NOT_FOUND
+from starlette.status import HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_404_NOT_FOUND
 
 from src.models.note import NoteCreate, NoteListResponse, NoteResponse, NoteUpdate
 from src.repositories.note_repository import NoteRepository
@@ -173,6 +173,38 @@ async def update_note(
         ) from e
     except Exception as e:
         logger.error("ノート更新エラー", error=str(e))
+        raise HTTPException(
+            status_code=503,
+            detail="サービスが利用できません",
+        ) from e
+
+
+@router.delete(
+    "/{note_id}",
+    status_code=HTTP_204_NO_CONTENT,
+    summary="ノート削除",
+    description="指定されたIDのノートを削除します。",
+)
+async def delete_note(
+    note_id: str,
+) -> None:
+    """指定された ID のノートを削除する"""
+    try:
+        service = _get_note_service()
+        await service.delete_note(note_id)
+    except ValueError:
+        raise HTTPException(
+            status_code=HTTP_404_NOT_FOUND,
+            detail="ノートが見つかりません",
+        ) from None
+    except RuntimeError as e:
+        logger.error("データベース接続エラー", error=str(e))
+        raise HTTPException(
+            status_code=503,
+            detail="データベースに接続できません",
+        ) from e
+    except Exception as e:
+        logger.error("ノート削除エラー", error=str(e))
         raise HTTPException(
             status_code=503,
             detail="サービスが利用できません",

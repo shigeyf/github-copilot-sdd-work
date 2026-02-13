@@ -4,7 +4,7 @@
  * React Query を使用してノートデータのフェッチとキャッシュを管理する。
  */
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { listNotes, createNote, getNote, updateNote } from '../services/noteService'
+import { listNotes, createNote, getNote, updateNote, deleteNote } from '../services/noteService'
 import type {
   ListNotesParams,
   ListNotesResponse,
@@ -59,6 +59,20 @@ export function useUpdateNote() {
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['notes'] })
       queryClient.invalidateQueries({ queryKey: ['notes', variables.noteId] })
+    },
+  })
+}
+
+/**
+ * ノート削除ミューテーションフック
+ */
+export function useDeleteNote() {
+  const queryClient = useQueryClient()
+
+  return useMutation<void, Error, string>({
+    mutationFn: (noteId: string) => deleteNote(noteId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['notes'] })
     },
   })
 }
