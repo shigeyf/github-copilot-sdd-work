@@ -38,16 +38,17 @@ Markdownノート管理アプリは、ユーザーがブラウザ上でMarkdown�
 - フロントエンド:
   - React 18+ (UI フレームワーク)
   - Vite (ビルドツール、開発サーバー)
-  - 要確認: Markdown エディタライブラリ (WYSIWYG 機能用)
-  - 要確認: Markdown パーサー/レンダラー (プレビュー機能用)
-  - 要確認: 状態管理ライブラリ (React Query, Zustand など)
-  - 要確認: HTTP クライアントライブラリ (axios, fetch など)
+  - TipTap (Markdown エディタライブラリ、WYSIWYG 機能用)
+  - react-markdown (Markdown パーサー/レンダラー、プレビュー機能用)
+  - Zustand (クライアント状態管理) + React Query (サーバー状態管理)
+  - axios (HTTP クライアントライブラリ)
+  - Tailwind CSS + Headless UI (UI コンポーネントライブラリ)
 - バックエンド:
   - FastAPI (Web フレームワーク)
   - Pydantic (データバリデーション、シリアライゼーション)
-  - motor または pymongo (MongoDB ドライバー)
-  - 要確認: CORS ミドルウェア設定
-  - 要確認: ロギング・モニタリング設定
+  - motor (MongoDB ドライバー、非同期対応)
+  - FastAPI CORSMiddleware (CORS 設定)
+  - structlog (構造化ロギング)
 
 **ストレージ**:
 - MongoDB (NoSQL ドキュメントデータベース)
@@ -58,8 +59,8 @@ Markdownノート管理アプリは、ユーザーがブラウザ上でMarkdown�
 **テスト**:
 - フロントエンド: Vitest, React Testing Library
 - バックエンド: pytest, pytest-asyncio
-- E2E テスト: 要確認 (Playwright, Cypress など)
-- API 契約テスト: 要確認
+- E2E テスト: Playwright (複数ブラウザ対応、TypeScript サポート)
+- API 契約テスト: pytest + httpx + OpenAPI スキーマ検証
 
 **ターゲットプラットフォーム**:
 - Web ブラウザ (Chrome, Firefox, Safari, Edge の最新版)
