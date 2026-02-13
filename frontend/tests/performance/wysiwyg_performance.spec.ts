@@ -18,8 +18,8 @@ test.describe('SC-005: WYSIWYG フォーマット反映時間', () => {
     await editor.click()
     await editor.pressSequentially('テストテキスト')
 
-    // テキストを全選択
-    await page.keyboard.press('Control+a')
+    // テキストを全選択（ControlOrMeta でプラットフォーム互換）
+    await page.keyboard.press('ControlOrMeta+a')
 
     // 計測開始: 太字ボタンをクリック
     const startTime = Date.now()
@@ -45,8 +45,8 @@ test.describe('SC-005: WYSIWYG フォーマット反映時間', () => {
     await editor.click()
     await editor.pressSequentially('テストテキスト')
 
-    // テキストを全選択
-    await page.keyboard.press('Control+a')
+    // テキストを全選択（ControlOrMeta でプラットフォーム互換）
+    await page.keyboard.press('ControlOrMeta+a')
 
     // 計測開始: 斜体ボタンをクリック
     const startTime = Date.now()
