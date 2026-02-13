@@ -133,6 +133,7 @@
 - [ ] T046 [P] [US2] backend/tests/unit/test_note_service.py に NoteService.create_note() のユニットテストを記述（タイトル重複処理、日時自動設定）
 - [ ] T047 [P] [US2] frontend/tests/unit/components/NoteEditor.test.tsx に NoteEditor コンポーネントのユニットテストを記述（入力、バリデーション）
 - [ ] T048 [P] [US2] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（新規作成フロー全体）
+- [ ] T048a [P] [US2] backend/tests/integration/test_notes_api.py に重複タイトル処理のテストを記述（FR-019 対応: 同名タイトルで番号付加を検証）
 
 **チェックポイント**: すべてのテストが失敗（Red）することを確認
 
