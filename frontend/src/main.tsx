@@ -1,3 +1,9 @@
+/**
+ * アプリケーションエントリーポイント
+ *
+ * React アプリケーションのルートを構成し、ルーティング、React Query、
+ * Strict Mode の設定を行う。
+ */
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'

@@ -167,6 +167,12 @@ function WysiwygEditor({ content, onChange }: WysiwygEditorProps) {
       Markdown,
     ],
     content,
+    editorProps: {
+      attributes: {
+        'aria-label': '本文エディタ',
+        'aria-labelledby': 'note-content-label',
+      },
+    },
     onUpdate: ({ editor: updatedEditor }) => {
       const markdown = updatedEditor.storage.markdown.getMarkdown() as string
       onChange(markdown)

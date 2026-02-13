@@ -1,12 +1,15 @@
 """ノート API エンドポイント
 
 ノート管理に関連する REST API エンドポイントを提供する。
+レート制限により DoS 対策を実施する。
 """
 
 from typing import Annotated
 
 import structlog
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query, Request
+from slowapi import Limiter
+from slowapi.util import get_remote_address
 from starlette.status import HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_404_NOT_FOUND
 
 from src.models.note import NoteCreate, NoteListResponse, NoteResponse, NoteUpdate
@@ -15,6 +18,9 @@ from src.services.note_service import NoteService
 from src.utils.db import get_database
 
 logger = structlog.get_logger(__name__)
+
+# レート制限の設定（DoS 対策）
+limiter = Limiter(key_func=get_remote_address)
 
 router = APIRouter(prefix="/notes", tags=["notes"])
 
@@ -32,7 +38,9 @@ def _get_note_service() -> NoteService:
     summary="ノート一覧取得",
     description="すべてのノートを取得します。ページネーションとソートをサポートします。",
 )
+@limiter.limit("60/minute")
 async def list_notes(
+    request: Request,
     sort_by: Annotated[
         str,
         Query(
@@ -93,7 +101,9 @@ async def list_notes(
     summary="新規ノート作成",
     description="新しいノートを作成します。タイトルは必須で、本文は任意です。",
 )
+@limiter.limit("30/minute")
 async def create_note(
+    request: Request,
     note_data: NoteCreate,
 ) -> NoteResponse:
     """新しいノートを作成する"""
@@ -120,7 +130,9 @@ async def create_note(
     summary="ノート取得",
     description="指定されたIDのノートを取得します。",
 )
+@limiter.limit("60/minute")
 async def get_note(
+    request: Request,
     note_id: str,
 ) -> NoteResponse:
     """指定された ID のノートを取得する"""
@@ -152,7 +164,9 @@ async def get_note(
     summary="ノート更新",
     description="指定されたIDのノートを更新します。タイトルと本文の両方またはいずれかを更新できます。",
 )
+@limiter.limit("30/minute")
 async def update_note(
+    request: Request,
     note_id: str,
     note_data: NoteUpdate,
 ) -> NoteResponse:
@@ -185,7 +199,9 @@ async def update_note(
     summary="ノート削除",
     description="指定されたIDのノートを削除します。",
 )
+@limiter.limit("30/minute")
 async def delete_note(
+    request: Request,
     note_id: str,
 ) -> None:
     """指定された ID のノートを削除する"""

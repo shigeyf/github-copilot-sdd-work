@@ -52,6 +52,7 @@ pip-delete-this-directory.txt
 
 # Unit test / coverage reports
 htmlcov/
+coverage/
 .tox/
 .nox/
 .coverage
@@ -262,3 +263,8 @@ Thumbs.db
 docker-compose.override.yaml
 venv/
 node_modules/
+
+# Playwright
+test-results/
+playwright-report/
+blob-report/

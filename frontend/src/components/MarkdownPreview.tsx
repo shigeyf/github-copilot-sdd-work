@@ -24,7 +24,7 @@ function MarkdownPreview({ content }: MarkdownPreviewProps) {
       {content ? (
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
       ) : (
-        <p className="text-gray-400 italic">プレビューするコンテンツがありません</p>
+        <p className="text-gray-500 italic">プレビューするコンテンツがありません</p>
       )}
     </div>
   )

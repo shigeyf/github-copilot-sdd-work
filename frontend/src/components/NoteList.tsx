@@ -68,10 +68,7 @@ function NoteList({ notes }: NoteListProps) {
         {notes.map((note) => (
           <li key={note.id}>
             <div className="flex items-center justify-between px-4 py-4 hover:bg-gray-50 transition-colors">
-              <Link
-                to={`/notes/${note.id}/edit`}
-                className="flex-1 min-w-0"
-              >
+              <Link to={`/notes/${note.id}/edit`} className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-medium text-gray-900 truncate">{note.title}</h3>
                 </div>

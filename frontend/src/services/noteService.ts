@@ -1,3 +1,9 @@
+/**
+ * ノート API サービス
+ *
+ * axios を使用してバックエンドの REST API と通信するサービス関数群。
+ * Vite プロキシを経由してバックエンドに接続する。
+ */
 import axios from 'axios'
 import type {
   Note,

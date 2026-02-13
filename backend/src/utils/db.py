@@ -35,6 +35,31 @@ async def connect_to_mongodb(settings: Settings | None = None) -> None:
     await _client.admin.command("ping")
     logger.info("MongoDB に接続しました", database=settings.mongodb_database)
 
+    # インデックスの作成
+    await _ensure_indexes(_database)
+
+
+async def _ensure_indexes(database: AsyncIOMotorDatabase) -> None:  # type: ignore[type-arg]
+    """必要な MongoDB インデックスを作成する
+
+    Args:
+        database: MongoDB データベースインスタンス
+    """
+    import pymongo
+
+    notes_collection = database["notes"]
+    await notes_collection.create_index(
+        [("created_at", pymongo.DESCENDING)],
+        name="idx_created_at",
+        background=True,
+    )
+    await notes_collection.create_index(
+        [("updated_at", pymongo.DESCENDING)],
+        name="idx_updated_at",
+        background=True,
+    )
+    logger.info("MongoDB インデックスを作成しました")
+
 
 async def close_mongodb_connection() -> None:
     """MongoDB 接続を閉じる"""

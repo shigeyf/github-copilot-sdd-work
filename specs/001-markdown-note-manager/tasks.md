@@ -132,7 +132,7 @@
 - [x] T045 [P] [US2] backend/tests/unit/test_note_repository.py に NoteRepository.create() のユニットテストを記述（MongoDB 挿入、UUID 生成）
 - [x] T046 [P] [US2] backend/tests/unit/test_note_service.py に NoteService.create_note() のユニットテストを記述（タイトル重複処理、日時自動設定）
 - [x] T047 [P] [US2] frontend/tests/unit/components/NoteEditor.test.tsx に NoteEditor コンポーネントのユニットテストを記述（入力、バリデーション）
-- [ ] T048 [P] [US2] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（新規作成フロー全体）
+- [x] T048 [P] [US2] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（新規作成フロー全体）
 - [x] T048a [P] [US2] backend/tests/integration/test_notes_api.py に重複タイトル処理のテストを記述（FR-019 対応: 同名タイトルで番号付加を検証）
 
 **チェックポイント**: すべてのテストが失敗（Red）することを確認
@@ -169,7 +169,7 @@
 - [x] T061 [P] [US3] backend/tests/integration/test_notes_api.py に GET /notes/{note_id} と PUT /notes/{note_id} エンドポイントの統合テストを記述（200/404 レスポンス、更新処理）
 - [x] T062 [P] [US3] backend/tests/unit/test_note_repository.py に NoteRepository.get_by_id() と update() のユニットテストを記述
 - [x] T063 [P] [US3] backend/tests/unit/test_note_service.py に NoteService.get_note() と update_note() のユニットテストを記述（updated_at 自動更新）
-- [ ] T064 [P] [US3] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（編集フロー全体）
+- [x] T064 [P] [US3] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（編集フロー全体）
 
 **チェックポイント**: すべてのテストが失敗（Red）することを確認
 
@@ -210,7 +210,7 @@
 - [X] T079 [P] [US4] backend/tests/integration/test_notes_api.py に DELETE /notes/{note_id} エンドポイントの統合テストを記述（204 レスポンス、404 エラー）
 - [X] T080 [P] [US4] backend/tests/unit/test_note_repository.py に NoteRepository.delete() のユニットテストを記述
 - [X] T081 [P] [US4] backend/tests/unit/test_note_service.py に NoteService.delete_note() のユニットテストを記述
-- [ ] T082 [P] [US4] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（削除フロー全体、確認ダイアログ）
+- [x] T082 [P] [US4] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（削除フロー全体、確認ダイアログ）
 
 **チェックポイント**: すべてのテストが失敗（Red）することを確認
 
@@ -242,7 +242,7 @@
 > **重要**: TDD サイクルに従い、テストを先に書き、実装前に失敗を確認
 
 - [x] T093 [P] [US5] frontend/tests/unit/components/WysiwygEditor.test.tsx に WysiwygEditor コンポーネントのユニットテストを記述（ツールバー操作、Markdown 変換）
-- [ ] T094 [P] [US5] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（WYSIWYG モード切り替え、フォーマット適用）
+- [x] T094 [P] [US5] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（WYSIWYG モード切り替え、フォーマット適用）
 
 **チェックポイント**: すべてのテストが失敗（Red）することを確認
 
@@ -273,7 +273,7 @@
 > **重要**: TDD サイクルに従い、テストを先に書き、実装前に失敗を確認
 
 - [x] T104 [P] [US6] frontend/tests/unit/components/MarkdownPreview.test.tsx に MarkdownPreview コンポーネントのユニットテストを記述（レンダリング、サニタイズ）
-- [ ] T105 [P] [US6] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（プレビューのリアルタイム更新、表示/非表示切り替え）
+- [x] T105 [P] [US6] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（プレビューのリアルタイム更新、表示/非表示切り替え）
 
 **チェックポイント**: すべてのテストが失敗（Red）することを確認
 
@@ -297,24 +297,24 @@
 
 **目的**: 複数のユーザーストーリーに影響する改善と品質保証
 
-- [ ] T115 [P] backend/src/ のすべてのモジュールに docstring を追加（Constitution III. 準拠）
-- [ ] T116 [P] frontend/src/ のすべてのコンポーネントと関数に JSDoc コメントを追加
-- [ ] T117 [P] backend/tests/ のテストカバレッジを確認（目標: 80% 以上、API は 100%）
-- [ ] T118 [P] frontend/tests/ のテストカバレッジを確認（目標: 80% 以上）
-- [ ] T118a [P] backend/tests/performance/test_startup_performance.py に 100 件ノート時の起動時間テストを追加（SC-004 検証: 3 秒以内）
-- [ ] T118b [P] frontend/tests/performance/wysiwyg_performance.spec.ts に WYSIWYG フォーマット反映時間テストを追加（SC-005 検証: 1 秒以内）
-- [ ] T118c [P] frontend/tests/performance/large_note_performance.spec.ts に 10,000 文字ノート編集時間テストを追加（SC-008 検証: 2 秒以内）
-- [ ] T119 [P] backend/ でセキュリティスキャンを実行（Bandit など）
-- [ ] T120 [P] frontend/ でセキュリティスキャンを実行（npm audit）
-- [ ] T121 backend/src/api/notes.py にレート制限を追加（オプション、将来的な DoS 対策）
-- [ ] T122 [P] frontend/src/components/ でアクセシビリティチェックを実行（axe-core）
-- [ ] T123 frontend/src/ でパフォーマンス最適化を実装（コード分割、React.lazy）
-- [ ] T124 backend/src/repositories/note_repository.py に MongoDB インデックスを作成（created_at、updated_at）
-- [ ] T125 [P] specs/001-markdown-note-manager/quickstart.md の手順を検証（セットアップから起動まで）
-- [ ] T126 [P] README.md にプロジェクトの概要と基本的な使い方を記述
-- [ ] T127 コードクリーンアップとリファクタリング（重複コード削減、命名の一貫性）
-- [ ] T128 すべてのリンター・フォーマッターを最終実行（backend と frontend 両方）
-- [ ] T129 全テストスイートを実行して 100% 通過することを確認
+- [x] T115 [P] backend/src/ のすべてのモジュールに docstring を追加（Constitution III. 準拠）
+- [x] T116 [P] frontend/src/ のすべてのコンポーネントと関数に JSDoc コメントを追加
+- [x] T117 [P] backend/tests/ のテストカバレッジを確認（目標: 80% 以上、API は 100%）
+- [x] T118 [P] frontend/tests/ のテストカバレッジを確認（目標: 80% 以上）
+- [x] T118a [P] backend/tests/performance/test_startup_performance.py に 100 件ノート時の起動時間テストを追加（SC-004 検証: 3 秒以内）
+- [x] T118b [P] frontend/tests/performance/wysiwyg_performance.spec.ts に WYSIWYG フォーマット反映時間テストを追加（SC-005 検証: 1 秒以内）
+- [x] T118c [P] frontend/tests/performance/large_note_performance.spec.ts に 10,000 文字ノート編集時間テストを追加（SC-008 検証: 2 秒以内）
+- [x] T119 [P] backend/ でセキュリティスキャンを実行（Bandit など）
+- [x] T120 [P] frontend/ でセキュリティスキャンを実行（npm audit）
+- [x] T121 backend/src/api/notes.py にレート制限を追加（オプション、将来的な DoS 対策）
+- [x] T122 [P] frontend/src/components/ でアクセシビリティチェックを実行（axe-core）
+- [x] T123 frontend/src/ でパフォーマンス最適化を実装（コード分割、React.lazy）
+- [x] T124 backend/src/repositories/note_repository.py に MongoDB インデックスを作成（created_at、updated_at）
+- [x] T125 [P] specs/001-markdown-note-manager/quickstart.md の手順を検証（セットアップから起動まで）
+- [x] T126 [P] README.md にプロジェクトの概要と基本的な使い方を記述
+- [x] T127 コードクリーンアップとリファクタリング（重複コード削減、命名の一貫性）
+- [x] T128 すべてのリンター・フォーマッターを最終実行（backend と frontend 両方）
+- [x] T129 全テストスイートを実行して 100% 通過することを確認
 
 **最終チェックポイント**: すべてのユーザーストーリーが機能し、品質基準を満たしていることを確認
 
