@@ -91,28 +91,28 @@
 
 > **重要 (Constitution IV. API ユニットテスト必須)**: すべての API エンドポイントにユニットテストを記述すること
 
-- [ ] T027 [P] [US1] backend/tests/integration/test_notes_api.py に GET /notes エンドポイントの統合テストを記述（200 レスポンス、空リスト、ページネーション、ソート）
-- [ ] T028 [P] [US1] backend/tests/unit/test_note_repository.py に NoteRepository.list() のユニットテストを記述（MongoDB クエリ、ページネーション）
-- [ ] T029 [P] [US1] backend/tests/unit/test_note_service.py に NoteService.list_notes() のユニットテストを記述（ビジネスロジック）
-- [ ] T030 [P] [US1] frontend/tests/unit/components/NoteList.test.tsx に NoteList コンポーネントのユニットテストを記述（レンダリング、空状態）
+- [x] T027 [P] [US1] backend/tests/integration/test_notes_api.py に GET /notes エンドポイントの統合テストを記述（200 レスポンス、空リスト、ページネーション、ソート）
+- [x] T028 [P] [US1] backend/tests/unit/test_note_repository.py に NoteRepository.list() のユニットテストを記述（MongoDB クエリ、ページネーション）
+- [x] T029 [P] [US1] backend/tests/unit/test_note_service.py に NoteService.list_notes() のユニットテストを記述（ビジネスロジック）
+- [x] T030 [P] [US1] frontend/tests/unit/components/NoteList.test.tsx に NoteList コンポーネントのユニットテストを記述（レンダリング、空状態）
 
 **チェックポイント**: すべてのテストが失敗（Red）することを確認してから次へ進む
 
 ### ユーザーストーリー 1 の実装
 
-- [ ] T031 [P] [US1] backend/src/models/note.py に Note、NoteCreate、NoteUpdate の Pydantic モデルを作成（型安全性確保: type hints 必須、バリデーションルール）
-- [ ] T032 [US1] backend/src/repositories/note_repository.py に NoteRepository クラスを実装（list メソッド: MongoDB からノート一覧を取得、ページネーション、ソート）
-- [ ] T033 [US1] backend/src/services/note_service.py に NoteService クラスを実装（list_notes メソッド: リポジトリを呼び出し、ビジネスロジック）
-- [ ] T034 [US1] backend/src/api/notes.py に GET /notes エンドポイントを実装（NoteService を呼び出し、レスポンスを返す）
-- [ ] T035 [US1] backend/src/api/routes.py に notes ルーターを登録
-- [ ] T036 [US1] backend/src/api/notes.py に適切なエラーハンドリングを追加（503 Service Unavailable）
-- [ ] T037 [P] [US1] frontend/src/services/noteService.ts に listNotes 関数を実装（GET /notes を呼び出し）
-- [ ] T038 [P] [US1] frontend/src/hooks/useNotes.ts に React Query を使用した useNotes カスタムフックを実装
-- [ ] T039 [US1] frontend/src/components/NoteList.tsx に NoteList コンポーネントを実装（タイトル、作成日時、最終更新日時を表示）
-- [ ] T040 [US1] frontend/src/pages/NotesPage.tsx に NotesPage コンポーネントを実装（NoteList を表示、空状態メッセージ）
-- [ ] T041 [US1] frontend/src/App.tsx に NotesPage へのルーティングを追加
-- [ ] T042 [US1] リンター・フォーマッター実行（backend と frontend 両方）
-- [ ] T043 [US1] すべてのテストが通過（Green）することを確認
+- [x] T031 [P] [US1] backend/src/models/note.py に Note、NoteCreate、NoteUpdate の Pydantic モデルを作成（型安全性確保: type hints 必須、バリデーションルール）
+- [x] T032 [US1] backend/src/repositories/note_repository.py に NoteRepository クラスを実装（list メソッド: MongoDB からノート一覧を取得、ページネーション、ソート）
+- [x] T033 [US1] backend/src/services/note_service.py に NoteService クラスを実装（list_notes メソッド: リポジトリを呼び出し、ビジネスロジック）
+- [x] T034 [US1] backend/src/api/notes.py に GET /notes エンドポイントを実装（NoteService を呼び出し、レスポンスを返す）
+- [x] T035 [US1] backend/src/api/routes.py に notes ルーターを登録
+- [x] T036 [US1] backend/src/api/notes.py に適切なエラーハンドリングを追加（503 Service Unavailable）
+- [x] T037 [P] [US1] frontend/src/services/noteService.ts に listNotes 関数を実装（GET /notes を呼び出し）
+- [x] T038 [P] [US1] frontend/src/hooks/useNotes.ts に React Query を使用した useNotes カスタムフックを実装
+- [x] T039 [US1] frontend/src/components/NoteList.tsx に NoteList コンポーネントを実装（タイトル、作成日時、最終更新日時を表示）
+- [x] T040 [US1] frontend/src/pages/NotesPage.tsx に NotesPage コンポーネントを実装（NoteList を表示、空状態メッセージ）
+- [x] T041 [US1] frontend/src/App.tsx に NotesPage へのルーティングを追加
+- [x] T042 [US1] リンター・フォーマッター実行（backend と frontend 両方）
+- [x] T043 [US1] すべてのテストが通過（Green）することを確認
 
 **チェックポイント**: この時点でユーザーストーリー 1 は完全に機能し、独立してテスト可能であるべき（Green 状態）
 

@@ -260,3 +260,5 @@ Thumbs.db
 
 # Docker
 docker-compose.override.yaml
+venv/
+node_modules/
