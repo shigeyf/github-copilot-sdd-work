@@ -272,22 +272,22 @@
 
 > **重要**: TDD サイクルに従い、テストを先に書き、実装前に失敗を確認
 
-- [ ] T104 [P] [US6] frontend/tests/unit/components/MarkdownPreview.test.tsx に MarkdownPreview コンポーネントのユニットテストを記述（レンダリング、サニタイズ）
+- [x] T104 [P] [US6] frontend/tests/unit/components/MarkdownPreview.test.tsx に MarkdownPreview コンポーネントのユニットテストを記述（レンダリング、サニタイズ）
 - [ ] T105 [P] [US6] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（プレビューのリアルタイム更新、表示/非表示切り替え）
 
 **チェックポイント**: すべてのテストが失敗（Red）することを確認
 
 ### ユーザーストーリー 6 の実装
 
-- [ ] T106 [US6] frontend/package.json に react-markdown と remark-gfm（GitHub Flavored Markdown）を追加
-- [ ] T107 [US6] frontend/src/components/MarkdownPreview.tsx に MarkdownPreview コンポーネントを実装（react-markdown を使用）
-- [ ] T108 [US6] frontend/src/components/MarkdownPreview.tsx に XSS 対策（react-markdown のデフォルトサニタイズ）を確認
-- [ ] T109 [US6] frontend/src/components/NoteEditor.tsx にプレビューパネルを右側に配置（横並びレイアウト）
-- [ ] T110 [US6] frontend/src/components/NoteEditor.tsx にプレビューパネルの表示/非表示切り替えボタンを追加
-- [ ] T111 [US6] frontend/src/components/NoteEditor.tsx に入力のデバウンス処理を追加（300ms、パフォーマンス向上）
-- [ ] T112 [US6] frontend/src/styles/ にプレビューパネルのスタイルを追加（Tailwind CSS、レスポンシブ対応）
-- [ ] T113 [US6] リンター・フォーマッター実行（frontend）
-- [ ] T114 [US6] すべてのテストが通過（Green）することを確認
+- [x] T106 [US6] frontend/package.json に react-markdown と remark-gfm（GitHub Flavored Markdown）を追加
+- [x] T107 [US6] frontend/src/components/MarkdownPreview.tsx に MarkdownPreview コンポーネントを実装（react-markdown を使用）
+- [x] T108 [US6] frontend/src/components/MarkdownPreview.tsx に XSS 対策（react-markdown のデフォルトサニタイズ）を確認
+- [x] T109 [US6] frontend/src/components/NoteEditor.tsx にプレビューパネルを右側に配置（横並びレイアウト）
+- [x] T110 [US6] frontend/src/components/NoteEditor.tsx にプレビューパネルの表示/非表示切り替えボタンを追加
+- [x] T111 [US6] frontend/src/components/NoteEditor.tsx に入力のデバウンス処理を追加（300ms、パフォーマンス向上）
+- [x] T112 [US6] frontend/src/styles/ にプレビューパネルのスタイルを追加（Tailwind CSS、レスポンシブ対応）
+- [x] T113 [US6] リンター・フォーマッター実行（frontend）
+- [x] T114 [US6] すべてのテストが通過（Green）することを確認
 
 **チェックポイント**: リアルタイムプレビューが機能し、Markdown が正しくレンダリングされる
 
