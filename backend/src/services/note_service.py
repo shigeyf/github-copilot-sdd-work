@@ -148,9 +148,7 @@ class NoteService:
             updated_at=note.updated_at,
         )
 
-    async def update_note(
-        self, note_id: str, note_data: NoteUpdate
-    ) -> NoteResponse:
+    async def update_note(self, note_id: str, note_data: NoteUpdate) -> NoteResponse:
         """既存のノートを更新する
 
         部分更新に対応し、指定されたフィールドのみを更新する。

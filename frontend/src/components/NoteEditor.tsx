@@ -18,6 +18,9 @@ interface NoteEditorProps {
 
   /** 保存中かどうか */
   isSaving?: boolean
+
+  /** 入力変更時のコールバック */
+  onChange?: () => void
 }
 
 /**
@@ -28,6 +31,7 @@ function NoteEditor({
   initialTitle = '',
   initialContent = '',
   isSaving = false,
+  onChange,
 }: NoteEditorProps) {
   const [title, setTitle] = useState(initialTitle)
   const [content, setContent] = useState(initialContent)
@@ -52,7 +56,10 @@ function NoteEditor({
           id="note-title"
           type="text"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => {
+            setTitle(e.target.value)
+            onChange?.()
+          }}
           placeholder="ノートのタイトルを入力"
           maxLength={200}
           className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -65,7 +72,10 @@ function NoteEditor({
         <textarea
           id="note-content"
           value={content}
-          onChange={(e) => setContent(e.target.value)}
+          onChange={(e) => {
+            setContent(e.target.value)
+            onChange?.()
+          }}
           placeholder="Markdown形式で本文を入力"
           rows={15}
           maxLength={50000}

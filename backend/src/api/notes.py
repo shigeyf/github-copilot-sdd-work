@@ -131,7 +131,7 @@ async def get_note(
         raise HTTPException(
             status_code=HTTP_404_NOT_FOUND,
             detail="ノートが見つかりません",
-        )
+        ) from None
     except RuntimeError as e:
         logger.error("データベース接続エラー", error=str(e))
         raise HTTPException(
@@ -164,7 +164,7 @@ async def update_note(
         raise HTTPException(
             status_code=HTTP_404_NOT_FOUND,
             detail="ノートが見つかりません",
-        )
+        ) from None
     except RuntimeError as e:
         logger.error("データベース接続エラー", error=str(e))
         raise HTTPException(

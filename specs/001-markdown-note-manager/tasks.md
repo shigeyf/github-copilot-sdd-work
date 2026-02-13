@@ -166,32 +166,32 @@
 
 > **重要**: TDD サイクルに従い、テストを先に書き、実装前に失敗を確認
 
-- [ ] T061 [P] [US3] backend/tests/integration/test_notes_api.py に GET /notes/{note_id} と PUT /notes/{note_id} エンドポイントの統合テストを記述（200/404 レスポンス、更新処理）
-- [ ] T062 [P] [US3] backend/tests/unit/test_note_repository.py に NoteRepository.get_by_id() と update() のユニットテストを記述
-- [ ] T063 [P] [US3] backend/tests/unit/test_note_service.py に NoteService.get_note() と update_note() のユニットテストを記述（updated_at 自動更新）
+- [x] T061 [P] [US3] backend/tests/integration/test_notes_api.py に GET /notes/{note_id} と PUT /notes/{note_id} エンドポイントの統合テストを記述（200/404 レスポンス、更新処理）
+- [x] T062 [P] [US3] backend/tests/unit/test_note_repository.py に NoteRepository.get_by_id() と update() のユニットテストを記述
+- [x] T063 [P] [US3] backend/tests/unit/test_note_service.py に NoteService.get_note() と update_note() のユニットテストを記述（updated_at 自動更新）
 - [ ] T064 [P] [US3] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（編集フロー全体）
 
 **チェックポイント**: すべてのテストが失敗（Red）することを確認
 
 ### ユーザーストーリー 3 の実装
 
-- [ ] T065 [P] [US3] backend/src/repositories/note_repository.py に get_by_id メソッドを実装（MongoDB からノートを取得）
-- [ ] T066 [P] [US3] backend/src/repositories/note_repository.py に update メソッドを実装（MongoDB 更新、updated_at 自動更新）
-- [ ] T067 [US3] backend/src/services/note_service.py に get_note メソッドを実装（リポジトリを呼び出し、404 エラー処理）
-- [ ] T068 [US3] backend/src/services/note_service.py に update_note メソッドを実装（リポジトリを呼び出し、部分更新対応）
-- [ ] T069 [US3] backend/src/api/notes.py に GET /notes/{note_id} エンドポイントを実装（NoteService を呼び出し）
-- [ ] T070 [US3] backend/src/api/notes.py に PUT /notes/{note_id} エンドポイントを実装（NoteService を呼び出し）
-- [ ] T071 [US3] backend/src/api/notes.py に 404 Not Found エラーハンドリングを追加
-- [ ] T072 [P] [US3] frontend/src/services/noteService.ts に getNote と updateNote 関数を実装
-- [ ] T073 [US3] frontend/src/hooks/useNotes.ts に useQuery と useMutation を使用した getNote と updateNote を追加
-- [ ] T074 [US3] frontend/src/pages/EditNotePage.tsx に EditNotePage コンポーネントを実装（NoteEditor を再利用、既存データをロード）
-- [ ] T075 [US3] frontend/src/App.tsx に EditNotePage へのルーティングを追加
-- [ ] T076 [US3] frontend/src/components/NoteList.tsx に各ノート項目にクリックイベントを追加（EditNotePage へ遷移）
-- [ ] T076a [US3] frontend/src/hooks/useUnsavedChanges.ts に未保存変更検出フックを実装（FR-018 対応: フォームの変更を監視）
-- [ ] T076b [US3] frontend/src/components/UnsavedChangesDialog.tsx に未保存変更警告ダイアログを実装（FR-018 対応: 「変更を保存しますか？」確認ダイアログ）
-- [ ] T076c [US3] frontend/src/pages/EditNotePage.tsx と CreateNotePage.tsx に未保存変更警告を統合（FR-018 対応: ノート切り替え時に確認ダイアログを表示）
-- [ ] T077 [US3] リンター・フォーマッター実行（backend と frontend 両方）
-- [ ] T078 [US3] すべてのテストが通過（Green）することを確認
+- [x] T065 [P] [US3] backend/src/repositories/note_repository.py に get_by_id メソッドを実装（MongoDB からノートを取得）
+- [x] T066 [P] [US3] backend/src/repositories/note_repository.py に update メソッドを実装（MongoDB 更新、updated_at 自動更新）
+- [x] T067 [US3] backend/src/services/note_service.py に get_note メソッドを実装（リポジトリを呼び出し、404 エラー処理）
+- [x] T068 [US3] backend/src/services/note_service.py に update_note メソッドを実装（リポジトリを呼び出し、部分更新対応）
+- [x] T069 [US3] backend/src/api/notes.py に GET /notes/{note_id} エンドポイントを実装（NoteService を呼び出し）
+- [x] T070 [US3] backend/src/api/notes.py に PUT /notes/{note_id} エンドポイントを実装（NoteService を呼び出し）
+- [x] T071 [US3] backend/src/api/notes.py に 404 Not Found エラーハンドリングを追加
+- [x] T072 [P] [US3] frontend/src/services/noteService.ts に getNote と updateNote 関数を実装
+- [x] T073 [US3] frontend/src/hooks/useNotes.ts に useQuery と useMutation を使用した getNote と updateNote を追加
+- [x] T074 [US3] frontend/src/pages/EditNotePage.tsx に EditNotePage コンポーネントを実装（NoteEditor を再利用、既存データをロード）
+- [x] T075 [US3] frontend/src/App.tsx に EditNotePage へのルーティングを追加
+- [x] T076 [US3] frontend/src/components/NoteList.tsx に各ノート項目にクリックイベントを追加（EditNotePage へ遷移）
+- [x] T076a [US3] frontend/src/hooks/useUnsavedChanges.ts に未保存変更検出フックを実装（FR-018 対応: フォームの変更を監視）
+- [x] T076b [US3] frontend/src/components/UnsavedChangesDialog.tsx に未保存変更警告ダイアログを実装（FR-018 対応: 「変更を保存しますか？」確認ダイアログ）
+- [x] T076c [US3] frontend/src/pages/EditNotePage.tsx と CreateNotePage.tsx に未保存変更警告を統合（FR-018 対応: ノート切り替え時に確認ダイアログを表示）
+- [x] T077 [US3] リンター・フォーマッター実行（backend と frontend 両方）
+- [x] T078 [US3] すべてのテストが通過（Green）することを確認
 
 **チェックポイント**: ユーザーストーリー 1、2、3 が独立して機能し、基本的な CRUD 操作が完成
 

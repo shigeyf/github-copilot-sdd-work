@@ -8,7 +8,13 @@ from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from src.models.note import NoteCreate, NoteInDB, NoteListResponse, NoteResponse, NoteUpdate
+from src.models.note import (
+    NoteCreate,
+    NoteInDB,
+    NoteListResponse,
+    NoteResponse,
+    NoteUpdate,
+)
 from src.services.note_service import NoteService
 
 

@@ -33,9 +33,7 @@ function NoteList({ notes }: NoteListProps) {
     return (
       <div className="text-center py-12 text-gray-500">
         <p className="text-lg">ノートがありません</p>
-        <p className="text-sm mt-2">
-          「新規作成」ボタンをクリックして最初のノートを作成しましょう
-        </p>
+        <p className="text-sm mt-2">「新規作成」ボタンをクリックして最初のノートを作成しましょう</p>
       </div>
     )
   }
@@ -49,9 +47,7 @@ function NoteList({ notes }: NoteListProps) {
             className="block px-4 py-4 hover:bg-gray-50 transition-colors"
           >
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-medium text-gray-900 truncate">
-                {note.title}
-              </h3>
+              <h3 className="text-lg font-medium text-gray-900 truncate">{note.title}</h3>
             </div>
             <div className="mt-1 flex items-center gap-4 text-sm text-gray-500">
               <span>作成: {formatDateTime(note.created_at)}</span>
