@@ -207,25 +207,25 @@
 
 > **重要**: TDD サイクルに従い、テストを先に書き、実装前に失敗を確認
 
-- [X] T079 [P] [US4] backend/tests/integration/test_notes_api.py に DELETE /notes/{note_id} エンドポイントの統合テストを記述（204 レスポンス、404 エラー）
-- [X] T080 [P] [US4] backend/tests/unit/test_note_repository.py に NoteRepository.delete() のユニットテストを記述
-- [X] T081 [P] [US4] backend/tests/unit/test_note_service.py に NoteService.delete_note() のユニットテストを記述
+- [x] T079 [P] [US4] backend/tests/integration/test_notes_api.py に DELETE /notes/{note_id} エンドポイントの統合テストを記述（204 レスポンス、404 エラー）
+- [x] T080 [P] [US4] backend/tests/unit/test_note_repository.py に NoteRepository.delete() のユニットテストを記述
+- [x] T081 [P] [US4] backend/tests/unit/test_note_service.py に NoteService.delete_note() のユニットテストを記述
 - [x] T082 [P] [US4] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（削除フロー全体、確認ダイアログ）
 
 **チェックポイント**: すべてのテストが失敗（Red）することを確認
 
 ### ユーザーストーリー 4 の実装
 
-- [X] T083 [US4] backend/src/repositories/note_repository.py に delete メソッドを実装（MongoDB から削除）
-- [X] T084 [US4] backend/src/services/note_service.py に delete_note メソッドを実装（リポジトリを呼び出し、404 エラー処理）
-- [X] T085 [US4] backend/src/api/notes.py に DELETE /notes/{note_id} エンドポイントを実装（NoteService を呼び出し、204 レスポンス）
-- [X] T086 [P] [US4] frontend/src/services/noteService.ts に deleteNote 関数を実装
-- [X] T087 [US4] frontend/src/hooks/useNotes.ts に useMutation を使用した deleteNote ミューテーションを追加
-- [X] T088 [US4] frontend/src/components/DeleteConfirmDialog.tsx に削除確認ダイアログコンポーネントを実装
-- [X] T089 [US4] frontend/src/pages/EditNotePage.tsx に「削除」ボタンと削除確認ダイアログを追加
-- [X] T090 [US4] frontend/src/components/NoteList.tsx に各ノート項目に「削除」ボタンを追加（オプション）
-- [X] T091 [US4] リンター・フォーマッター実行（backend と frontend 両方）
-- [X] T092 [US4] すべてのテストが通過（Green）することを確認
+- [x] T083 [US4] backend/src/repositories/note_repository.py に delete メソッドを実装（MongoDB から削除）
+- [x] T084 [US4] backend/src/services/note_service.py に delete_note メソッドを実装（リポジトリを呼び出し、404 エラー処理）
+- [x] T085 [US4] backend/src/api/notes.py に DELETE /notes/{note_id} エンドポイントを実装（NoteService を呼び出し、204 レスポンス）
+- [x] T086 [P] [US4] frontend/src/services/noteService.ts に deleteNote 関数を実装
+- [x] T087 [US4] frontend/src/hooks/useNotes.ts に useMutation を使用した deleteNote ミューテーションを追加
+- [x] T088 [US4] frontend/src/components/DeleteConfirmDialog.tsx に削除確認ダイアログコンポーネントを実装
+- [x] T089 [US4] frontend/src/pages/EditNotePage.tsx に「削除」ボタンと削除確認ダイアログを追加
+- [x] T090 [US4] frontend/src/components/NoteList.tsx に各ノート項目に「削除」ボタンを追加（オプション）
+- [x] T091 [US4] リンター・フォーマッター実行（backend と frontend 両方）
+- [x] T092 [US4] すべてのテストが通過（Green）することを確認
 
 **チェックポイント**: 基本的な CRUD 操作（作成、読取、更新、削除）がすべて完成
 
@@ -456,20 +456,20 @@
 
 ## サマリー
 
-- **総タスク数**: 130 タスク
+- **総タスク数**: 137 タスク
 - **ユーザーストーリー別タスク数**:
   - US1（一覧表示）: 17 タスク（T027-T043）
-  - US2（作成）: 17 タスク（T044-T060）
-  - US3（編集）: 18 タスク（T061-T078）
+  - US2（作成）: 18 タスク（T044-T060, T048a）
+  - US3（編集）: 21 タスク（T061-T078, T076a, T076b, T076c）
   - US4（削除）: 14 タスク（T079-T092）
   - US5（WYSIWYG）: 11 タスク（T093-T103）
   - US6（プレビュー）: 11 タスク（T104-T114）
   - セットアップ: 8 タスク（T001-T008）
   - 基盤: 19 タスク（T009-T026, T018a）
-  - 仕上げ: 15 タスク（T115-T129）
+  - 仕上げ: 18 タスク（T115-T129, T118a, T118b, T118c）
 
 - **MVP スコープ（推奨）**: ユーザーストーリー 1-3（基本的な CRUD 操作）
-  - セットアップ + 基盤 + US1 + US2 + US3 = 70 タスク
+  - セットアップ + 基盤 + US1 + US2 + US3 = 83 タスク
   - これにより、ノートの一覧表示、作成、編集が可能になり、基本的な価値を提供
 
 - **並列化機会**:
