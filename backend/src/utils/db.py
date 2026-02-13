@@ -51,10 +51,12 @@ async def _ensure_indexes(database: AsyncIOMotorDatabase) -> None:  # type: igno
     await notes_collection.create_index(
         [("created_at", pymongo.DESCENDING)],
         name="idx_created_at",
+        background=True,
     )
     await notes_collection.create_index(
         [("updated_at", pymongo.DESCENDING)],
         name="idx_updated_at",
+        background=True,
     )
     logger.info("MongoDB インデックスを作成しました")
 
