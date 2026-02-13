@@ -10,7 +10,10 @@ from contextlib import asynccontextmanager
 import structlog
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
 
+from src.api.notes import limiter
 from src.api.routes import router as api_router
 from src.config import get_settings
 from src.utils.db import close_mongodb_connection, connect_to_mongodb, get_database
@@ -63,6 +66,10 @@ def create_app() -> FastAPI:
         allow_methods=["GET", "POST", "PUT", "DELETE"],
         allow_headers=["*"],
     )
+
+    # レート制限の設定（DoS 対策）
+    app.state.limiter = limiter
+    app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
     # API ルーターを登録
     app.include_router(api_router)
