@@ -177,3 +177,20 @@ class NoteRepository:
 
         logger.info("ノートを更新しました", note_id=note_id)
         return NoteInDB.from_mongo_dict(doc)
+
+    async def delete(self, note_id: str) -> bool:
+        """指定した ID のノートを削除する
+
+        Args:
+            note_id: ノートの一意識別子
+
+        Returns:
+            削除が成功した場合は True、見つからない場合は False
+        """
+        result = await self._collection.delete_one({"_id": note_id})
+
+        if result.deleted_count == 0:
+            return False
+
+        logger.info("ノートを削除しました", note_id=note_id)
+        return True

@@ -6,6 +6,7 @@
 import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 import { BrowserRouter } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import NoteList from '../../../src/components/NoteList'
 import type { Note } from '../../../src/types/note'
 
@@ -34,15 +35,25 @@ const sampleNotes: Note[] = [
 ]
 
 /**
- * NoteList をラップして BrowserRouter を提供する
+ * NoteList をラップして BrowserRouter と QueryClientProvider を提供する
  */
-function renderWithRouter(ui: React.ReactElement) {
-  return render(<BrowserRouter>{ui}</BrowserRouter>)
+function renderWithProviders(ui: React.ReactElement) {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: { retry: false },
+      mutations: { retry: false },
+    },
+  })
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>{ui}</BrowserRouter>
+    </QueryClientProvider>,
+  )
 }
 
 describe('NoteList', () => {
   it('ノート一覧が表示されること', () => {
-    renderWithRouter(<NoteList notes={sampleNotes} />)
+    renderWithProviders(<NoteList notes={sampleNotes} />)
 
     expect(screen.getByText('テストノート1')).toBeInTheDocument()
     expect(screen.getByText('テストノート2')).toBeInTheDocument()
@@ -50,13 +61,13 @@ describe('NoteList', () => {
   })
 
   it('ノートが0件の場合、空状態メッセージが表示されること', () => {
-    renderWithRouter(<NoteList notes={[]} />)
+    renderWithProviders(<NoteList notes={[]} />)
 
     expect(screen.getByText('ノートがありません')).toBeInTheDocument()
   })
 
   it('各ノートにタイトル、作成日時、更新日時が表示されること', () => {
-    renderWithRouter(<NoteList notes={[sampleNotes[0]]} />)
+    renderWithProviders(<NoteList notes={[sampleNotes[0]]} />)
 
     expect(screen.getByText('テストノート1')).toBeInTheDocument()
     // 作成日時と更新日時のテキストが表示されていることを確認

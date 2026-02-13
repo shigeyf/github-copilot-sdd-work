@@ -639,3 +639,76 @@ class TestPutNote:
                 )
 
             assert response.status_code == 404
+
+
+def _create_mock_collection_for_delete(
+    deleted_count: int = 1,
+) -> MagicMock:
+    """DELETE /notes/{note_id} テスト用のモック MongoDB コレクションを作成する"""
+    collection = MagicMock()
+    collection.delete_one = AsyncMock(
+        return_value=MagicMock(deleted_count=deleted_count)
+    )
+    return collection
+
+
+class TestDeleteNote:
+    """DELETE /notes/{note_id} エンドポイントのテスト"""
+
+    @pytest.mark.asyncio
+    async def test_delete_note_returns_204(
+        self,
+        mock_database: MagicMock,
+        mock_settings: MagicMock,
+    ) -> None:
+        """DELETE /notes/{note_id} が 204 を返すことを確認する"""
+        mock_collection = _create_mock_collection_for_delete(deleted_count=1)
+        mock_database.__getitem__ = MagicMock(return_value=mock_collection)
+
+        with (
+            patch("src.main.get_settings", return_value=mock_settings),
+            patch("src.main.connect_to_mongodb", new_callable=AsyncMock),
+            patch("src.main.close_mongodb_connection", new_callable=AsyncMock),
+            patch("src.main.get_database", return_value=mock_database),
+            patch("src.api.notes.get_database", return_value=mock_database),
+        ):
+            from src.main import create_app
+
+            app = create_app()
+            transport = ASGITransport(app=app)
+            async with AsyncClient(
+                transport=transport, base_url="http://test"
+            ) as client:
+                response = await client.delete(
+                    "/notes/550e8400-e29b-41d4-a716-446655440001"
+                )
+
+            assert response.status_code == 204
+
+    @pytest.mark.asyncio
+    async def test_delete_note_returns_404_when_not_found(
+        self,
+        mock_database: MagicMock,
+        mock_settings: MagicMock,
+    ) -> None:
+        """存在しないノートの場合 404 を返すことを確認する"""
+        mock_collection = _create_mock_collection_for_delete(deleted_count=0)
+        mock_database.__getitem__ = MagicMock(return_value=mock_collection)
+
+        with (
+            patch("src.main.get_settings", return_value=mock_settings),
+            patch("src.main.connect_to_mongodb", new_callable=AsyncMock),
+            patch("src.main.close_mongodb_connection", new_callable=AsyncMock),
+            patch("src.main.get_database", return_value=mock_database),
+            patch("src.api.notes.get_database", return_value=mock_database),
+        ):
+            from src.main import create_app
+
+            app = create_app()
+            transport = ASGITransport(app=app)
+            async with AsyncClient(
+                transport=transport, base_url="http://test"
+            ) as client:
+                response = await client.delete("/notes/non-existent-id")
+
+            assert response.status_code == 404

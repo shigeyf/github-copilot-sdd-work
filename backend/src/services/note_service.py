@@ -181,3 +181,19 @@ class NoteService:
             created_at=note.created_at,
             updated_at=note.updated_at,
         )
+
+    async def delete_note(self, note_id: str) -> None:
+        """指定した ID のノートを削除する
+
+        Args:
+            note_id: ノートの一意識別子
+
+        Raises:
+            ValueError: ノートが見つからない場合
+        """
+        deleted = await self._repository.delete(note_id)
+
+        if not deleted:
+            raise ValueError("ノートが見つかりません")
+
+        logger.info("ノートを削除しました", note_id=note_id)
