@@ -152,7 +152,7 @@ function NoteEditor({
           </div>
         </div>
         {editorMode === 'markdown' ? (
-          <div className={`flex gap-4 ${showPreview ? '' : ''}`}>
+          <div className="flex gap-4">
             <div className={showPreview ? 'w-1/2' : 'w-full'}>
               <textarea
                 id="note-content"
