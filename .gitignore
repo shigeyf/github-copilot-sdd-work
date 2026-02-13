@@ -228,3 +228,35 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# =============================
+# Node.gitignore
+# Recommended .gitignore for Node.js projects
+# Refer-to:
+# https://github.com/github/gitignore/blob/main/Node.gitignore
+# =============================
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yaml
