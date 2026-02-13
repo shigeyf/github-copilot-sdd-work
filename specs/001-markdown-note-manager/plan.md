@@ -38,16 +38,17 @@ Markdownノート管理アプリは、ユーザーがブラウザ上でMarkdown�
 - フロントエンド:
   - React 18+ (UI フレームワーク)
   - Vite (ビルドツール、開発サーバー)
-  - 要確認: Markdown エディタライブラリ (WYSIWYG 機能用)
-  - 要確認: Markdown パーサー/レンダラー (プレビュー機能用)
-  - 要確認: 状態管理ライブラリ (React Query, Zustand など)
-  - 要確認: HTTP クライアントライブラリ (axios, fetch など)
+  - TipTap (Markdown WYSIWYG エディタ、@tiptap/react, @tiptap/starter-kit, @tiptap/extension-markdown)
+  - react-markdown + remark-gfm (Markdown パーサー/レンダラー、プレビュー機能用)
+  - Zustand (軽量状態管理ライブラリ) + React Query (サーバー状態管理、キャッシング)
+  - axios (HTTP クライアントライブラリ)
+  - Tailwind CSS + Headless UI (UI コンポーネント、スタイリング)
 - バックエンド:
   - FastAPI (Web フレームワーク)
   - Pydantic (データバリデーション、シリアライゼーション)
-  - motor または pymongo (MongoDB ドライバー)
-  - 要確認: CORS ミドルウェア設定
-  - 要確認: ロギング・モニタリング設定
+  - motor (MongoDB 非同期ドライバー)
+  - FastAPI CORSMiddleware (CORS ミドルウェア、組み込み)
+  - structlog (構造化ロギング)
 
 **ストレージ**:
 - MongoDB (NoSQL ドキュメントデータベース)
@@ -58,8 +59,8 @@ Markdownノート管理アプリは、ユーザーがブラウザ上でMarkdown�
 **テスト**:
 - フロントエンド: Vitest, React Testing Library
 - バックエンド: pytest, pytest-asyncio
-- E2E テスト: 要確認 (Playwright, Cypress など)
-- API 契約テスト: 要確認
+- E2E テスト: Playwright
+- API 契約テスト: OpenAPI 仕様に基づく契約テスト（pytest + httpx）
 
 **ターゲットプラットフォーム**:
 - Web ブラウザ (Chrome, Firefox, Safari, Edge の最新版)
