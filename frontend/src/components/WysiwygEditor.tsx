@@ -181,7 +181,12 @@ function WysiwygEditor({ content, onChange }: WysiwygEditorProps) {
   }, [content, editor])
 
   return (
-    <div className="wysiwyg-editor border border-gray-300 rounded-md shadow-sm">
+    <div
+      className="wysiwyg-editor border border-gray-300 rounded-md shadow-sm"
+      role="textbox"
+      aria-labelledby="note-content-label"
+      aria-multiline="true"
+    >
       <Toolbar editor={editor} />
       <EditorContent
         editor={editor}

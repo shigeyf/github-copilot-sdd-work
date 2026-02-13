@@ -80,7 +80,11 @@ function NoteEditor({
       </div>
       <div>
         <div className="flex items-center justify-between mb-1">
-          <label htmlFor="note-content" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor={editorMode === 'markdown' ? 'note-content' : undefined}
+            id="note-content-label"
+            className="block text-sm font-medium text-gray-700"
+          >
             本文
           </label>
           <div

@@ -54,7 +54,7 @@ describe('WysiwygEditor', () => {
       const wysiwygButton = screen.getByRole('button', { name: 'WYSIWYGモード' })
       await user.click(wysiwygButton)
 
-      expect(screen.queryByRole('textbox', { name: '本文' })).not.toBeInTheDocument()
+      expect(document.querySelector('textarea#note-content')).not.toBeInTheDocument()
     })
 
     it('Markdownモードに戻すとtextareaが表示されること', async () => {
