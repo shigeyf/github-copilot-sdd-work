@@ -241,22 +241,22 @@
 
 > **重要**: TDD サイクルに従い、テストを先に書き、実装前に失敗を確認
 
-- [ ] T093 [P] [US5] frontend/tests/unit/components/WysiwygEditor.test.tsx に WysiwygEditor コンポーネントのユニットテストを記述（ツールバー操作、Markdown 変換）
+- [x] T093 [P] [US5] frontend/tests/unit/components/WysiwygEditor.test.tsx に WysiwygEditor コンポーネントのユニットテストを記述（ツールバー操作、Markdown 変換）
 - [ ] T094 [P] [US5] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（WYSIWYG モード切り替え、フォーマット適用）
 
 **チェックポイント**: すべてのテストが失敗（Red）することを確認
 
 ### ユーザーストーリー 5 の実装
 
-- [ ] T095 [US5] frontend/package.json に TipTap 関連パッケージを追加（@tiptap/react、@tiptap/starter-kit、@tiptap/extension-markdown）
-- [ ] T096 [US5] frontend/src/components/WysiwygEditor.tsx に WysiwygEditor コンポーネントを実装（TipTap エディタ、ツールバー）
-- [ ] T097 [US5] frontend/src/components/WysiwygEditor.tsx に太字、斜体、見出し、リスト、リンクのツールバーボタンを追加
-- [ ] T098 [US5] frontend/src/components/WysiwygEditor.tsx に Markdown との相互変換機能を実装
-- [ ] T099 [US5] frontend/src/components/NoteEditor.tsx に「Markdownモード」と「WYSIWYGモード」の切り替えボタンを追加
-- [ ] T100 [US5] frontend/src/components/NoteEditor.tsx に WysiwygEditor を統合
-- [ ] T101 [US5] frontend/src/styles/ に WysiwygEditor のスタイルを追加（Tailwind CSS）
-- [ ] T102 [US5] リンター・フォーマッター実行（frontend）
-- [ ] T103 [US5] すべてのテストが通過（Green）することを確認
+- [x] T095 [US5] frontend/package.json に TipTap 関連パッケージを追加（@tiptap/react、@tiptap/starter-kit、@tiptap/extension-markdown）
+- [x] T096 [US5] frontend/src/components/WysiwygEditor.tsx に WysiwygEditor コンポーネントを実装（TipTap エディタ、ツールバー）
+- [x] T097 [US5] frontend/src/components/WysiwygEditor.tsx に太字、斜体、見出し、リスト、リンクのツールバーボタンを追加
+- [x] T098 [US5] frontend/src/components/WysiwygEditor.tsx に Markdown との相互変換機能を実装
+- [x] T099 [US5] frontend/src/components/NoteEditor.tsx に「Markdownモード」と「WYSIWYGモード」の切り替えボタンを追加
+- [x] T100 [US5] frontend/src/components/NoteEditor.tsx に WysiwygEditor を統合
+- [x] T101 [US5] frontend/src/styles/ に WysiwygEditor のスタイルを追加（Tailwind CSS）
+- [x] T102 [US5] リンター・フォーマッター実行（frontend）
+- [x] T103 [US5] すべてのテストが通過（Green）することを確認
 
 **チェックポイント**: WYSIWYG エディタが機能し、Markdown との相互変換が正しく動作する
 
