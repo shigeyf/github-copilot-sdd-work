@@ -75,11 +75,7 @@ describe('NoteEditor', () => {
 
   it('初期値が正しく表示されること', () => {
     renderWithRouter(
-      <NoteEditor
-        onSave={vi.fn()}
-        initialTitle="初期タイトル"
-        initialContent="初期本文"
-      />,
+      <NoteEditor onSave={vi.fn()} initialTitle="初期タイトル" initialContent="初期本文" />,
     )
 
     expect(screen.getByLabelText('タイトル')).toHaveValue('初期タイトル')
@@ -95,5 +91,43 @@ describe('NoteEditor', () => {
 
     const saveButton = screen.getByRole('button', { name: '保存中...' })
     expect(saveButton).toBeDisabled()
+  })
+
+  it('Markdownモードでプレビューパネルが表示されること', () => {
+    renderWithRouter(<NoteEditor onSave={vi.fn()} initialContent="# テスト" />)
+
+    expect(screen.getByLabelText('プレビューパネル')).toBeInTheDocument()
+  })
+
+  it('プレビュー非表示ボタンをクリックするとプレビューが非表示になること', async () => {
+    const user = userEvent.setup()
+    renderWithRouter(<NoteEditor onSave={vi.fn()} initialContent="# テスト" />)
+
+    const toggleButton = screen.getByRole('button', { name: 'プレビューを非表示' })
+    await user.click(toggleButton)
+
+    expect(screen.queryByLabelText('プレビューパネル')).not.toBeInTheDocument()
+  })
+
+  it('プレビュー表示ボタンをクリックするとプレビューが再表示されること', async () => {
+    const user = userEvent.setup()
+    renderWithRouter(<NoteEditor onSave={vi.fn()} initialContent="# テスト" />)
+
+    // プレビューを非表示にする
+    await user.click(screen.getByRole('button', { name: 'プレビューを非表示' }))
+    // プレビューを再表示する
+    await user.click(screen.getByRole('button', { name: 'プレビューを表示' }))
+
+    expect(screen.getByLabelText('プレビューパネル')).toBeInTheDocument()
+  })
+
+  it('WYSIWYGモードではプレビュー切り替えボタンが非表示であること', async () => {
+    const user = userEvent.setup()
+    renderWithRouter(<NoteEditor onSave={vi.fn()} />)
+
+    await user.click(screen.getByRole('button', { name: 'WYSIWYGモード' }))
+
+    expect(screen.queryByRole('button', { name: 'プレビューを非表示' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'プレビューを表示' })).not.toBeInTheDocument()
   })
 })
