@@ -128,29 +128,29 @@
 
 > **重要**: TDD サイクルに従い、テストを先に書き、実装前に失敗を確認
 
-- [ ] T044 [P] [US2] backend/tests/integration/test_notes_api.py に POST /notes エンドポイントの統合テストを記述（201 レスポンス、UUID v4 生成、バリデーションエラー）
-- [ ] T045 [P] [US2] backend/tests/unit/test_note_repository.py に NoteRepository.create() のユニットテストを記述（MongoDB 挿入、UUID 生成）
-- [ ] T046 [P] [US2] backend/tests/unit/test_note_service.py に NoteService.create_note() のユニットテストを記述（タイトル重複処理、日時自動設定）
-- [ ] T047 [P] [US2] frontend/tests/unit/components/NoteEditor.test.tsx に NoteEditor コンポーネントのユニットテストを記述（入力、バリデーション）
+- [x] T044 [P] [US2] backend/tests/integration/test_notes_api.py に POST /notes エンドポイントの統合テストを記述（201 レスポンス、UUID v4 生成、バリデーションエラー）
+- [x] T045 [P] [US2] backend/tests/unit/test_note_repository.py に NoteRepository.create() のユニットテストを記述（MongoDB 挿入、UUID 生成）
+- [x] T046 [P] [US2] backend/tests/unit/test_note_service.py に NoteService.create_note() のユニットテストを記述（タイトル重複処理、日時自動設定）
+- [x] T047 [P] [US2] frontend/tests/unit/components/NoteEditor.test.tsx に NoteEditor コンポーネントのユニットテストを記述（入力、バリデーション）
 - [ ] T048 [P] [US2] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（新規作成フロー全体）
-- [ ] T048a [P] [US2] backend/tests/integration/test_notes_api.py に重複タイトル処理のテストを記述（FR-019 対応: 同名タイトルで番号付加を検証）
+- [x] T048a [P] [US2] backend/tests/integration/test_notes_api.py に重複タイトル処理のテストを記述（FR-019 対応: 同名タイトルで番号付加を検証）
 
 **チェックポイント**: すべてのテストが失敗（Red）することを確認
 
 ### ユーザーストーリー 2 の実装
 
-- [ ] T049 [US2] backend/src/repositories/note_repository.py に create メソッドを実装（UUID v4 生成、MongoDB 挿入、created_at/updated_at 自動設定）
-- [ ] T050 [US2] backend/src/services/note_service.py に create_note メソッドを実装（同名タイトル処理、リポジトリを呼び出し）
-- [ ] T051 [US2] backend/src/api/notes.py に POST /notes エンドポイントを実装（NoteService を呼び出し、201 レスポンス）
-- [ ] T052 [US2] backend/src/api/notes.py にバリデーションエラーハンドリングを追加（422 Unprocessable Entity）
-- [ ] T053 [P] [US2] frontend/src/services/noteService.ts に createNote 関数を実装（POST /notes を呼び出し）
-- [ ] T054 [US2] frontend/src/hooks/useNotes.ts に useMutation を使用した createNote ミューテーションを追加
-- [ ] T055 [US2] frontend/src/components/NoteEditor.tsx に NoteEditor コンポーネントを実装（タイトル入力、本文入力、保存ボタン）
-- [ ] T056 [US2] frontend/src/pages/CreateNotePage.tsx に CreateNotePage コンポーネントを実装（NoteEditor を表示、保存後に一覧へ遷移）
-- [ ] T057 [US2] frontend/src/App.tsx に CreateNotePage へのルーティングを追加
-- [ ] T058 [US2] frontend/src/components/NoteList.tsx に「新規作成」ボタンを追加（CreateNotePage へのナビゲーション）
-- [ ] T059 [US2] リンター・フォーマッター実行（backend と frontend 両方）
-- [ ] T060 [US2] すべてのテストが通過（Green）することを確認
+- [x] T049 [US2] backend/src/repositories/note_repository.py に create メソッドを実装（UUID v4 生成、MongoDB 挿入、created_at/updated_at 自動設定）
+- [x] T050 [US2] backend/src/services/note_service.py に create_note メソッドを実装（同名タイトル処理、リポジトリを呼び出し）
+- [x] T051 [US2] backend/src/api/notes.py に POST /notes エンドポイントを実装（NoteService を呼び出し、201 レスポンス）
+- [x] T052 [US2] backend/src/api/notes.py にバリデーションエラーハンドリングを追加（422 Unprocessable Entity）
+- [x] T053 [P] [US2] frontend/src/services/noteService.ts に createNote 関数を実装（POST /notes を呼び出し）
+- [x] T054 [US2] frontend/src/hooks/useNotes.ts に useMutation を使用した createNote ミューテーションを追加
+- [x] T055 [US2] frontend/src/components/NoteEditor.tsx に NoteEditor コンポーネントを実装（タイトル入力、本文入力、保存ボタン）
+- [x] T056 [US2] frontend/src/pages/CreateNotePage.tsx に CreateNotePage コンポーネントを実装（NoteEditor を表示、保存後に一覧へ遷移）
+- [x] T057 [US2] frontend/src/App.tsx に CreateNotePage へのルーティングを追加
+- [x] T058 [US2] frontend/src/components/NoteList.tsx に「新規作成」ボタンを追加（CreateNotePage へのナビゲーション）
+- [x] T059 [US2] リンター・フォーマッター実行（backend と frontend 両方）
+- [x] T060 [US2] すべてのテストが通過（Green）することを確認
 
 **チェックポイント**: この時点でユーザーストーリー 1 と 2 の両方が独立して動作するべき
 

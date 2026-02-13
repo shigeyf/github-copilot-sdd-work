@@ -1,6 +1,6 @@
 """NoteService のユニットテスト
 
-NoteService.list_notes() と NoteService.create_note() のテストを記述（ビジネスロジック）。
+NoteService.list_notes() と NoteService.create_note() のテストを記述。
 """
 
 from datetime import UTC, datetime
