@@ -157,3 +157,83 @@ class TestNoteRepositoryList:
 
         assert total == 3
         mock_collection.find.return_value.sort.assert_called_with("updated_at", 1)
+
+
+class TestNoteRepositoryCreate:
+    """NoteRepository.create() のテスト"""
+
+    @pytest.mark.asyncio
+    async def test_create_inserts_document(
+        self,
+        repository: NoteRepository,
+        mock_collection: MagicMock,
+    ) -> None:
+        """ノートが MongoDB に挿入されることを確認する"""
+        mock_collection.insert_one = AsyncMock()
+
+        note = await repository.create(title="新しいノート", content="# テスト")
+
+        mock_collection.insert_one.assert_called_once()
+        assert note.title == "新しいノート"
+        assert note.content == "# テスト"
+
+    @pytest.mark.asyncio
+    async def test_create_generates_uuid_v4(
+        self,
+        repository: NoteRepository,
+        mock_collection: MagicMock,
+    ) -> None:
+        """UUID v4 が自動生成されることを確認する"""
+        import uuid
+
+        mock_collection.insert_one = AsyncMock()
+
+        note = await repository.create(title="テスト", content="")
+
+        # UUID v4 形式であることを検証
+        parsed = uuid.UUID(note.id)
+        assert parsed.version == 4
+
+    @pytest.mark.asyncio
+    async def test_create_sets_timestamps(
+        self,
+        repository: NoteRepository,
+        mock_collection: MagicMock,
+    ) -> None:
+        """created_at と updated_at が自動設定されることを確認する"""
+        mock_collection.insert_one = AsyncMock()
+
+        note = await repository.create(title="テスト", content="")
+
+        assert note.created_at is not None
+        assert note.updated_at is not None
+        assert note.created_at == note.updated_at
+
+    @pytest.mark.asyncio
+    async def test_create_with_empty_content(
+        self,
+        repository: NoteRepository,
+        mock_collection: MagicMock,
+    ) -> None:
+        """本文が空でもノートを作成できることを確認する"""
+        mock_collection.insert_one = AsyncMock()
+
+        note = await repository.create(title="タイトルのみ")
+
+        assert note.title == "タイトルのみ"
+        assert note.content == ""
+
+    @pytest.mark.asyncio
+    async def test_create_find_by_title(
+        self,
+        repository: NoteRepository,
+        mock_collection: MagicMock,
+    ) -> None:
+        """タイトルで既存ノートを検索できることを確認する"""
+        cursor = AsyncMock()
+        cursor.to_list = AsyncMock(return_value=[])
+        mock_collection.find.return_value = cursor
+
+        result = await repository.find_by_title("テスト")
+
+        assert result == []

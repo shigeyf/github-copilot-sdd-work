@@ -3,6 +3,12 @@
 MongoDB のノートコレクションに対するデータアクセス層。
 """
 
+from __future__ import annotations
+
+import re
+import uuid
+from datetime import UTC, datetime
+
 import structlog
 from motor.motor_asyncio import AsyncIOMotorCollection
 
@@ -67,3 +73,51 @@ class NoteRepository:
         )
 
         return notes, total
+
+    async def create(
+        self,
+        title: str,
+        content: str = "",
+    ) -> NoteInDB:
+        """新しいノートを作成する
+
+        Args:
+            title: ノートのタイトル
+            content: Markdown形式の本文
+
+        Returns:
+            作成されたノート
+        """
+        now = datetime.now(UTC)
+        note = NoteInDB(
+            id=str(uuid.uuid4()),
+            title=title,
+            content=content,
+            created_at=now,
+            updated_at=now,
+        )
+
+        await self._collection.insert_one(note.to_mongo_dict())
+
+        logger.info("ノートを作成しました", note_id=note.id, title=title)
+
+        return note
+
+    async def find_by_title(self, title: str) -> list[NoteInDB]:
+        """タイトルに一致するノートを検索する
+
+        同名タイトルの重複チェックに使用する。
+        タイトルの完全一致と番号付きバリエーション（例: "タイトル (2)"）を検索する。
+
+        Args:
+            title: 検索するタイトル
+
+        Returns:
+            一致するノートのリスト
+        """
+        escaped_title = re.escape(title)
+        pattern = f"^{escaped_title}( \\(\\d+\\))?$"
+        cursor = self._collection.find({"title": {"$regex": pattern}})
+        docs = await cursor.to_list(length=None)
+
+        return [NoteInDB.from_mongo_dict(doc) for doc in docs]

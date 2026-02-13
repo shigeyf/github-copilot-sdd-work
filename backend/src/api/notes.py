@@ -7,8 +7,9 @@ from typing import Annotated
 
 import structlog
 from fastapi import APIRouter, HTTPException, Query
+from starlette.status import HTTP_201_CREATED
 
-from src.models.note import NoteListResponse
+from src.models.note import NoteCreate, NoteListResponse, NoteResponse
 from src.repositories.note_repository import NoteRepository
 from src.services.note_service import NoteService
 from src.utils.db import get_database
@@ -79,6 +80,34 @@ async def list_notes(
         ) from e
     except Exception as e:
         logger.error("ノート一覧取得エラー", error=str(e))
+        raise HTTPException(
+            status_code=503,
+            detail="サービスが利用できません",
+        ) from e
+
+
+@router.post(
+    "",
+    response_model=NoteResponse,
+    status_code=HTTP_201_CREATED,
+    summary="新規ノート作成",
+    description="新しいノートを作成します。タイトルは必須で、本文は任意です。",
+)
+async def create_note(
+    note_data: NoteCreate,
+) -> NoteResponse:
+    """新しいノートを作成する"""
+    try:
+        service = _get_note_service()
+        return await service.create_note(note_data)
+    except RuntimeError as e:
+        logger.error("データベース接続エラー", error=str(e))
+        raise HTTPException(
+            status_code=503,
+            detail="データベースに接続できません",
+        ) from e
+    except Exception as e:
+        logger.error("ノート作成エラー", error=str(e))
         raise HTTPException(
             status_code=503,
             detail="サービスが利用できません",
