@@ -17,6 +17,11 @@ Always respond in Japanese.
 - 技術用語で一般的な英語表記: そのまま使用可能 (例: Git、API、Docker)
 - 外部ライブラリやフレームワークの固有名詞: 原語のまま使用
 
+### 使用したコンテキストファイルの出力
+
+現在の回答を生成するために使用した全てのコンテキストファイル (*.instructions.md ファイル、*.agent.md ファイル、SKILL.md ファイルなどを含む）のパスをリストアップしてください。
+また、`.github/copilot-instructions.md` と `AGENTS.md` のファイルが読み込まれているかどうかを明示してください。
+
 ## Coding Agent 向け指示
 
 ユーザーが GitHub Issue を作成した際、ユーザーはその Issue に Coding Agent を割り当てて、様々なタスクを実行するためにエージェントセッションを開始することができます。
