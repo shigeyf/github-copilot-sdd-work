@@ -55,9 +55,9 @@
 
 **⚠️ 重要**: このフェーズが完了するまでユーザーストーリーの作業は開始できません
 
-- [ ] T009 backend/src/utils/db.py に MongoDB 接続管理を実装（motor を使用）
 - [ ] T010 backend/src/config.py に環境変数と設定管理を実装（Pydantic Settings を使用）
-- [ ] T011 [P] backend/src/main.py に FastAPI アプリケーションのエントリーポイントを作成
+- [ ] T009 backend/src/utils/db.py に MongoDB 接続管理を実装（motor を使用、T010 の config.py に依存）
+- [ ] T011 backend/src/main.py に FastAPI アプリケーションのエントリーポイントを作成（T009 の db.py に依存）
 - [ ] T012 [P] backend/src/main.py に CORS ミドルウェアを設定（フロントエンドのオリジンを許可）
 - [ ] T013 [P] backend/src/api/routes.py に API ルーター集約を作成
 - [ ] T014 [P] backend/src/models/__init__.py を作成してモデルパッケージを初期化
@@ -133,6 +133,7 @@
 - [ ] T046 [P] [US2] backend/tests/unit/test_note_service.py に NoteService.create_note() のユニットテストを記述（タイトル重複処理、日時自動設定）
 - [ ] T047 [P] [US2] frontend/tests/unit/components/NoteEditor.test.tsx に NoteEditor コンポーネントのユニットテストを記述（入力、バリデーション）
 - [ ] T048 [P] [US2] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（新規作成フロー全体）
+- [ ] T048a [P] [US2] backend/tests/integration/test_notes_api.py に重複タイトル処理のテストを記述（FR-019 対応: 同名タイトルで番号付加を検証）
 
 **チェックポイント**: すべてのテストが失敗（Red）することを確認
 
@@ -186,6 +187,9 @@
 - [ ] T074 [US3] frontend/src/pages/EditNotePage.tsx に EditNotePage コンポーネントを実装（NoteEditor を再利用、既存データをロード）
 - [ ] T075 [US3] frontend/src/App.tsx に EditNotePage へのルーティングを追加
 - [ ] T076 [US3] frontend/src/components/NoteList.tsx に各ノート項目にクリックイベントを追加（EditNotePage へ遷移）
+- [ ] T076a [US3] frontend/src/hooks/useUnsavedChanges.ts に未保存変更検出フックを実装（FR-018 対応: フォームの変更を監視）
+- [ ] T076b [US3] frontend/src/components/UnsavedChangesDialog.tsx に未保存変更警告ダイアログを実装（FR-018 対応: 「変更を保存しますか？」確認ダイアログ）
+- [ ] T076c [US3] frontend/src/pages/EditNotePage.tsx と CreateNotePage.tsx に未保存変更警告を統合（FR-018 対応: ノート切り替え時に確認ダイアログを表示）
 - [ ] T077 [US3] リンター・フォーマッター実行（backend と frontend 両方）
 - [ ] T078 [US3] すべてのテストが通過（Green）することを確認
 
@@ -297,6 +301,9 @@
 - [ ] T116 [P] frontend/src/ のすべてのコンポーネントと関数に JSDoc コメントを追加
 - [ ] T117 [P] backend/tests/ のテストカバレッジを確認（目標: 80% 以上、API は 100%）
 - [ ] T118 [P] frontend/tests/ のテストカバレッジを確認（目標: 80% 以上）
+- [ ] T118a [P] backend/tests/performance/test_startup_performance.py に 100 件ノート時の起動時間テストを追加（SC-004 検証: 3 秒以内）
+- [ ] T118b [P] frontend/tests/performance/wysiwyg_performance.spec.ts に WYSIWYG フォーマット反映時間テストを追加（SC-005 検証: 1 秒以内）
+- [ ] T118c [P] frontend/tests/performance/large_note_performance.spec.ts に 10,000 文字ノート編集時間テストを追加（SC-008 検証: 2 秒以内）
 - [ ] T119 [P] backend/ でセキュリティスキャンを実行（Bandit など）
 - [ ] T120 [P] frontend/ でセキュリティスキャンを実行（npm audit）
 - [ ] T121 backend/src/api/notes.py にレート制限を追加（オプション、将来的な DoS 対策）
