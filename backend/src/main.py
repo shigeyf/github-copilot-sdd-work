@@ -32,7 +32,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         logger.info("アプリケーションを起動しました")
     except Exception as e:
         # FR-020: 接続失敗時にエラーメッセージを標準エラー出力とログに表示し、起動を中断
-        error_message = f"MongoDB に接続できません: {e}"
+        error_message = f"MongoDB に接続できません: {str(e)}"
         logger.error(error_message)
         print(error_message, file=sys.stderr)
         sys.exit(1)
