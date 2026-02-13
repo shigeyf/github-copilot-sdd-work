@@ -7,7 +7,7 @@ import re
 
 import structlog
 
-from src.models.note import NoteCreate, NoteListResponse, NoteResponse
+from src.models.note import NoteCreate, NoteListResponse, NoteResponse, NoteUpdate
 from src.repositories.note_repository import NoteRepository
 
 logger = structlog.get_logger(__name__)
@@ -120,3 +120,64 @@ class NoteService:
                 max_number = max(max_number, int(match.group(1)))
 
         return f"{title} ({max_number + 1})"
+
+    async def get_note(self, note_id: str) -> NoteResponse:
+        """指定した ID のノートを取得する
+
+        Args:
+            note_id: ノートの一意識別子
+
+        Returns:
+            ノートのレスポンス
+
+        Raises:
+            ValueError: ノートが見つからない場合
+        """
+        note = await self._repository.get_by_id(note_id)
+
+        if note is None:
+            raise ValueError("ノートが見つかりません")
+
+        logger.info("ノートを取得しました", note_id=note_id)
+
+        return NoteResponse(
+            id=note.id,
+            title=note.title,
+            content=note.content,
+            created_at=note.created_at,
+            updated_at=note.updated_at,
+        )
+
+    async def update_note(self, note_id: str, note_data: NoteUpdate) -> NoteResponse:
+        """既存のノートを更新する
+
+        部分更新に対応し、指定されたフィールドのみを更新する。
+
+        Args:
+            note_id: ノートの一意識別子
+            note_data: ノート更新リクエストデータ
+
+        Returns:
+            更新されたノートのレスポンス
+
+        Raises:
+            ValueError: ノートが見つからない場合
+        """
+        note = await self._repository.update(
+            note_id,
+            title=note_data.title,
+            content=note_data.content,
+        )
+
+        if note is None:
+            raise ValueError("ノートが見つかりません")
+
+        logger.info("ノートを更新しました", note_id=note_id)
+
+        return NoteResponse(
+            id=note.id,
+            title=note.title,
+            content=note.content,
+            created_at=note.created_at,
+            updated_at=note.updated_at,
+        )

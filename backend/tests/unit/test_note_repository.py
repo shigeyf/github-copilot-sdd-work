@@ -237,3 +237,143 @@ class TestNoteRepositoryCreate:
         result = await repository.find_by_title("テスト")
 
         assert result == []
+
+
+class TestNoteRepositoryGetById:
+    """NoteRepository.get_by_id() のテスト"""
+
+    @pytest.mark.asyncio
+    async def test_get_by_id_returns_note(
+        self,
+        repository: NoteRepository,
+        mock_collection: MagicMock,
+        sample_notes: list[dict[str, object]],
+    ) -> None:
+        """指定した ID のノートを取得できることを確認する"""
+        mock_collection.find_one = AsyncMock(return_value=sample_notes[0])
+
+        note = await repository.get_by_id("550e8400-e29b-41d4-a716-446655440001")
+
+        assert note is not None
+        assert note.id == "550e8400-e29b-41d4-a716-446655440001"
+        assert note.title == "テストノート1"
+        mock_collection.find_one.assert_called_once_with(
+            {"_id": "550e8400-e29b-41d4-a716-446655440001"}
+        )
+
+    @pytest.mark.asyncio
+    async def test_get_by_id_returns_none_when_not_found(
+        self,
+        repository: NoteRepository,
+        mock_collection: MagicMock,
+    ) -> None:
+        """存在しない ID の場合 None を返すことを確認する"""
+        mock_collection.find_one = AsyncMock(return_value=None)
+
+        note = await repository.get_by_id("non-existent-id")
+
+        assert note is None
+
+
+class TestNoteRepositoryUpdate:
+    """NoteRepository.update() のテスト"""
+
+    @pytest.mark.asyncio
+    async def test_update_modifies_document(
+        self,
+        repository: NoteRepository,
+        mock_collection: MagicMock,
+        sample_notes: list[dict[str, object]],
+    ) -> None:
+        """ノートの更新が MongoDB に反映されることを確認する"""
+        updated_doc = {**sample_notes[0], "title": "更新後タイトル"}
+        mock_collection.find_one_and_update = AsyncMock(return_value=updated_doc)
+
+        note = await repository.update(
+            "550e8400-e29b-41d4-a716-446655440001",
+            title="更新後タイトル",
+        )
+
+        assert note is not None
+        assert note.title == "更新後タイトル"
+        mock_collection.find_one_and_update.assert_called_once()
+
+    @pytest.mark.asyncio
+    async def test_update_sets_updated_at(
+        self,
+        repository: NoteRepository,
+        mock_collection: MagicMock,
+        sample_notes: list[dict[str, object]],
+    ) -> None:
+        """updated_at が自動更新されることを確認する"""
+        updated_doc = {**sample_notes[0], "content": "更新後本文"}
+        mock_collection.find_one_and_update = AsyncMock(return_value=updated_doc)
+
+        note = await repository.update(
+            "550e8400-e29b-41d4-a716-446655440001",
+            content="更新後本文",
+        )
+
+        assert note is not None
+        # find_one_and_update の呼び出し引数を検証
+        call_args = mock_collection.find_one_and_update.call_args
+        update_data = call_args[0][1]["$set"]
+        assert "updated_at" in update_data
+
+    @pytest.mark.asyncio
+    async def test_update_returns_none_when_not_found(
+        self,
+        repository: NoteRepository,
+        mock_collection: MagicMock,
+    ) -> None:
+        """存在しない ID の場合 None を返すことを確認する"""
+        mock_collection.find_one_and_update = AsyncMock(return_value=None)
+
+        note = await repository.update("non-existent-id", title="更新")
+
+        assert note is None
+
+    @pytest.mark.asyncio
+    async def test_update_partial_title_only(
+        self,
+        repository: NoteRepository,
+        mock_collection: MagicMock,
+        sample_notes: list[dict[str, object]],
+    ) -> None:
+        """タイトルのみの部分更新ができることを確認する"""
+        updated_doc = {**sample_notes[0], "title": "新タイトル"}
+        mock_collection.find_one_and_update = AsyncMock(return_value=updated_doc)
+
+        note = await repository.update(
+            "550e8400-e29b-41d4-a716-446655440001",
+            title="新タイトル",
+        )
+
+        assert note is not None
+        assert note.title == "新タイトル"
+        call_args = mock_collection.find_one_and_update.call_args
+        update_data = call_args[0][1]["$set"]
+        assert "title" in update_data
+        assert "content" not in update_data
+
+    @pytest.mark.asyncio
+    async def test_update_partial_content_only(
+        self,
+        repository: NoteRepository,
+        mock_collection: MagicMock,
+        sample_notes: list[dict[str, object]],
+    ) -> None:
+        """本文のみの部分更新ができることを確認する"""
+        updated_doc = {**sample_notes[0], "content": "新しい本文"}
+        mock_collection.find_one_and_update = AsyncMock(return_value=updated_doc)
+
+        note = await repository.update(
+            "550e8400-e29b-41d4-a716-446655440001",
+            content="新しい本文",
+        )
+
+        assert note is not None
+        call_args = mock_collection.find_one_and_update.call_args
+        update_data = call_args[0][1]["$set"]
+        assert "content" in update_data
+        assert "title" not in update_data

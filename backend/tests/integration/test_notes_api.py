@@ -415,3 +415,227 @@ class TestPostNotesDuplicateTitle:
             data = response.json()
             assert response.status_code == 201
             assert data["title"] == "テスト (2)"
+
+
+def _create_mock_collection_for_get(
+    doc: dict[str, object] | None = None,
+) -> MagicMock:
+    """GET /notes/{note_id} テスト用のモック MongoDB コレクションを作成する"""
+    collection = MagicMock()
+    collection.find_one = AsyncMock(return_value=doc)
+    return collection
+
+
+def _create_mock_collection_for_update(
+    result_doc: dict[str, object] | None = None,
+) -> MagicMock:
+    """PUT /notes/{note_id} テスト用のモック MongoDB コレクションを作成する"""
+    collection = MagicMock()
+    collection.find_one_and_update = AsyncMock(return_value=result_doc)
+    return collection
+
+
+class TestGetNote:
+    """GET /notes/{note_id} エンドポイントのテスト"""
+
+    @pytest.mark.asyncio
+    async def test_get_note_returns_200(
+        self,
+        mock_database: MagicMock,
+        mock_settings: MagicMock,
+        sample_notes_docs: list[dict[str, object]],
+    ) -> None:
+        """GET /notes/{note_id} が 200 を返すことを確認する"""
+        mock_collection = _create_mock_collection_for_get(sample_notes_docs[0])
+        mock_database.__getitem__ = MagicMock(return_value=mock_collection)
+
+        with (
+            patch("src.main.get_settings", return_value=mock_settings),
+            patch("src.main.connect_to_mongodb", new_callable=AsyncMock),
+            patch("src.main.close_mongodb_connection", new_callable=AsyncMock),
+            patch("src.main.get_database", return_value=mock_database),
+            patch("src.api.notes.get_database", return_value=mock_database),
+        ):
+            from src.main import create_app
+
+            app = create_app()
+            transport = ASGITransport(app=app)
+            async with AsyncClient(
+                transport=transport, base_url="http://test"
+            ) as client:
+                response = await client.get(
+                    "/notes/550e8400-e29b-41d4-a716-446655440001"
+                )
+
+            assert response.status_code == 200
+
+    @pytest.mark.asyncio
+    async def test_get_note_returns_note_fields(
+        self,
+        mock_database: MagicMock,
+        mock_settings: MagicMock,
+        sample_notes_docs: list[dict[str, object]],
+    ) -> None:
+        """GET /notes/{note_id} が全フィールドを返すことを確認する"""
+        mock_collection = _create_mock_collection_for_get(sample_notes_docs[0])
+        mock_database.__getitem__ = MagicMock(return_value=mock_collection)
+
+        with (
+            patch("src.main.get_settings", return_value=mock_settings),
+            patch("src.main.connect_to_mongodb", new_callable=AsyncMock),
+            patch("src.main.close_mongodb_connection", new_callable=AsyncMock),
+            patch("src.main.get_database", return_value=mock_database),
+            patch("src.api.notes.get_database", return_value=mock_database),
+        ):
+            from src.main import create_app
+
+            app = create_app()
+            transport = ASGITransport(app=app)
+            async with AsyncClient(
+                transport=transport, base_url="http://test"
+            ) as client:
+                response = await client.get(
+                    "/notes/550e8400-e29b-41d4-a716-446655440001"
+                )
+
+            data = response.json()
+            assert data["id"] == "550e8400-e29b-41d4-a716-446655440001"
+            assert data["title"] == "テストノート1"
+            assert "content" in data
+            assert "created_at" in data
+            assert "updated_at" in data
+
+    @pytest.mark.asyncio
+    async def test_get_note_returns_404_when_not_found(
+        self,
+        mock_database: MagicMock,
+        mock_settings: MagicMock,
+    ) -> None:
+        """存在しないノートの場合 404 を返すことを確認する"""
+        mock_collection = _create_mock_collection_for_get(None)
+        mock_database.__getitem__ = MagicMock(return_value=mock_collection)
+
+        with (
+            patch("src.main.get_settings", return_value=mock_settings),
+            patch("src.main.connect_to_mongodb", new_callable=AsyncMock),
+            patch("src.main.close_mongodb_connection", new_callable=AsyncMock),
+            patch("src.main.get_database", return_value=mock_database),
+            patch("src.api.notes.get_database", return_value=mock_database),
+        ):
+            from src.main import create_app
+
+            app = create_app()
+            transport = ASGITransport(app=app)
+            async with AsyncClient(
+                transport=transport, base_url="http://test"
+            ) as client:
+                response = await client.get("/notes/non-existent-id")
+
+            assert response.status_code == 404
+
+
+class TestPutNote:
+    """PUT /notes/{note_id} エンドポイントのテスト"""
+
+    @pytest.mark.asyncio
+    async def test_put_note_returns_200(
+        self,
+        mock_database: MagicMock,
+        mock_settings: MagicMock,
+        sample_notes_docs: list[dict[str, object]],
+    ) -> None:
+        """PUT /notes/{note_id} が 200 を返すことを確認する"""
+        updated_doc = {**sample_notes_docs[0], "title": "更新後タイトル"}
+        mock_collection = _create_mock_collection_for_update(updated_doc)
+        mock_database.__getitem__ = MagicMock(return_value=mock_collection)
+
+        with (
+            patch("src.main.get_settings", return_value=mock_settings),
+            patch("src.main.connect_to_mongodb", new_callable=AsyncMock),
+            patch("src.main.close_mongodb_connection", new_callable=AsyncMock),
+            patch("src.main.get_database", return_value=mock_database),
+            patch("src.api.notes.get_database", return_value=mock_database),
+        ):
+            from src.main import create_app
+
+            app = create_app()
+            transport = ASGITransport(app=app)
+            async with AsyncClient(
+                transport=transport, base_url="http://test"
+            ) as client:
+                response = await client.put(
+                    "/notes/550e8400-e29b-41d4-a716-446655440001",
+                    json={"title": "更新後タイトル"},
+                )
+
+            assert response.status_code == 200
+
+    @pytest.mark.asyncio
+    async def test_put_note_returns_updated_fields(
+        self,
+        mock_database: MagicMock,
+        mock_settings: MagicMock,
+        sample_notes_docs: list[dict[str, object]],
+    ) -> None:
+        """PUT /notes/{note_id} が更新後のフィールドを返すことを確認する"""
+        updated_doc = {
+            **sample_notes_docs[0],
+            "title": "更新後タイトル",
+            "content": "更新後本文",
+        }
+        mock_collection = _create_mock_collection_for_update(updated_doc)
+        mock_database.__getitem__ = MagicMock(return_value=mock_collection)
+
+        with (
+            patch("src.main.get_settings", return_value=mock_settings),
+            patch("src.main.connect_to_mongodb", new_callable=AsyncMock),
+            patch("src.main.close_mongodb_connection", new_callable=AsyncMock),
+            patch("src.main.get_database", return_value=mock_database),
+            patch("src.api.notes.get_database", return_value=mock_database),
+        ):
+            from src.main import create_app
+
+            app = create_app()
+            transport = ASGITransport(app=app)
+            async with AsyncClient(
+                transport=transport, base_url="http://test"
+            ) as client:
+                response = await client.put(
+                    "/notes/550e8400-e29b-41d4-a716-446655440001",
+                    json={"title": "更新後タイトル", "content": "更新後本文"},
+                )
+
+            data = response.json()
+            assert data["title"] == "更新後タイトル"
+            assert data["content"] == "更新後本文"
+
+    @pytest.mark.asyncio
+    async def test_put_note_returns_404_when_not_found(
+        self,
+        mock_database: MagicMock,
+        mock_settings: MagicMock,
+    ) -> None:
+        """存在しないノートの場合 404 を返すことを確認する"""
+        mock_collection = _create_mock_collection_for_update(None)
+        mock_database.__getitem__ = MagicMock(return_value=mock_collection)
+
+        with (
+            patch("src.main.get_settings", return_value=mock_settings),
+            patch("src.main.connect_to_mongodb", new_callable=AsyncMock),
+            patch("src.main.close_mongodb_connection", new_callable=AsyncMock),
+            patch("src.main.get_database", return_value=mock_database),
+            patch("src.api.notes.get_database", return_value=mock_database),
+        ):
+            from src.main import create_app
+
+            app = create_app()
+            transport = ASGITransport(app=app)
+            async with AsyncClient(
+                transport=transport, base_url="http://test"
+            ) as client:
+                response = await client.put(
+                    "/notes/non-existent-id",
+                    json={"title": "更新"},
+                )
+
+            assert response.status_code == 404

@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import NotesPage from './pages/NotesPage'
 import CreateNotePage from './pages/CreateNotePage'
+import EditNotePage from './pages/EditNotePage'
 
 /**
  * ルートコンポーネント
@@ -19,7 +20,7 @@ function App() {
         <Routes>
           <Route path="/" element={<NotesPage />} />
           <Route path="/notes/new" element={<CreateNotePage />} />
-          <Route path="/notes/:id/edit" element={<div>ノート編集（実装予定）</div>} />
+          <Route path="/notes/:id/edit" element={<EditNotePage />} />
         </Routes>
       </main>
     </div>
