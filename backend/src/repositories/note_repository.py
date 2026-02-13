@@ -121,3 +121,59 @@ class NoteRepository:
         docs = await cursor.to_list(length=None)
 
         return [NoteInDB.from_mongo_dict(doc) for doc in docs]
+
+    async def get_by_id(self, note_id: str) -> NoteInDB | None:
+        """指定した ID のノートを取得する
+
+        Args:
+            note_id: ノートの一意識別子
+
+        Returns:
+            見つかった場合はノート、見つからない場合は None
+        """
+        doc = await self._collection.find_one({"_id": note_id})
+        if doc is None:
+            return None
+
+        logger.info("ノートを取得しました", note_id=note_id)
+        return NoteInDB.from_mongo_dict(doc)
+
+    async def update(
+        self,
+        note_id: str,
+        title: str | None = None,
+        content: str | None = None,
+    ) -> NoteInDB | None:
+        """指定した ID のノートを更新する
+
+        部分更新に対応し、指定されたフィールドのみを更新する。
+        updated_at は自動的に更新される。
+
+        Args:
+            note_id: ノートの一意識別子
+            title: 更新後のタイトル（None の場合は更新しない）
+            content: 更新後の本文（None の場合は更新しない）
+
+        Returns:
+            更新されたノート、見つからない場合は None
+        """
+        update_fields: dict[str, object] = {
+            "updated_at": datetime.now(UTC),
+        }
+
+        if title is not None:
+            update_fields["title"] = title
+        if content is not None:
+            update_fields["content"] = content
+
+        doc = await self._collection.find_one_and_update(
+            {"_id": note_id},
+            {"$set": update_fields},
+            return_document=True,
+        )
+
+        if doc is None:
+            return None
+
+        logger.info("ノートを更新しました", note_id=note_id)
+        return NoteInDB.from_mongo_dict(doc)

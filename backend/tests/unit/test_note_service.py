@@ -8,7 +8,7 @@ from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from src.models.note import NoteCreate, NoteInDB, NoteListResponse, NoteResponse
+from src.models.note import NoteCreate, NoteInDB, NoteListResponse, NoteResponse, NoteUpdate
 from src.services.note_service import NoteService
 
 
@@ -247,3 +247,127 @@ class TestNoteServiceCreateNote:
 
         assert result.created_at is not None
         assert result.updated_at is not None
+
+
+class TestNoteServiceGetNote:
+    """NoteService.get_note() のテスト"""
+
+    @pytest.mark.asyncio
+    async def test_get_note_returns_response(
+        self,
+        service: NoteService,
+        mock_repository: MagicMock,
+        sample_notes_in_db: list[NoteInDB],
+    ) -> None:
+        """ノートを取得してレスポンスを返すことを確認する"""
+        mock_repository.get_by_id = AsyncMock(return_value=sample_notes_in_db[0])
+
+        result = await service.get_note("550e8400-e29b-41d4-a716-446655440001")
+
+        assert isinstance(result, NoteResponse)
+        assert result.id == "550e8400-e29b-41d4-a716-446655440001"
+        assert result.title == "テストノート1"
+
+    @pytest.mark.asyncio
+    async def test_get_note_raises_not_found(
+        self,
+        service: NoteService,
+        mock_repository: MagicMock,
+    ) -> None:
+        """存在しないノートの場合 ValueError を発生させることを確認する"""
+        mock_repository.get_by_id = AsyncMock(return_value=None)
+
+        with pytest.raises(ValueError, match="ノートが見つかりません"):
+            await service.get_note("non-existent-id")
+
+
+class TestNoteServiceUpdateNote:
+    """NoteService.update_note() のテスト"""
+
+    @pytest.mark.asyncio
+    async def test_update_note_returns_response(
+        self,
+        service: NoteService,
+        mock_repository: MagicMock,
+    ) -> None:
+        """ノートを更新してレスポンスを返すことを確認する"""
+        updated_note = NoteInDB(
+            id="550e8400-e29b-41d4-a716-446655440001",
+            title="更新後タイトル",
+            content="更新後本文",
+            created_at=datetime(2026, 1, 1, 0, 0, 0, tzinfo=UTC),
+            updated_at=datetime(2026, 1, 2, 0, 0, 0, tzinfo=UTC),
+        )
+        mock_repository.update = AsyncMock(return_value=updated_note)
+
+        note_data = NoteUpdate(title="更新後タイトル", content="更新後本文")
+        result = await service.update_note(
+            "550e8400-e29b-41d4-a716-446655440001", note_data
+        )
+
+        assert isinstance(result, NoteResponse)
+        assert result.title == "更新後タイトル"
+        assert result.content == "更新後本文"
+
+    @pytest.mark.asyncio
+    async def test_update_note_raises_not_found(
+        self,
+        service: NoteService,
+        mock_repository: MagicMock,
+    ) -> None:
+        """存在しないノートの場合 ValueError を発生させることを確認する"""
+        mock_repository.update = AsyncMock(return_value=None)
+
+        note_data = NoteUpdate(title="更新")
+        with pytest.raises(ValueError, match="ノートが見つかりません"):
+            await service.update_note("non-existent-id", note_data)
+
+    @pytest.mark.asyncio
+    async def test_update_note_updated_at_changes(
+        self,
+        service: NoteService,
+        mock_repository: MagicMock,
+    ) -> None:
+        """更新後に updated_at が変更されていることを確認する"""
+        original_time = datetime(2026, 1, 1, 0, 0, 0, tzinfo=UTC)
+        updated_time = datetime(2026, 1, 2, 0, 0, 0, tzinfo=UTC)
+        updated_note = NoteInDB(
+            id="note-1",
+            title="テスト",
+            content="更新",
+            created_at=original_time,
+            updated_at=updated_time,
+        )
+        mock_repository.update = AsyncMock(return_value=updated_note)
+
+        note_data = NoteUpdate(content="更新")
+        result = await service.update_note("note-1", note_data)
+
+        assert result.updated_at == updated_time
+        assert result.created_at == original_time
+
+    @pytest.mark.asyncio
+    async def test_update_note_partial_update(
+        self,
+        service: NoteService,
+        mock_repository: MagicMock,
+    ) -> None:
+        """部分更新が正しくリポジトリに渡されることを確認する"""
+        updated_note = NoteInDB(
+            id="note-1",
+            title="タイトルのみ更新",
+            content="元の本文",
+            created_at=datetime(2026, 1, 1, 0, 0, 0, tzinfo=UTC),
+            updated_at=datetime(2026, 1, 2, 0, 0, 0, tzinfo=UTC),
+        )
+        mock_repository.update = AsyncMock(return_value=updated_note)
+
+        note_data = NoteUpdate(title="タイトルのみ更新")
+        result = await service.update_note("note-1", note_data)
+
+        mock_repository.update.assert_called_once_with(
+            "note-1",
+            title="タイトルのみ更新",
+            content=None,
+        )
+        assert result.title == "タイトルのみ更新"
