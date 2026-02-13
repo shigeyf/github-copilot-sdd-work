@@ -389,9 +389,7 @@ class TestNoteRepositoryDelete:
         mock_collection: MagicMock,
     ) -> None:
         """存在するノートを削除した場合 True を返すことを確認する"""
-        mock_collection.delete_one = AsyncMock(
-            return_value=MagicMock(deleted_count=1)
-        )
+        mock_collection.delete_one = AsyncMock(return_value=MagicMock(deleted_count=1))
 
         result = await repository.delete("550e8400-e29b-41d4-a716-446655440001")
 
@@ -407,9 +405,7 @@ class TestNoteRepositoryDelete:
         mock_collection: MagicMock,
     ) -> None:
         """存在しないノートを削除した場合 False を返すことを確認する"""
-        mock_collection.delete_one = AsyncMock(
-            return_value=MagicMock(deleted_count=0)
-        )
+        mock_collection.delete_one = AsyncMock(return_value=MagicMock(deleted_count=0))
 
         result = await repository.delete("non-existent-id")
 

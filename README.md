@@ -3,6 +3,69 @@
 GitHub Copilot
 の構成ファイルのテンプレートとベストプラクティスを提供するリポジトリです。
 
+## Markdown ノート管理アプリ
+
+このリポジトリには、**Markdown ノート管理アプリ**のサンプル実装が含まれています。
+ブラウザ上で Markdown 形式のノートを作成、編集、削除、閲覧できる Web アプリケーションです。
+
+### 主な機能
+
+- **ノート一覧表示**: すべてのノートをタイトル、作成日時、最終更新日時とともに一覧表示
+- **ノート作成・編集・削除**: CRUD 操作の完全なサポート
+- **WYSIWYG エディタ**: TipTap ベースのリッチテキストエディタ（Markdown との相互変換対応）
+- **リアルタイムプレビュー**: Markdown 入力時に右側パネルでリアルタイムレンダリング
+- **重複タイトル処理**: 同名タイトルのノート作成時に自動番号付加
+- **未保存変更の警告**: ページ遷移時に確認ダイアログを表示
+
+### 技術スタック
+
+| レイヤー | 技術 |
+|----------|------|
+| フロントエンド | React 18+, TypeScript (strict mode), Vite, Tailwind CSS |
+| バックエンド | Python 3.11+, FastAPI, Pydantic v2 |
+| データベース | MongoDB (motor ドライバー) |
+| エディタ | TipTap (WYSIWYG), react-markdown (プレビュー) |
+| テスト | pytest (バックエンド), Vitest (フロントエンド) |
+| インフラ | Docker Compose |
+
+### クイックスタート
+
+```bash
+# Docker Compose で起動
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
+docker-compose up -d
+
+# ブラウザで http://localhost:5173 にアクセス
+```
+
+詳細なセットアップ手順は [クイックスタートガイド](specs/001-markdown-note-manager/quickstart.md) を参照してください。
+
+### プロジェクト構造
+
+```text
+├── backend/          # FastAPI バックエンド
+│   ├── src/
+│   │   ├── api/      # REST API エンドポイント
+│   │   ├── models/   # Pydantic モデル
+│   │   ├── repositories/  # データアクセス層
+│   │   ├── services/      # ビジネスロジック層
+│   │   └── utils/         # ユーティリティ
+│   └── tests/        # テスト
+├── frontend/         # React フロントエンド
+│   ├── src/
+│   │   ├── components/    # UI コンポーネント
+│   │   ├── hooks/         # カスタムフック
+│   │   ├── pages/         # ページコンポーネント
+│   │   ├── services/      # API サービス
+│   │   └── types/         # TypeScript 型定義
+│   └── tests/        # テスト
+├── specs/            # 仕様書・設計ドキュメント
+└── docker-compose.yaml
+```
+
+---
+
 ## ディレクトリ構成
 
 ```text

@@ -297,24 +297,24 @@
 
 **目的**: 複数のユーザーストーリーに影響する改善と品質保証
 
-- [ ] T115 [P] backend/src/ のすべてのモジュールに docstring を追加（Constitution III. 準拠）
-- [ ] T116 [P] frontend/src/ のすべてのコンポーネントと関数に JSDoc コメントを追加
-- [ ] T117 [P] backend/tests/ のテストカバレッジを確認（目標: 80% 以上、API は 100%）
-- [ ] T118 [P] frontend/tests/ のテストカバレッジを確認（目標: 80% 以上）
-- [ ] T118a [P] backend/tests/performance/test_startup_performance.py に 100 件ノート時の起動時間テストを追加（SC-004 検証: 3 秒以内）
+- [x] T115 [P] backend/src/ のすべてのモジュールに docstring を追加（Constitution III. 準拠）
+- [x] T116 [P] frontend/src/ のすべてのコンポーネントと関数に JSDoc コメントを追加
+- [x] T117 [P] backend/tests/ のテストカバレッジを確認（目標: 80% 以上、API は 100%）
+- [x] T118 [P] frontend/tests/ のテストカバレッジを確認（目標: 80% 以上）
+- [x] T118a [P] backend/tests/performance/test_startup_performance.py に 100 件ノート時の起動時間テストを追加（SC-004 検証: 3 秒以内）
 - [ ] T118b [P] frontend/tests/performance/wysiwyg_performance.spec.ts に WYSIWYG フォーマット反映時間テストを追加（SC-005 検証: 1 秒以内）
 - [ ] T118c [P] frontend/tests/performance/large_note_performance.spec.ts に 10,000 文字ノート編集時間テストを追加（SC-008 検証: 2 秒以内）
-- [ ] T119 [P] backend/ でセキュリティスキャンを実行（Bandit など）
-- [ ] T120 [P] frontend/ でセキュリティスキャンを実行（npm audit）
-- [ ] T121 backend/src/api/notes.py にレート制限を追加（オプション、将来的な DoS 対策）
+- [x] T119 [P] backend/ でセキュリティスキャンを実行（Bandit など）
+- [x] T120 [P] frontend/ でセキュリティスキャンを実行（npm audit）
+- [x] T121 backend/src/api/notes.py にレート制限を追加（オプション、将来的な DoS 対策）
 - [ ] T122 [P] frontend/src/components/ でアクセシビリティチェックを実行（axe-core）
-- [ ] T123 frontend/src/ でパフォーマンス最適化を実装（コード分割、React.lazy）
-- [ ] T124 backend/src/repositories/note_repository.py に MongoDB インデックスを作成（created_at、updated_at）
+- [x] T123 frontend/src/ でパフォーマンス最適化を実装（コード分割、React.lazy）
+- [x] T124 backend/src/repositories/note_repository.py に MongoDB インデックスを作成（created_at、updated_at）
 - [ ] T125 [P] specs/001-markdown-note-manager/quickstart.md の手順を検証（セットアップから起動まで）
-- [ ] T126 [P] README.md にプロジェクトの概要と基本的な使い方を記述
-- [ ] T127 コードクリーンアップとリファクタリング（重複コード削減、命名の一貫性）
-- [ ] T128 すべてのリンター・フォーマッターを最終実行（backend と frontend 両方）
-- [ ] T129 全テストスイートを実行して 100% 通過することを確認
+- [x] T126 [P] README.md にプロジェクトの概要と基本的な使い方を記述
+- [x] T127 コードクリーンアップとリファクタリング（重複コード削減、命名の一貫性）
+- [x] T128 すべてのリンター・フォーマッターを最終実行（backend と frontend 両方）
+- [x] T129 全テストスイートを実行して 100% 通過することを確認
 
 **最終チェックポイント**: すべてのユーザーストーリーが機能し、品質基準を満たしていることを確認
 
