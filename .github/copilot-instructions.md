@@ -69,7 +69,7 @@ Always respond in Japanese.
   - 例: `[Copilot] README.md の更新`
   - Conventional Commits 1.0.0 形式に従うこと
     - 例: `[Copilot] feat: ユーザー認証機能の追加`
-    - Conventional Commits の詳細は .github//conventional-commits.instructions.md を参照すること
+    - Conventional Commits の詳細は .github/instructions/conventional-commits.instructions.md を参照すること
   - 変更内容を簡潔かつ明確に記述すること
 
 ### エージェントプルリクエスト (PR)
