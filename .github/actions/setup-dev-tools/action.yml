@@ -32,12 +32,16 @@ runs:
       shell: bash
       run: |
         # ESLint for pre-commit (repo: local)
-        if [ -f package.json ]; then
+        if [ -f frontend/package.json ]; then
+            cd frontend && npm ci
+            # Add node_modules/.bin to PATH
+            echo "$(pwd)/node_modules/.bin" >> $GITHUB_PATH
+        elif [ -f package.json ]; then
             npm ci
             # Add node_modules/.bin to PATH
             echo "$(pwd)/node_modules/.bin" >> $GITHUB_PATH
         else
-            npm install -g eslint
+            npm install -g eslint@9
         fi
 
     - name: Setup tool - Terraform
