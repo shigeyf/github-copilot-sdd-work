@@ -375,9 +375,7 @@ test.describe("FR-019: 重複タイトルの自動番号付加", () => {
 // T011: US3-3 - キャンセルボタンの動作テスト
 // =============================================================================
 test.describe("US3-3: キャンセルボタンの動作", () => {
-  test("T011: キャンセルボタンで変更が破棄され一覧に戻る", async ({
-    page,
-  }) => {
+  test("T011: キャンセルボタンで変更が破棄され一覧に戻る", async ({ page }) => {
     // 準備: テスト用ノートを作成
     const res = await fetch("http://localhost:8000/notes", {
       method: "POST",
@@ -439,9 +437,7 @@ test.describe("US3-3: キャンセルボタンの動作", () => {
     await expect(page).toHaveURL("/");
 
     // ノートが作成されていないことを確認
-    await expect(
-      page.locator("text=キャンセルされるノート"),
-    ).not.toBeVisible();
+    await expect(page.locator("text=キャンセルされるノート")).not.toBeVisible();
   });
 });
 
@@ -460,16 +456,21 @@ test.describe("FR-008: 更新日時の UI 表示検証", () => {
       }),
     });
     const note = await res.json();
+    console.log(`Created test note with ID: ${note.id}`);
 
     // 一覧ページに移動して初期の更新日時を確認
     await page.goto("/");
 
     // ノート項目を探す
-    const noteItem = page.locator(`[data-testid="note-item"]:has-text("更新日時テスト")`);
+    const noteItem = page.locator(
+      `[data-testid="note-item"]:has-text("更新日時テスト")`,
+    );
     await expect(noteItem).toBeVisible();
 
     // 初期の更新日時テキストを取得
-    const initialUpdatedAt = await noteItem.locator("text=/更新日時|Updated/i").textContent();
+    const initialUpdatedAt = await noteItem
+      .locator("text=/更新日時|Updated/i")
+      .textContent();
 
     // 少し待機してから編集（更新日時が確実に変わるように）
     await page.waitForTimeout(1000);
@@ -488,10 +489,14 @@ test.describe("FR-008: 更新日時の UI 表示検証", () => {
     await expect(page).toHaveURL("/");
 
     // 更新日時が変更されていることを確認
-    const updatedNoteItem = page.locator(`[data-testid="note-item"]:has-text("更新日時テスト")`);
+    const updatedNoteItem = page.locator(
+      `[data-testid="note-item"]:has-text("更新日時テスト")`,
+    );
     await expect(updatedNoteItem).toBeVisible();
 
-    const newUpdatedAt = await updatedNoteItem.locator("text=/更新日時|Updated/i").textContent();
+    const newUpdatedAt = await updatedNoteItem
+      .locator("text=/更新日時|Updated/i")
+      .textContent();
 
     // 更新日時が変わっていることを確認（文字列比較）
     expect(newUpdatedAt).not.toBe(initialUpdatedAt);

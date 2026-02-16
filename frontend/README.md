@@ -80,6 +80,7 @@ npx playwright test tests/e2e/notes.spec.ts
 **テストファイルの場所**: `tests/e2e/`
 
 **前提条件**:
+
 - バックエンド API が `http://localhost:8000` で起動していること
 - MongoDB が起動していること
 
@@ -112,6 +113,7 @@ npx playwright test tests/performance/startup_performance.spec.ts
 **テストファイルの場所**: `tests/performance/`
 
 **検証項目**:
+
 - SC-003: プレビュー更新時間（500ms 以内）
 - SC-004: 大規模データでの起動時間（100 個のノートで 3 秒以内）
 - SC-005: WYSIWYG エディタのパフォーマンス

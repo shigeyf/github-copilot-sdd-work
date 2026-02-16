@@ -140,9 +140,10 @@ test.describe("SC-004: 大規模データでの起動時間", () => {
     const navigationTime = endTime - startTime;
 
     // ナビゲーションも 2 秒以内に完了すること
-    expect(navigationTime, `ナビゲーション時間: ${navigationTime}ms`).toBeLessThan(
-      2000,
-    );
+    expect(
+      navigationTime,
+      `ナビゲーション時間: ${navigationTime}ms`,
+    ).toBeLessThan(2000);
   });
 
   test("T010-4: 新規作成画面の表示も高速である", async ({ page }) => {
@@ -166,8 +167,9 @@ test.describe("SC-004: 大規模データでの起動時間", () => {
     const navigationTime = endTime - startTime;
 
     // 新規作成画面も 1 秒以内に表示されること
-    expect(navigationTime, `新規作成画面表示時間: ${navigationTime}ms`).toBeLessThan(
-      1000,
-    );
+    expect(
+      navigationTime,
+      `新規作成画面表示時間: ${navigationTime}ms`,
+    ).toBeLessThan(1000);
   });
 });

@@ -54,7 +54,7 @@ test.describe("FR-020: MongoDB 接続エラー表示", () => {
     // エラーメッセージが表示されることを検証
     // 「サーバーに接続できません」または類似のメッセージを検証
     const errorMessage = page.locator(
-      'text=/サーバーに接続できません|ノートを取得できませんでした|エラーが発生しました/i',
+      "text=/サーバーに接続できません|ノートを取得できませんでした|エラーが発生しました/i",
     );
     await expect(errorMessage).toBeVisible({ timeout: 10000 });
   });
@@ -83,7 +83,7 @@ test.describe("FR-020: MongoDB 接続エラー表示", () => {
 
     // エラーメッセージが表示されることを検証
     const errorMessage = page.locator(
-      'text=/ノートを取得できませんでした|エラーが発生しました|サーバーエラー/i',
+      "text=/ノートを取得できませんでした|エラーが発生しました|サーバーエラー/i",
     );
     await expect(errorMessage).toBeVisible({ timeout: 10000 });
   });
@@ -116,7 +116,7 @@ test.describe("FR-020: MongoDB 接続エラー表示", () => {
 
     // エラーメッセージが表示されることを検証
     const errorMessage = page.locator(
-      'text=/保存できませんでした|エラーが発生しました|作成に失敗/i',
+      "text=/保存できませんでした|エラーが発生しました|作成に失敗/i",
     );
     await expect(errorMessage).toBeVisible({ timeout: 10000 });
   });
@@ -164,7 +164,7 @@ test.describe("FR-020: MongoDB 接続エラー表示", () => {
 
     // エラーメッセージが表示されることを検証
     const errorMessage = page.locator(
-      'text=/削除できませんでした|エラーが発生しました|削除に失敗/i',
+      "text=/削除できませんでした|エラーが発生しました|削除に失敗/i",
     );
     await expect(errorMessage).toBeVisible({ timeout: 10000 });
   });

@@ -80,9 +80,9 @@ test.describe("SC-003: プレビュー更新パフォーマンス", () => {
     await expect(preview.locator("ul > li").first()).toContainText(
       "リスト項目1",
     );
-    await expect(preview.locator('a[href="https://example.com"]')).toContainText(
-      "リンク",
-    );
+    await expect(
+      preview.locator('a[href="https://example.com"]'),
+    ).toContainText("リンク");
   });
 
   test("T009-2: 複数回の入力でもプレビューが一貫して高速更新される", async ({

@@ -25,7 +25,7 @@ import type { Page, Route } from "@playwright/test";
  * await createBulkNotes(50);
  * ```
  */
-export async function createBulkNotes(
+export function createBulkNotes(
   count: number = 100,
   baseUrl: string = "http://localhost:8000",
 ): Promise<unknown[]> {
@@ -85,10 +85,10 @@ export async function cleanupNotes(
  * await simulateNetworkError(page);
  *
  * // GET /notes のみエラーをシミュレート
- * await simulateNetworkError(page, "**/notes", "GET");
+ * await simulateNetworkError(page, "/notes", "GET");
  *
  * // POST /notes のみエラーをシミュレート
- * await simulateNetworkError(page, "**/notes", "POST");
+ * await simulateNetworkError(page, "/notes", "POST");
  * ```
  */
 export async function simulateNetworkError(
@@ -117,10 +117,10 @@ export async function simulateNetworkError(
  * @example
  * ```typescript
  * // GET /notes で 500 エラーをシミュレート
- * await simulateServerError(page, "**/notes", "GET");
+ * await simulateServerError(page, "/notes", "GET");
  *
  * // POST /notes で 500 エラーをシミュレート
- * await simulateServerError(page, "**/notes", "POST", 500, "Failed to create note");
+ * await simulateServerError(page, "/notes", "POST", 500, "Failed to create note");
  * ```
  */
 export async function simulateServerError(
