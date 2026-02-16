@@ -143,9 +143,7 @@ class TestGetNotesEmpty:
 
             app = create_app()
             transport = ASGITransport(app=app)
-            async with AsyncClient(
-                transport=transport, base_url="http://test"
-            ) as client:
+            async with AsyncClient(transport=transport, base_url="http://test") as client:
                 response = await client.get("/notes")
 
             data = response.json()
@@ -226,9 +224,7 @@ class TestPostNotes:
 
             app = create_app()
             transport = ASGITransport(app=app)
-            async with AsyncClient(
-                transport=transport, base_url="http://test"
-            ) as client:
+            async with AsyncClient(transport=transport, base_url="http://test") as client:
                 response = await client.post(
                     "/notes",
                     json={"title": "新しいノート", "content": "# テスト"},
@@ -259,9 +255,7 @@ class TestPostNotes:
 
             app = create_app()
             transport = ASGITransport(app=app)
-            async with AsyncClient(
-                transport=transport, base_url="http://test"
-            ) as client:
+            async with AsyncClient(transport=transport, base_url="http://test") as client:
                 response = await client.post(
                     "/notes",
                     json={"title": "テスト", "content": ""},
@@ -294,9 +288,7 @@ class TestPostNotes:
 
             app = create_app()
             transport = ASGITransport(app=app)
-            async with AsyncClient(
-                transport=transport, base_url="http://test"
-            ) as client:
+            async with AsyncClient(transport=transport, base_url="http://test") as client:
                 response = await client.post(
                     "/notes",
                     json={"title": "テスト", "content": "# 本文"},
@@ -329,9 +321,7 @@ class TestPostNotes:
 
             app = create_app()
             transport = ASGITransport(app=app)
-            async with AsyncClient(
-                transport=transport, base_url="http://test"
-            ) as client:
+            async with AsyncClient(transport=transport, base_url="http://test") as client:
                 response = await client.post(
                     "/notes",
                     json={"title": "", "content": ""},
@@ -360,9 +350,7 @@ class TestPostNotes:
 
             app = create_app()
             transport = ASGITransport(app=app)
-            async with AsyncClient(
-                transport=transport, base_url="http://test"
-            ) as client:
+            async with AsyncClient(transport=transport, base_url="http://test") as client:
                 response = await client.post(
                     "/notes",
                     json={"title": "   ", "content": ""},
@@ -404,9 +392,7 @@ class TestPostNotesDuplicateTitle:
 
             app = create_app()
             transport = ASGITransport(app=app)
-            async with AsyncClient(
-                transport=transport, base_url="http://test"
-            ) as client:
+            async with AsyncClient(transport=transport, base_url="http://test") as client:
                 response = await client.post(
                     "/notes",
                     json={"title": "テスト", "content": ""},
@@ -460,12 +446,8 @@ class TestGetNote:
 
             app = create_app()
             transport = ASGITransport(app=app)
-            async with AsyncClient(
-                transport=transport, base_url="http://test"
-            ) as client:
-                response = await client.get(
-                    "/notes/550e8400-e29b-41d4-a716-446655440001"
-                )
+            async with AsyncClient(transport=transport, base_url="http://test") as client:
+                response = await client.get("/notes/550e8400-e29b-41d4-a716-446655440001")
 
             assert response.status_code == 200
 
@@ -491,12 +473,8 @@ class TestGetNote:
 
             app = create_app()
             transport = ASGITransport(app=app)
-            async with AsyncClient(
-                transport=transport, base_url="http://test"
-            ) as client:
-                response = await client.get(
-                    "/notes/550e8400-e29b-41d4-a716-446655440001"
-                )
+            async with AsyncClient(transport=transport, base_url="http://test") as client:
+                response = await client.get("/notes/550e8400-e29b-41d4-a716-446655440001")
 
             data = response.json()
             assert data["id"] == "550e8400-e29b-41d4-a716-446655440001"
@@ -526,9 +504,7 @@ class TestGetNote:
 
             app = create_app()
             transport = ASGITransport(app=app)
-            async with AsyncClient(
-                transport=transport, base_url="http://test"
-            ) as client:
+            async with AsyncClient(transport=transport, base_url="http://test") as client:
                 response = await client.get("/notes/non-existent-id")
 
             assert response.status_code == 404
@@ -560,9 +536,7 @@ class TestPutNote:
 
             app = create_app()
             transport = ASGITransport(app=app)
-            async with AsyncClient(
-                transport=transport, base_url="http://test"
-            ) as client:
+            async with AsyncClient(transport=transport, base_url="http://test") as client:
                 response = await client.put(
                     "/notes/550e8400-e29b-41d4-a716-446655440001",
                     json={"title": "更新後タイトル"},
@@ -597,9 +571,7 @@ class TestPutNote:
 
             app = create_app()
             transport = ASGITransport(app=app)
-            async with AsyncClient(
-                transport=transport, base_url="http://test"
-            ) as client:
+            async with AsyncClient(transport=transport, base_url="http://test") as client:
                 response = await client.put(
                     "/notes/550e8400-e29b-41d4-a716-446655440001",
                     json={"title": "更新後タイトル", "content": "更新後本文"},
@@ -630,9 +602,7 @@ class TestPutNote:
 
             app = create_app()
             transport = ASGITransport(app=app)
-            async with AsyncClient(
-                transport=transport, base_url="http://test"
-            ) as client:
+            async with AsyncClient(transport=transport, base_url="http://test") as client:
                 response = await client.put(
                     "/notes/non-existent-id",
                     json={"title": "更新"},
@@ -646,9 +616,7 @@ def _create_mock_collection_for_delete(
 ) -> MagicMock:
     """DELETE /notes/{note_id} テスト用のモック MongoDB コレクションを作成する"""
     collection = MagicMock()
-    collection.delete_one = AsyncMock(
-        return_value=MagicMock(deleted_count=deleted_count)
-    )
+    collection.delete_one = AsyncMock(return_value=MagicMock(deleted_count=deleted_count))
     return collection
 
 
@@ -676,12 +644,8 @@ class TestDeleteNote:
 
             app = create_app()
             transport = ASGITransport(app=app)
-            async with AsyncClient(
-                transport=transport, base_url="http://test"
-            ) as client:
-                response = await client.delete(
-                    "/notes/550e8400-e29b-41d4-a716-446655440001"
-                )
+            async with AsyncClient(transport=transport, base_url="http://test") as client:
+                response = await client.delete("/notes/550e8400-e29b-41d4-a716-446655440001")
 
             assert response.status_code == 204
 
@@ -706,9 +670,7 @@ class TestDeleteNote:
 
             app = create_app()
             transport = ASGITransport(app=app)
-            async with AsyncClient(
-                transport=transport, base_url="http://test"
-            ) as client:
+            async with AsyncClient(transport=transport, base_url="http://test") as client:
                 response = await client.delete("/notes/non-existent-id")
 
             assert response.status_code == 404

@@ -4,25 +4,25 @@
  * 既存のノートデータをロードし、NoteEditor を使って編集する。
  * 保存後に一覧画面へ遷移する。
  */
-import { useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import NoteEditor from '../components/NoteEditor'
-import DeleteConfirmDialog from '../components/DeleteConfirmDialog'
-import UnsavedChangesDialog from '../components/UnsavedChangesDialog'
-import { useNote, useUpdateNote, useDeleteNote } from '../hooks/useNotes'
-import { useUnsavedChanges } from '../hooks/useUnsavedChanges'
-import type { CreateNoteRequest } from '../types/note'
+import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import NoteEditor from "../components/NoteEditor";
+import DeleteConfirmDialog from "../components/DeleteConfirmDialog";
+import UnsavedChangesDialog from "../components/UnsavedChangesDialog";
+import { useNote, useUpdateNote, useDeleteNote } from "../hooks/useNotes";
+import { useUnsavedChanges } from "../hooks/useUnsavedChanges";
+import type { CreateNoteRequest } from "../types/note";
 
 /**
  * ノート編集ページコンポーネント
  */
 function EditNotePage() {
-  const { id } = useParams<{ id: string }>()
-  const navigate = useNavigate()
-  const { data: note, isLoading, isError, error } = useNote(id ?? '')
-  const updateNote = useUpdateNote()
-  const deleteNote = useDeleteNote()
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const { data: note, isLoading, isError, error } = useNote(id ?? "");
+  const updateNote = useUpdateNote();
+  const deleteNote = useDeleteNote();
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const {
     hasUnsavedChanges,
     setHasUnsavedChanges,
@@ -31,58 +31,58 @@ function EditNotePage() {
     confirmDiscard,
     openDialog,
     setPendingNavigation,
-  } = useUnsavedChanges()
+  } = useUnsavedChanges();
 
   const handleSave = (data: CreateNoteRequest) => {
-    if (!id) return
+    if (!id) return;
     updateNote.mutate(
       { noteId: id, data: { title: data.title, content: data.content } },
       {
         onSuccess: () => {
-          setHasUnsavedChanges(false)
-          navigate('/')
+          setHasUnsavedChanges(false);
+          navigate("/");
         },
       },
-    )
-  }
+    );
+  };
 
   const handleBack = () => {
     if (hasUnsavedChanges) {
-      setPendingNavigation(() => navigate('/'))
-      openDialog()
+      setPendingNavigation(() => navigate("/"));
+      openDialog();
     } else {
-      navigate('/')
+      navigate("/");
     }
-  }
+  };
 
   const handleChange = () => {
-    setHasUnsavedChanges(true)
-  }
+    setHasUnsavedChanges(true);
+  };
 
   const handleDelete = () => {
-    setShowDeleteDialog(true)
-  }
+    setShowDeleteDialog(true);
+  };
 
   const handleDeleteConfirm = () => {
-    if (!id) return
+    if (!id) return;
     deleteNote.mutate(id, {
       onSuccess: () => {
-        setShowDeleteDialog(false)
-        navigate('/')
+        setShowDeleteDialog(false);
+        navigate("/");
       },
-    })
-  }
+    });
+  };
 
   const handleDeleteCancel = () => {
-    setShowDeleteDialog(false)
-  }
+    setShowDeleteDialog(false);
+  };
 
   if (isLoading) {
     return (
       <div className="text-center py-12 text-gray-500">
         <p>読み込み中...</p>
       </div>
-    )
+    );
   }
 
   if (isError) {
@@ -90,10 +90,12 @@ function EditNotePage() {
       <div className="text-center py-12 text-red-500">
         <p>エラーが発生しました</p>
         <p className="text-sm mt-2">
-          {error instanceof Error ? error.message : 'ノートの取得に失敗しました'}
+          {error instanceof Error
+            ? error.message
+            : "ノートの取得に失敗しました"}
         </p>
       </div>
-    )
+    );
   }
 
   if (!note) {
@@ -101,7 +103,7 @@ function EditNotePage() {
       <div className="text-center py-12 text-gray-500">
         <p>ノートが見つかりません</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -144,7 +146,11 @@ function EditNotePage() {
           onChange={handleChange}
         />
       </div>
-      <UnsavedChangesDialog isOpen={showDialog} onCancel={closeDialog} onDiscard={confirmDiscard} />
+      <UnsavedChangesDialog
+        isOpen={showDialog}
+        onCancel={closeDialog}
+        onDiscard={confirmDiscard}
+      />
       <DeleteConfirmDialog
         isOpen={showDeleteDialog}
         noteTitle={note.title}
@@ -153,7 +159,7 @@ function EditNotePage() {
         isDeleting={deleteNote.isPending}
       />
     </div>
-  )
+  );
 }
 
-export default EditNotePage
+export default EditNotePage;

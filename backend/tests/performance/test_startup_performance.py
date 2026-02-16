@@ -93,6 +93,4 @@ async def test_startup_performance_with_100_notes() -> None:
         elapsed_time = time.perf_counter() - start_time
 
         # 3秒以内であることを検証
-        assert (
-            elapsed_time < 3.0
-        ), f"起動とレスポンスに {elapsed_time:.2f} 秒かかりました（目標: 3秒以内）"
+        assert elapsed_time < 3.0, f"起動とレスポンスに {elapsed_time:.2f} 秒かかりました（目標: 3秒以内）"

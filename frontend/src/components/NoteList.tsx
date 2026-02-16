@@ -3,63 +3,65 @@
  *
  * ノートのリストを表示し、各ノートのタイトル、作成日時、最終更新日時を表示する。
  */
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import type { Note } from '../types/note'
-import { useDeleteNote } from '../hooks/useNotes'
-import DeleteConfirmDialog from './DeleteConfirmDialog'
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import type { Note } from "../types/note";
+import { useDeleteNote } from "../hooks/useNotes";
+import DeleteConfirmDialog from "./DeleteConfirmDialog";
 
 interface NoteListProps {
   /** 表示するノートの配列 */
-  notes: Note[]
+  notes: Note[];
 }
 
 /**
  * 日時文字列をフォーマットする
  */
 function formatDateTime(dateString: string): string {
-  const date = new Date(dateString)
-  return date.toLocaleString('ja-JP', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-  })
+  const date = new Date(dateString);
+  return date.toLocaleString("ja-JP", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }
 
 /**
  * ノート一覧を表示するコンポーネント
  */
 function NoteList({ notes }: NoteListProps) {
-  const deleteNote = useDeleteNote()
-  const [deleteTarget, setDeleteTarget] = useState<Note | null>(null)
+  const deleteNote = useDeleteNote();
+  const [deleteTarget, setDeleteTarget] = useState<Note | null>(null);
 
   const handleDeleteClick = (e: React.MouseEvent, note: Note) => {
-    e.preventDefault()
-    setDeleteTarget(note)
-  }
+    e.preventDefault();
+    setDeleteTarget(note);
+  };
 
   const handleDeleteConfirm = () => {
-    if (!deleteTarget) return
+    if (!deleteTarget) return;
     deleteNote.mutate(deleteTarget.id, {
       onSuccess: () => {
-        setDeleteTarget(null)
+        setDeleteTarget(null);
       },
-    })
-  }
+    });
+  };
 
   const handleDeleteCancel = () => {
-    setDeleteTarget(null)
-  }
+    setDeleteTarget(null);
+  };
 
   if (notes.length === 0) {
     return (
       <div className="text-center py-12 text-gray-500">
         <p className="text-lg">ノートがありません</p>
-        <p className="text-sm mt-2">「新規作成」ボタンをクリックして最初のノートを作成しましょう</p>
+        <p className="text-sm mt-2">
+          「新規作成」ボタンをクリックして最初のノートを作成しましょう
+        </p>
       </div>
-    )
+    );
   }
 
   return (
@@ -70,7 +72,9 @@ function NoteList({ notes }: NoteListProps) {
             <div className="flex items-center justify-between px-4 py-4 hover:bg-gray-50 transition-colors">
               <Link to={`/notes/${note.id}/edit`} className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-medium text-gray-900 truncate">{note.title}</h3>
+                  <h3 className="text-lg font-medium text-gray-900 truncate">
+                    {note.title}
+                  </h3>
                 </div>
                 <div className="mt-1 flex items-center gap-4 text-sm text-gray-500">
                   <span>作成: {formatDateTime(note.created_at)}</span>
@@ -90,13 +94,13 @@ function NoteList({ notes }: NoteListProps) {
       </ul>
       <DeleteConfirmDialog
         isOpen={deleteTarget !== null}
-        noteTitle={deleteTarget?.title ?? ''}
+        noteTitle={deleteTarget?.title ?? ""}
         onCancel={handleDeleteCancel}
         onConfirm={handleDeleteConfirm}
         isDeleting={deleteNote.isPending}
       />
     </>
-  )
+  );
 }
 
-export default NoteList
+export default NoteList;

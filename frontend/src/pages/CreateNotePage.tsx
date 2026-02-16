@@ -3,19 +3,19 @@
  *
  * NoteEditor を表示し、保存後に一覧画面へ遷移する。
  */
-import { useNavigate } from 'react-router-dom'
-import NoteEditor from '../components/NoteEditor'
-import UnsavedChangesDialog from '../components/UnsavedChangesDialog'
-import { useCreateNote } from '../hooks/useNotes'
-import { useUnsavedChanges } from '../hooks/useUnsavedChanges'
-import type { CreateNoteRequest } from '../types/note'
+import { useNavigate } from "react-router-dom";
+import NoteEditor from "../components/NoteEditor";
+import UnsavedChangesDialog from "../components/UnsavedChangesDialog";
+import { useCreateNote } from "../hooks/useNotes";
+import { useUnsavedChanges } from "../hooks/useUnsavedChanges";
+import type { CreateNoteRequest } from "../types/note";
 
 /**
  * ノート作成ページコンポーネント
  */
 function CreateNotePage() {
-  const navigate = useNavigate()
-  const createNote = useCreateNote()
+  const navigate = useNavigate();
+  const createNote = useCreateNote();
   const {
     hasUnsavedChanges,
     setHasUnsavedChanges,
@@ -24,29 +24,29 @@ function CreateNotePage() {
     confirmDiscard,
     openDialog,
     setPendingNavigation,
-  } = useUnsavedChanges()
+  } = useUnsavedChanges();
 
   const handleSave = (data: CreateNoteRequest) => {
     createNote.mutate(data, {
       onSuccess: () => {
-        setHasUnsavedChanges(false)
-        navigate('/')
+        setHasUnsavedChanges(false);
+        navigate("/");
       },
-    })
-  }
+    });
+  };
 
   const handleBack = () => {
     if (hasUnsavedChanges) {
-      setPendingNavigation(() => navigate('/'))
-      openDialog()
+      setPendingNavigation(() => navigate("/"));
+      openDialog();
     } else {
-      navigate('/')
+      navigate("/");
     }
-  }
+  };
 
   const handleChange = () => {
-    setHasUnsavedChanges(true)
-  }
+    setHasUnsavedChanges(true);
+  };
 
   return (
     <div>
@@ -66,11 +66,19 @@ function CreateNotePage() {
         </div>
       )}
       <div className="bg-white shadow rounded-lg p-6">
-        <NoteEditor onSave={handleSave} isSaving={createNote.isPending} onChange={handleChange} />
+        <NoteEditor
+          onSave={handleSave}
+          isSaving={createNote.isPending}
+          onChange={handleChange}
+        />
       </div>
-      <UnsavedChangesDialog isOpen={showDialog} onCancel={closeDialog} onDiscard={confirmDiscard} />
+      <UnsavedChangesDialog
+        isOpen={showDialog}
+        onCancel={closeDialog}
+        onDiscard={confirmDiscard}
+      />
     </div>
-  )
+  );
 }
 
-export default CreateNotePage
+export default CreateNotePage;

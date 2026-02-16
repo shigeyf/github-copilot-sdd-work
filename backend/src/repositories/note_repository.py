@@ -53,12 +53,7 @@ class NoteRepository:
         total = await self._collection.count_documents({})
 
         # ノート一覧を取得
-        cursor = (
-            self._collection.find()
-            .sort(sort_by, sort_direction)
-            .skip(skip)
-            .limit(limit)
-        )
+        cursor = self._collection.find().sort(sort_by, sort_direction).skip(skip).limit(limit)
         docs = await cursor.to_list(length=limit)
 
         # MongoDB ドキュメントを NoteInDB モデルに変換

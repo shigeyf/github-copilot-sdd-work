@@ -3,131 +3,143 @@
  *
  * 入力、バリデーション、保存ボタンの動作を検証する。
  */
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { describe, it, expect, vi } from 'vitest'
-import { BrowserRouter } from 'react-router-dom'
-import NoteEditor from '../../../src/components/NoteEditor'
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { describe, it, expect, vi } from "vitest";
+import { BrowserRouter } from "react-router-dom";
+import NoteEditor from "../../../src/components/NoteEditor";
 
 /**
  * NoteEditor をラップして BrowserRouter を提供する
  */
 function renderWithRouter(ui: React.ReactElement) {
-  return render(<BrowserRouter>{ui}</BrowserRouter>)
+  return render(<BrowserRouter>{ui}</BrowserRouter>);
 }
 
-describe('NoteEditor', () => {
-  it('タイトル入力フィールドが表示されること', () => {
-    renderWithRouter(<NoteEditor onSave={vi.fn()} />)
+describe("NoteEditor", () => {
+  it("タイトル入力フィールドが表示されること", () => {
+    renderWithRouter(<NoteEditor onSave={vi.fn()} />);
 
-    expect(screen.getByLabelText('タイトル')).toBeInTheDocument()
-  })
+    expect(screen.getByLabelText("タイトル")).toBeInTheDocument();
+  });
 
-  it('本文入力フィールドが表示されること', () => {
-    renderWithRouter(<NoteEditor onSave={vi.fn()} />)
+  it("本文入力フィールドが表示されること", () => {
+    renderWithRouter(<NoteEditor onSave={vi.fn()} />);
 
-    expect(screen.getByLabelText('本文')).toBeInTheDocument()
-  })
+    expect(screen.getByLabelText("本文")).toBeInTheDocument();
+  });
 
-  it('保存ボタンが表示されること', () => {
-    renderWithRouter(<NoteEditor onSave={vi.fn()} />)
+  it("保存ボタンが表示されること", () => {
+    renderWithRouter(<NoteEditor onSave={vi.fn()} />);
 
-    expect(screen.getByRole('button', { name: '保存' })).toBeInTheDocument()
-  })
+    expect(screen.getByRole("button", { name: "保存" })).toBeInTheDocument();
+  });
 
-  it('タイトルが空の場合、保存ボタンが無効であること', () => {
-    renderWithRouter(<NoteEditor onSave={vi.fn()} />)
+  it("タイトルが空の場合、保存ボタンが無効であること", () => {
+    renderWithRouter(<NoteEditor onSave={vi.fn()} />);
 
-    const saveButton = screen.getByRole('button', { name: '保存' })
-    expect(saveButton).toBeDisabled()
-  })
+    const saveButton = screen.getByRole("button", { name: "保存" });
+    expect(saveButton).toBeDisabled();
+  });
 
-  it('タイトルを入力すると保存ボタンが有効になること', async () => {
-    const user = userEvent.setup()
-    renderWithRouter(<NoteEditor onSave={vi.fn()} />)
+  it("タイトルを入力すると保存ボタンが有効になること", async () => {
+    const user = userEvent.setup();
+    renderWithRouter(<NoteEditor onSave={vi.fn()} />);
 
-    const titleInput = screen.getByLabelText('タイトル')
-    await user.type(titleInput, 'テストタイトル')
+    const titleInput = screen.getByLabelText("タイトル");
+    await user.type(titleInput, "テストタイトル");
 
-    const saveButton = screen.getByRole('button', { name: '保存' })
-    expect(saveButton).toBeEnabled()
-  })
+    const saveButton = screen.getByRole("button", { name: "保存" });
+    expect(saveButton).toBeEnabled();
+  });
 
-  it('保存ボタンをクリックすると onSave が呼ばれること', async () => {
-    const user = userEvent.setup()
-    const onSave = vi.fn()
-    renderWithRouter(<NoteEditor onSave={onSave} />)
+  it("保存ボタンをクリックすると onSave が呼ばれること", async () => {
+    const user = userEvent.setup();
+    const onSave = vi.fn();
+    renderWithRouter(<NoteEditor onSave={onSave} />);
 
-    const titleInput = screen.getByLabelText('タイトル')
-    await user.type(titleInput, 'テストタイトル')
+    const titleInput = screen.getByLabelText("タイトル");
+    await user.type(titleInput, "テストタイトル");
 
-    const contentInput = screen.getByLabelText('本文')
-    await user.type(contentInput, '# テスト本文')
+    const contentInput = screen.getByLabelText("本文");
+    await user.type(contentInput, "# テスト本文");
 
-    const saveButton = screen.getByRole('button', { name: '保存' })
-    await user.click(saveButton)
+    const saveButton = screen.getByRole("button", { name: "保存" });
+    await user.click(saveButton);
 
     expect(onSave).toHaveBeenCalledWith({
-      title: 'テストタイトル',
-      content: '# テスト本文',
-    })
-  })
+      title: "テストタイトル",
+      content: "# テスト本文",
+    });
+  });
 
-  it('初期値が正しく表示されること', () => {
+  it("初期値が正しく表示されること", () => {
     renderWithRouter(
-      <NoteEditor onSave={vi.fn()} initialTitle="初期タイトル" initialContent="初期本文" />,
-    )
+      <NoteEditor
+        onSave={vi.fn()}
+        initialTitle="初期タイトル"
+        initialContent="初期本文"
+      />,
+    );
 
-    expect(screen.getByLabelText('タイトル')).toHaveValue('初期タイトル')
-    expect(screen.getByLabelText('本文')).toHaveValue('初期本文')
-  })
+    expect(screen.getByLabelText("タイトル")).toHaveValue("初期タイトル");
+    expect(screen.getByLabelText("本文")).toHaveValue("初期本文");
+  });
 
-  it('読み込み中は保存ボタンが無効であること', async () => {
-    const user = userEvent.setup()
-    renderWithRouter(<NoteEditor onSave={vi.fn()} isSaving={true} />)
+  it("読み込み中は保存ボタンが無効であること", async () => {
+    const user = userEvent.setup();
+    renderWithRouter(<NoteEditor onSave={vi.fn()} isSaving={true} />);
 
-    const titleInput = screen.getByLabelText('タイトル')
-    await user.type(titleInput, 'テスト')
+    const titleInput = screen.getByLabelText("タイトル");
+    await user.type(titleInput, "テスト");
 
-    const saveButton = screen.getByRole('button', { name: '保存中...' })
-    expect(saveButton).toBeDisabled()
-  })
+    const saveButton = screen.getByRole("button", { name: "保存中..." });
+    expect(saveButton).toBeDisabled();
+  });
 
-  it('Markdownモードでプレビューパネルが表示されること', () => {
-    renderWithRouter(<NoteEditor onSave={vi.fn()} initialContent="# テスト" />)
+  it("Markdownモードでプレビューパネルが表示されること", () => {
+    renderWithRouter(<NoteEditor onSave={vi.fn()} initialContent="# テスト" />);
 
-    expect(screen.getByLabelText('プレビューパネル')).toBeInTheDocument()
-  })
+    expect(screen.getByLabelText("プレビューパネル")).toBeInTheDocument();
+  });
 
-  it('プレビュー非表示ボタンをクリックするとプレビューが非表示になること', async () => {
-    const user = userEvent.setup()
-    renderWithRouter(<NoteEditor onSave={vi.fn()} initialContent="# テスト" />)
+  it("プレビュー非表示ボタンをクリックするとプレビューが非表示になること", async () => {
+    const user = userEvent.setup();
+    renderWithRouter(<NoteEditor onSave={vi.fn()} initialContent="# テスト" />);
 
-    const toggleButton = screen.getByRole('button', { name: 'プレビューを非表示' })
-    await user.click(toggleButton)
+    const toggleButton = screen.getByRole("button", {
+      name: "プレビューを非表示",
+    });
+    await user.click(toggleButton);
 
-    expect(screen.queryByLabelText('プレビューパネル')).not.toBeInTheDocument()
-  })
+    expect(screen.queryByLabelText("プレビューパネル")).not.toBeInTheDocument();
+  });
 
-  it('プレビュー表示ボタンをクリックするとプレビューが再表示されること', async () => {
-    const user = userEvent.setup()
-    renderWithRouter(<NoteEditor onSave={vi.fn()} initialContent="# テスト" />)
+  it("プレビュー表示ボタンをクリックするとプレビューが再表示されること", async () => {
+    const user = userEvent.setup();
+    renderWithRouter(<NoteEditor onSave={vi.fn()} initialContent="# テスト" />);
 
     // プレビューを非表示にする
-    await user.click(screen.getByRole('button', { name: 'プレビューを非表示' }))
+    await user.click(
+      screen.getByRole("button", { name: "プレビューを非表示" }),
+    );
     // プレビューを再表示する
-    await user.click(screen.getByRole('button', { name: 'プレビューを表示' }))
+    await user.click(screen.getByRole("button", { name: "プレビューを表示" }));
 
-    expect(screen.getByLabelText('プレビューパネル')).toBeInTheDocument()
-  })
+    expect(screen.getByLabelText("プレビューパネル")).toBeInTheDocument();
+  });
 
-  it('WYSIWYGモードではプレビュー切り替えボタンが非表示であること', async () => {
-    const user = userEvent.setup()
-    renderWithRouter(<NoteEditor onSave={vi.fn()} />)
+  it("WYSIWYGモードではプレビュー切り替えボタンが非表示であること", async () => {
+    const user = userEvent.setup();
+    renderWithRouter(<NoteEditor onSave={vi.fn()} />);
 
-    await user.click(screen.getByRole('button', { name: 'WYSIWYGモード' }))
+    await user.click(screen.getByRole("button", { name: "WYSIWYGモード" }));
 
-    expect(screen.queryByRole('button', { name: 'プレビューを非表示' })).not.toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: 'プレビューを表示' })).not.toBeInTheDocument()
-  })
-})
+    expect(
+      screen.queryByRole("button", { name: "プレビューを非表示" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "プレビューを表示" }),
+    ).not.toBeInTheDocument();
+  });
+});

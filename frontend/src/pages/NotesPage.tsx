@@ -3,22 +3,22 @@
  *
  * ノートの一覧を表示し、空状態メッセージも管理する。
  */
-import { Link } from 'react-router-dom'
-import { useNotes } from '../hooks/useNotes'
-import NoteList from '../components/NoteList'
+import { Link } from "react-router-dom";
+import { useNotes } from "../hooks/useNotes";
+import NoteList from "../components/NoteList";
 
 /**
  * ノート一覧ページコンポーネント
  */
 function NotesPage() {
-  const { data, isLoading, isError, error } = useNotes()
+  const { data, isLoading, isError, error } = useNotes();
 
   if (isLoading) {
     return (
       <div className="text-center py-12 text-gray-500">
         <p>読み込み中...</p>
       </div>
-    )
+    );
   }
 
   if (isError) {
@@ -26,13 +26,15 @@ function NotesPage() {
       <div className="text-center py-12 text-red-500">
         <p>エラーが発生しました</p>
         <p className="text-sm mt-2">
-          {error instanceof Error ? error.message : 'ノートの取得に失敗しました'}
+          {error instanceof Error
+            ? error.message
+            : "ノートの取得に失敗しました"}
         </p>
       </div>
-    )
+    );
   }
 
-  const notes = data?.notes ?? []
+  const notes = data?.notes ?? [];
 
   return (
     <div>
@@ -49,7 +51,7 @@ function NotesPage() {
         <NoteList notes={notes} />
       </div>
     </div>
-  )
+  );
 }
 
-export default NotesPage
+export default NotesPage;

@@ -4,12 +4,12 @@
  * Markdown テキストをリアルタイムでレンダリングし、プレビュー表示する。
  * react-markdown のデフォルトサニタイズにより XSS 対策を実施。
  */
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface MarkdownPreviewProps {
   /** プレビューする Markdown テキスト */
-  content: string
+  content: string;
 }
 
 /**
@@ -20,14 +20,19 @@ interface MarkdownPreviewProps {
  */
 function MarkdownPreview({ content }: MarkdownPreviewProps) {
   return (
-    <div className="markdown-preview prose prose-sm max-w-none" data-testid="markdown-preview">
+    <div
+      className="markdown-preview prose prose-sm max-w-none"
+      data-testid="markdown-preview"
+    >
       {content ? (
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
       ) : (
-        <p className="text-gray-500 italic">プレビューするコンテンツがありません</p>
+        <p className="text-gray-500 italic">
+          プレビューするコンテンツがありません
+        </p>
       )}
     </div>
-  )
+  );
 }
 
-export default MarkdownPreview
+export default MarkdownPreview;

@@ -3,19 +3,19 @@
  */
 export interface Note {
   /** ノートの一意識別子 (UUID v4) */
-  id: string
+  id: string;
 
   /** ノートのタイトル */
-  title: string
+  title: string;
 
   /** Markdown 形式の本文 */
-  content: string
+  content: string;
 
   /** 作成日時 (ISO 8601 文字列) */
-  created_at: string
+  created_at: string;
 
   /** 最終更新日時 (ISO 8601 文字列) */
-  updated_at: string
+  updated_at: string;
 }
 
 /**
@@ -23,10 +23,10 @@ export interface Note {
  */
 export interface CreateNoteRequest {
   /** ノートのタイトル */
-  title: string
+  title: string;
 
   /** Markdown 形式の本文 (任意) */
-  content?: string
+  content?: string;
 }
 
 /**
@@ -34,10 +34,10 @@ export interface CreateNoteRequest {
  */
 export interface UpdateNoteRequest {
   /** ノートのタイトル (任意) */
-  title?: string
+  title?: string;
 
   /** Markdown 形式の本文 (任意) */
-  content?: string
+  content?: string;
 }
 
 /**
@@ -45,16 +45,16 @@ export interface UpdateNoteRequest {
  */
 export interface ListNotesParams {
   /** ソート順 (created_at または updated_at) */
-  sort_by?: 'created_at' | 'updated_at'
+  sort_by?: "created_at" | "updated_at";
 
   /** ソート方向 (asc または desc) */
-  order?: 'asc' | 'desc'
+  order?: "asc" | "desc";
 
   /** ページネーション: スキップする件数 */
-  skip?: number
+  skip?: number;
 
   /** ページネーション: 取得する件数 */
-  limit?: number
+  limit?: number;
 }
 
 /**
@@ -62,14 +62,14 @@ export interface ListNotesParams {
  */
 export interface ListNotesResponse {
   /** ノートの配列 */
-  notes: Note[]
+  notes: Note[];
 
   /** 全ノート数 */
-  total: number
+  total: number;
 
   /** スキップした件数 */
-  skip: number
+  skip: number;
 
   /** 取得した件数 */
-  limit: number
+  limit: number;
 }

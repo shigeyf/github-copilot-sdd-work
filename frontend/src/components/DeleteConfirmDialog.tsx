@@ -6,19 +6,19 @@
 
 interface DeleteConfirmDialogProps {
   /** ダイアログを表示するかどうか */
-  isOpen: boolean
+  isOpen: boolean;
 
   /** 削除対象のノートタイトル */
-  noteTitle: string
+  noteTitle: string;
 
   /** 「キャンセル」ボタンクリック時のコールバック */
-  onCancel: () => void
+  onCancel: () => void;
 
   /** 「削除」ボタンクリック時のコールバック */
-  onConfirm: () => void
+  onConfirm: () => void;
 
   /** 削除処理中かどうか */
-  isDeleting?: boolean
+  isDeleting?: boolean;
 }
 
 /**
@@ -32,7 +32,7 @@ function DeleteConfirmDialog({
   isDeleting = false,
 }: DeleteConfirmDialogProps) {
   if (!isOpen) {
-    return null
+    return null;
   }
 
   return (
@@ -43,7 +43,10 @@ function DeleteConfirmDialog({
       aria-labelledby="delete-confirm-title"
     >
       <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4 p-6">
-        <h3 id="delete-confirm-title" className="text-lg font-semibold text-gray-900 mb-2">
+        <h3
+          id="delete-confirm-title"
+          className="text-lg font-semibold text-gray-900 mb-2"
+        >
           ノートを削除しますか？
         </h3>
         <p className="text-sm text-gray-600 mb-6">
@@ -64,12 +67,12 @@ function DeleteConfirmDialog({
             disabled={isDeleting}
             className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50"
           >
-            {isDeleting ? '削除中...' : '削除'}
+            {isDeleting ? "削除中..." : "削除"}
           </button>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default DeleteConfirmDialog
+export default DeleteConfirmDialog;

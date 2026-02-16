@@ -116,9 +116,7 @@ class TestNoteRepositoryList:
         assert len(notes) == 1
         assert notes[0].title == "テストノート2"
         mock_collection.find.return_value.sort.return_value.skip.assert_called_with(1)
-        mock_collection.find.return_value.sort.return_value.skip.return_value.limit.assert_called_with(
-            1
-        )
+        mock_collection.find.return_value.sort.return_value.skip.return_value.limit.assert_called_with(1)
 
     @pytest.mark.asyncio
     async def test_list_with_sort_by_created_at_desc(
@@ -257,9 +255,7 @@ class TestNoteRepositoryGetById:
         assert note is not None
         assert note.id == "550e8400-e29b-41d4-a716-446655440001"
         assert note.title == "テストノート1"
-        mock_collection.find_one.assert_called_once_with(
-            {"_id": "550e8400-e29b-41d4-a716-446655440001"}
-        )
+        mock_collection.find_one.assert_called_once_with({"_id": "550e8400-e29b-41d4-a716-446655440001"})
 
     @pytest.mark.asyncio
     async def test_get_by_id_returns_none_when_not_found(
@@ -394,9 +390,7 @@ class TestNoteRepositoryDelete:
         result = await repository.delete("550e8400-e29b-41d4-a716-446655440001")
 
         assert result is True
-        mock_collection.delete_one.assert_called_once_with(
-            {"_id": "550e8400-e29b-41d4-a716-446655440001"}
-        )
+        mock_collection.delete_one.assert_called_once_with({"_id": "550e8400-e29b-41d4-a716-446655440001"})
 
     @pytest.mark.asyncio
     async def test_delete_returns_false_when_not_found(

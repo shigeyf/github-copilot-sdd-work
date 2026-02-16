@@ -6,21 +6,25 @@
 
 interface UnsavedChangesDialogProps {
   /** ダイアログを表示するかどうか */
-  isOpen: boolean
+  isOpen: boolean;
 
   /** 「キャンセル」ボタンクリック時のコールバック（編集に戻る） */
-  onCancel: () => void
+  onCancel: () => void;
 
   /** 「破棄」ボタンクリック時のコールバック（変更を破棄して遷移） */
-  onDiscard: () => void
+  onDiscard: () => void;
 }
 
 /**
  * 未保存変更の確認ダイアログを表示するコンポーネント
  */
-function UnsavedChangesDialog({ isOpen, onCancel, onDiscard }: UnsavedChangesDialogProps) {
+function UnsavedChangesDialog({
+  isOpen,
+  onCancel,
+  onDiscard,
+}: UnsavedChangesDialogProps) {
   if (!isOpen) {
-    return null
+    return null;
   }
 
   return (
@@ -31,7 +35,10 @@ function UnsavedChangesDialog({ isOpen, onCancel, onDiscard }: UnsavedChangesDia
       aria-labelledby="unsaved-changes-title"
     >
       <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4 p-6">
-        <h3 id="unsaved-changes-title" className="text-lg font-semibold text-gray-900 mb-2">
+        <h3
+          id="unsaved-changes-title"
+          className="text-lg font-semibold text-gray-900 mb-2"
+        >
           未保存の変更があります
         </h3>
         <p className="text-sm text-gray-600 mb-6">
@@ -55,7 +62,7 @@ function UnsavedChangesDialog({ isOpen, onCancel, onDiscard }: UnsavedChangesDia
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default UnsavedChangesDialog
+export default UnsavedChangesDialog;

@@ -307,9 +307,7 @@ class TestNoteServiceUpdateNote:
         mock_repository.update = AsyncMock(return_value=updated_note)
 
         note_data = NoteUpdate(title="更新後タイトル", content="更新後本文")
-        result = await service.update_note(
-            "550e8400-e29b-41d4-a716-446655440001", note_data
-        )
+        result = await service.update_note("550e8400-e29b-41d4-a716-446655440001", note_data)
 
         assert isinstance(result, NoteResponse)
         assert result.title == "更新後タイトル"
@@ -393,9 +391,7 @@ class TestNoteServiceDeleteNote:
 
         await service.delete_note("550e8400-e29b-41d4-a716-446655440001")
 
-        mock_repository.delete.assert_called_once_with(
-            "550e8400-e29b-41d4-a716-446655440001"
-        )
+        mock_repository.delete.assert_called_once_with("550e8400-e29b-41d4-a716-446655440001")
 
     @pytest.mark.asyncio
     async def test_delete_note_raises_not_found(
