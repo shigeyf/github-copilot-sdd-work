@@ -57,9 +57,10 @@ repos:
     hooks:
       - id: eslint
         name: '[Lint] ESLint [local] (JavaScript/TypeScript/CSS)'
-        entry: eslint
+        entry: frontend/node_modules/.bin/eslint --config frontend/eslint.config.js --no-warn-ignored
         language: system
         types_or: [javascript, jsx, ts, tsx, css]
+        files: ^frontend/
 
   - repo: https://github.com/psf/black
     rev: 26.1.0
