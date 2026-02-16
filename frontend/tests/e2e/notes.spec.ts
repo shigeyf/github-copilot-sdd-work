@@ -308,3 +308,65 @@ test.describe("US6: リアルタイムプレビュー表示", () => {
     ).not.toBeVisible();
   });
 });
+
+// =============================================================================
+// T005-T006: FR-019 - 重複タイトルの自動番号付加テスト
+// =============================================================================
+test.describe("FR-019: 重複タイトルの自動番号付加", () => {
+  test("T005: 同じタイトルのノートを作成すると番号が付加される", async ({
+    page,
+  }) => {
+    // 最初のノートを作成
+    await page.goto("/notes/new");
+    await page.fill('input[id="note-title"]', "テストノート");
+    await page.fill('textarea[id="note-content"]', "最初のノート");
+    await page.click("text=保存");
+
+    // 一覧に戻ることを確認
+    await expect(page).toHaveURL("/");
+    await expect(page.locator("text=テストノート")).toBeVisible();
+
+    // 再度同じタイトルでノートを作成
+    await page.click("text=新規作成");
+    await page.fill('input[id="note-title"]', "テストノート");
+    await page.fill('textarea[id="note-content"]', "2番目のノート");
+    await page.click("text=保存");
+
+    // 一覧に戻ることを確認
+    await expect(page).toHaveURL("/");
+
+    // 「テストノート (2)」として保存されることを検証
+    await expect(page.locator("text=テストノート (2)")).toBeVisible();
+  });
+
+  test("T006: 番号付きタイトルが既に存在する場合は次の番号が付加される", async ({
+    page,
+  }) => {
+    // 最初のノートを作成
+    await page.goto("/notes/new");
+    await page.fill('input[id="note-title"]', "テストノート");
+    await page.fill('textarea[id="note-content"]', "最初のノート");
+    await page.click("text=保存");
+
+    await expect(page).toHaveURL("/");
+
+    // 2番目のノートを作成（自動的に「テストノート (2)」になる）
+    await page.click("text=新規作成");
+    await page.fill('input[id="note-title"]', "テストノート");
+    await page.fill('textarea[id="note-content"]', "2番目のノート");
+    await page.click("text=保存");
+
+    await expect(page).toHaveURL("/");
+
+    // 3番目のノートを作成
+    await page.click("text=新規作成");
+    await page.fill('input[id="note-title"]', "テストノート");
+    await page.fill('textarea[id="note-content"]', "3番目のノート");
+    await page.click("text=保存");
+
+    await expect(page).toHaveURL("/");
+
+    // 「テストノート (3)」として保存されることを検証
+    await expect(page.locator("text=テストノート (3)")).toBeVisible();
+  });
+});
