@@ -370,3 +370,77 @@ test.describe("FR-019: 重複タイトルの自動番号付加", () => {
     await expect(page.locator("text=テストノート (3)")).toBeVisible();
   });
 });
+
+// =============================================================================
+// T011: US3-3 - キャンセルボタンの動作テスト
+// =============================================================================
+test.describe("US3-3: キャンセルボタンの動作", () => {
+  test("T011: キャンセルボタンで変更が破棄され一覧に戻る", async ({
+    page,
+  }) => {
+    // 準備: テスト用ノートを作成
+    const res = await fetch("http://localhost:8000/notes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: "キャンセルテスト",
+        content: "元の内容",
+      }),
+    });
+    const note = await res.json();
+
+    // ノート編集画面に移動
+    await page.goto(`/notes/${note.id}/edit`);
+
+    // 元のタイトルと本文を確認
+    await expect(page.locator('input[id="note-title"]')).toHaveValue(
+      "キャンセルテスト",
+    );
+    await expect(page.locator('textarea[id="note-content"]')).toHaveValue(
+      "元の内容",
+    );
+
+    // タイトルと本文を変更
+    await page.fill('input[id="note-title"]', "変更されたタイトル");
+    await page.fill('textarea[id="note-content"]', "変更された内容");
+
+    // キャンセルボタンをクリック
+    await page.click("text=キャンセル");
+
+    // 一覧に戻ることを確認
+    await expect(page).toHaveURL("/");
+
+    // ノートをクリックして再度編集画面に移動
+    await page.click("text=キャンセルテスト");
+
+    // 変更が保存されていないことを確認
+    await expect(page.locator('input[id="note-title"]')).toHaveValue(
+      "キャンセルテスト",
+    );
+    await expect(page.locator('textarea[id="note-content"]')).toHaveValue(
+      "元の内容",
+    );
+  });
+
+  test("T011-2: 新規作成画面でキャンセルボタンをクリックすると一覧に戻る", async ({
+    page,
+  }) => {
+    // 新規作成画面に移動
+    await page.goto("/notes/new");
+
+    // タイトルと本文を入力
+    await page.fill('input[id="note-title"]', "キャンセルされるノート");
+    await page.fill('textarea[id="note-content"]', "キャンセルされる内容");
+
+    // キャンセルボタンをクリック
+    await page.click("text=キャンセル");
+
+    // 一覧に戻ることを確認
+    await expect(page).toHaveURL("/");
+
+    // ノートが作成されていないことを確認
+    await expect(
+      page.locator("text=キャンセルされるノート"),
+    ).not.toBeVisible();
+  });
+});
