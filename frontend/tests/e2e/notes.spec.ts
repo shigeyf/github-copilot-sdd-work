@@ -308,3 +308,192 @@ test.describe("US6: リアルタイムプレビュー表示", () => {
     ).not.toBeVisible();
   });
 });
+
+// =============================================================================
+// T005-T006: FR-019 - 重複タイトルの自動番号付加テスト
+// =============================================================================
+test.describe("FR-019: 重複タイトルの自動番号付加", () => {
+  test("T005: 同じタイトルのノートを作成すると番号が付加される", async ({
+    page,
+  }) => {
+    // 最初のノートを作成
+    await page.goto("/notes/new");
+    await page.fill('input[id="note-title"]', "テストノート");
+    await page.fill('textarea[id="note-content"]', "最初のノート");
+    await page.click("text=保存");
+
+    // 一覧に戻ることを確認
+    await expect(page).toHaveURL("/");
+    await expect(page.locator("text=テストノート")).toBeVisible();
+
+    // 再度同じタイトルでノートを作成
+    await page.click("text=新規作成");
+    await page.fill('input[id="note-title"]', "テストノート");
+    await page.fill('textarea[id="note-content"]', "2番目のノート");
+    await page.click("text=保存");
+
+    // 一覧に戻ることを確認
+    await expect(page).toHaveURL("/");
+
+    // 「テストノート (2)」として保存されることを検証
+    await expect(page.locator("text=テストノート (2)")).toBeVisible();
+  });
+
+  test("T006: 番号付きタイトルが既に存在する場合は次の番号が付加される", async ({
+    page,
+  }) => {
+    // 最初のノートを作成
+    await page.goto("/notes/new");
+    await page.fill('input[id="note-title"]', "テストノート");
+    await page.fill('textarea[id="note-content"]', "最初のノート");
+    await page.click("text=保存");
+
+    await expect(page).toHaveURL("/");
+
+    // 2番目のノートを作成（自動的に「テストノート (2)」になる）
+    await page.click("text=新規作成");
+    await page.fill('input[id="note-title"]', "テストノート");
+    await page.fill('textarea[id="note-content"]', "2番目のノート");
+    await page.click("text=保存");
+
+    await expect(page).toHaveURL("/");
+
+    // 3番目のノートを作成
+    await page.click("text=新規作成");
+    await page.fill('input[id="note-title"]', "テストノート");
+    await page.fill('textarea[id="note-content"]', "3番目のノート");
+    await page.click("text=保存");
+
+    await expect(page).toHaveURL("/");
+
+    // 「テストノート (3)」として保存されることを検証
+    await expect(page.locator("text=テストノート (3)")).toBeVisible();
+  });
+});
+
+// =============================================================================
+// T011: US3-3 - キャンセルボタンの動作テスト
+// =============================================================================
+test.describe("US3-3: キャンセルボタンの動作", () => {
+  test("T011: キャンセルボタンで変更が破棄され一覧に戻る", async ({
+    page,
+  }) => {
+    // 準備: テスト用ノートを作成
+    const res = await fetch("http://localhost:8000/notes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: "キャンセルテスト",
+        content: "元の内容",
+      }),
+    });
+    const note = await res.json();
+
+    // ノート編集画面に移動
+    await page.goto(`/notes/${note.id}/edit`);
+
+    // 元のタイトルと本文を確認
+    await expect(page.locator('input[id="note-title"]')).toHaveValue(
+      "キャンセルテスト",
+    );
+    await expect(page.locator('textarea[id="note-content"]')).toHaveValue(
+      "元の内容",
+    );
+
+    // タイトルと本文を変更
+    await page.fill('input[id="note-title"]', "変更されたタイトル");
+    await page.fill('textarea[id="note-content"]', "変更された内容");
+
+    // キャンセルボタンをクリック
+    await page.click("text=キャンセル");
+
+    // 一覧に戻ることを確認
+    await expect(page).toHaveURL("/");
+
+    // ノートをクリックして再度編集画面に移動
+    await page.click("text=キャンセルテスト");
+
+    // 変更が保存されていないことを確認
+    await expect(page.locator('input[id="note-title"]')).toHaveValue(
+      "キャンセルテスト",
+    );
+    await expect(page.locator('textarea[id="note-content"]')).toHaveValue(
+      "元の内容",
+    );
+  });
+
+  test("T011-2: 新規作成画面でキャンセルボタンをクリックすると一覧に戻る", async ({
+    page,
+  }) => {
+    // 新規作成画面に移動
+    await page.goto("/notes/new");
+
+    // タイトルと本文を入力
+    await page.fill('input[id="note-title"]', "キャンセルされるノート");
+    await page.fill('textarea[id="note-content"]', "キャンセルされる内容");
+
+    // キャンセルボタンをクリック
+    await page.click("text=キャンセル");
+
+    // 一覧に戻ることを確認
+    await expect(page).toHaveURL("/");
+
+    // ノートが作成されていないことを確認
+    await expect(
+      page.locator("text=キャンセルされるノート"),
+    ).not.toBeVisible();
+  });
+});
+
+// =============================================================================
+// T018: FR-008 - 更新日時の UI 表示検証テスト
+// =============================================================================
+test.describe("FR-008: 更新日時の UI 表示検証", () => {
+  test("T018: ノート編集後、更新日時が新しくなっている", async ({ page }) => {
+    // 準備: テスト用ノートを作成
+    const res = await fetch("http://localhost:8000/notes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: "更新日時テスト",
+        content: "元の内容",
+      }),
+    });
+    const note = await res.json();
+
+    // 一覧ページに移動して初期の更新日時を確認
+    await page.goto("/");
+
+    // ノート項目を探す
+    const noteItem = page.locator(`[data-testid="note-item"]:has-text("更新日時テスト")`);
+    await expect(noteItem).toBeVisible();
+
+    // 初期の更新日時テキストを取得
+    const initialUpdatedAt = await noteItem.locator("text=/更新日時|Updated/i").textContent();
+
+    // 少し待機してから編集（更新日時が確実に変わるように）
+    await page.waitForTimeout(1000);
+
+    // ノートをクリックして編集画面に移動
+    await page.click("text=更新日時テスト");
+    await expect(page).toHaveURL(/\/notes\/.*\/edit/);
+
+    // 本文を変更
+    await page.fill('textarea[id="note-content"]', "変更された内容");
+
+    // 保存ボタンをクリック
+    await page.click("text=保存");
+
+    // 一覧に戻ることを確認
+    await expect(page).toHaveURL("/");
+
+    // 更新日時が変更されていることを確認
+    const updatedNoteItem = page.locator(`[data-testid="note-item"]:has-text("更新日時テスト")`);
+    await expect(updatedNoteItem).toBeVisible();
+
+    const newUpdatedAt = await updatedNoteItem.locator("text=/更新日時|Updated/i").textContent();
+
+    // 更新日時が変わっていることを確認（文字列比較）
+    expect(newUpdatedAt).not.toBe(initialUpdatedAt);
+  });
+});
