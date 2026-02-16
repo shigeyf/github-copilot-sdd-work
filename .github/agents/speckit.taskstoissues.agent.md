@@ -13,14 +13,17 @@ $ARGUMENTS
 
 続行する前に、ユーザー入力を**必ず**確認してください (空でない場合)。
 
-## 処理フロー
+## ルール
 
-1. リポジトリルートから
-`.specify/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks`
-を実行し、FEATURE_DIR と AVAILABLE_DOCS リストを解析します。
-すべてのパスは絶対パスである必要があります。
-引数内のシングルクォートは、エスケープ構文を使用してください
- (例: "I'm Groot" → 'I'\''m Groot'、またはダブルクォートを使用: "I'm Groot")。
+**Copilot 既定の指示の適用**:
+
+- `.github/copilot-instructions.md` に記述されたルールを適用すること。
+
+## 実行ステップ
+
+以下の実行ステップに従ってください:
+
+1. リポジトリルートから `.specify/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks` を実行し、FEATURE_DIR と AVAILABLE_DOCS リストを解析します。すべてのパスは絶対パスである必要があります。引数内のシングルクォートは、エスケープ構文を使用してください (例: "I'm Groot" → 'I'\''m Groot'、またはダブルクォートを使用: "I'm Groot")。
 1. 実行したスクリプトから **tasks** へのパスを抽出します。
 1. 以下のコマンドで Git リモートを取得します：
 
