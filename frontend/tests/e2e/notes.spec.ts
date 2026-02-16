@@ -444,3 +444,56 @@ test.describe("US3-3: キャンセルボタンの動作", () => {
     ).not.toBeVisible();
   });
 });
+
+// =============================================================================
+// T018: FR-008 - 更新日時の UI 表示検証テスト
+// =============================================================================
+test.describe("FR-008: 更新日時の UI 表示検証", () => {
+  test("T018: ノート編集後、更新日時が新しくなっている", async ({ page }) => {
+    // 準備: テスト用ノートを作成
+    const res = await fetch("http://localhost:8000/notes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: "更新日時テスト",
+        content: "元の内容",
+      }),
+    });
+    const note = await res.json();
+
+    // 一覧ページに移動して初期の更新日時を確認
+    await page.goto("/");
+
+    // ノート項目を探す
+    const noteItem = page.locator(`[data-testid="note-item"]:has-text("更新日時テスト")`);
+    await expect(noteItem).toBeVisible();
+
+    // 初期の更新日時テキストを取得
+    const initialUpdatedAt = await noteItem.locator("text=/更新日時|Updated/i").textContent();
+
+    // 少し待機してから編集（更新日時が確実に変わるように）
+    await page.waitForTimeout(1000);
+
+    // ノートをクリックして編集画面に移動
+    await page.click("text=更新日時テスト");
+    await expect(page).toHaveURL(/\/notes\/.*\/edit/);
+
+    // 本文を変更
+    await page.fill('textarea[id="note-content"]', "変更された内容");
+
+    // 保存ボタンをクリック
+    await page.click("text=保存");
+
+    // 一覧に戻ることを確認
+    await expect(page).toHaveURL("/");
+
+    // 更新日時が変更されていることを確認
+    const updatedNoteItem = page.locator(`[data-testid="note-item"]:has-text("更新日時テスト")`);
+    await expect(updatedNoteItem).toBeVisible();
+
+    const newUpdatedAt = await updatedNoteItem.locator("text=/更新日時|Updated/i").textContent();
+
+    // 更新日時が変わっていることを確認（文字列比較）
+    expect(newUpdatedAt).not.toBe(initialUpdatedAt);
+  });
+});
