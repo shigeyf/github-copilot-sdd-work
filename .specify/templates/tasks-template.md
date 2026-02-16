@@ -11,6 +11,7 @@
 `plan.md` (必須), `spec.md` (ユーザーストーリーに必須), `research.md`, `data-model.md`, `contracts/`
 
 **Constitution 準拠**: すべてのタスクは `.specify/memory/constitution.md` の基本原則に従うこと
+
 - TDD（テスト駆動開発）を採用: テストを先に書き、実装前に失敗を確認（Red-Green-Refactor）
 - すべての API にユニットテストを記述
 - 型安全性の確保（TypeScript strict mode、Python type hints）
@@ -89,7 +90,7 @@
 ### ユーザーストーリー 1 のテスト（Constitution に従い TDD を適用）🔴
 
 > **重要 (Constitution III. TDD 原則)**: これらのテストを最初に書き、実装前に失敗することを確認してください（Red-Green-Refactor サイクル）
-
+>
 > **重要 (Constitution IV. API ユニットテスト必須)**: すべての API エンドポイントにユニットテストを記述すること
 
 - [ ] T010 [P] [US1] tests/contract/test_[name].py で [エンドポイント] のコントラクトテスト

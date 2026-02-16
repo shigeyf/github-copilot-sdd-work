@@ -35,14 +35,14 @@ git --version     # git version 2.x.x
 
 最も簡単な方法は Docker Compose を使用することです。
 
-#### 1. リポジトリのクローン
+#### 1.1. リポジトリのクローン
 
 ```bash
 git clone https://github.com/your-org/markdown-note-manager.git
 cd markdown-note-manager
 ```
 
-#### 2. 環境変数の設定
+#### 1.2. 環境変数の設定
 
 ```bash
 # バックエンドの環境変数をコピー
@@ -52,22 +52,23 @@ cp backend/.env.example backend/.env
 cp frontend/.env.example frontend/.env
 ```
 
-#### 3. Docker Compose でサービスを起動
+#### 1.3. Docker Compose でサービスを起動
 
 ```bash
 docker-compose up -d
 ```
 
 これにより、以下のサービスが起動します：
+
 - **MongoDB**: `localhost:27017`
 - **バックエンド API**: `http://localhost:8000`
 - **フロントエンド**: `http://localhost:5173`
 
-#### 4. アプリケーションにアクセス
+#### 1.4. アプリケーションにアクセス
 
 ブラウザで `http://localhost:5173` を開いてアプリケーションを使用できます。
 
-#### 5. 停止とクリーンアップ
+#### 1.5. 停止とクリーンアップ
 
 ```bash
 # サービスを停止
@@ -83,7 +84,7 @@ docker-compose down -v
 
 Docker を使用しない場合は、各サービスを個別にセットアップします。
 
-#### 1. MongoDB の起動
+#### 2.1. MongoDB の起動
 
 MongoDB をローカルで起動します：
 
@@ -105,7 +106,7 @@ mongosh
 # MongoDB に接続できれば OK
 ```
 
-#### 2. バックエンドのセットアップ
+#### 2.2. バックエンドのセットアップ
 
 ```bash
 cd backend
@@ -127,7 +128,7 @@ uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
 
 バックエンド API は `http://localhost:8000` で起動します。
 
-#### 3. フロントエンドのセットアップ
+#### 2.3. フロントエンドのセットアップ
 
 新しいターミナルウィンドウを開いて：
 
@@ -147,7 +148,7 @@ npm run dev
 
 フロントエンドは `http://localhost:5173` で起動します。
 
-#### 4. アプリケーションにアクセス
+#### 2.4. アプリケーションにアクセス
 
 ブラウザで `http://localhost:5173` を開いてアプリケーションを使用できます。
 
@@ -228,7 +229,7 @@ VITE_APP_TITLE=Markdownノート管理
 
 ### バックエンド開発
 
-#### テストの実行
+#### バックエンド テストの実行
 
 ```bash
 cd backend
@@ -243,7 +244,7 @@ pytest --cov=src --cov-report=html
 pytest tests/unit/test_note_service.py
 ```
 
-#### リンターとフォーマッターの実行
+#### リンターとフォーマッターの実行 (バックエンド)
 
 ```bash
 # コードフォーマット (Black)
@@ -259,12 +260,13 @@ mypy src
 #### API ドキュメントの確認
 
 バックエンドが起動している状態で、以下の URL にアクセス：
+
 - **Swagger UI**: `http://localhost:8000/docs`
 - **ReDoc**: `http://localhost:8000/redoc`
 
 ### フロントエンド開発
 
-#### テストの実行
+#### フロントエンド テストの実行
 
 ```bash
 cd frontend
@@ -279,7 +281,7 @@ npm run test:e2e
 npm run test:coverage
 ```
 
-#### リンターとフォーマッターの実行
+#### リンターとフォーマッターの実行 (フロントエンド)
 
 ```bash
 # リンター (ESLint)
@@ -311,6 +313,7 @@ npm run preview
 **エラー**: `MongoServerError: connect ECONNREFUSED`
 
 **解決策**:
+
 1. MongoDB が起動しているか確認: `mongosh`
 2. `.env` ファイルの `MONGODB_URL` が正しいか確認
 3. MongoDB のポート (デフォルト: 27017) がファイアウォールでブロックされていないか確認
@@ -320,6 +323,7 @@ npm run preview
 **エラー**: `Network Error` または `CORS error`
 
 **解決策**:
+
 1. バックエンドが起動しているか確認: `http://localhost:8000/health`
 2. フロントエンドの `.env` ファイルで `VITE_API_BASE_URL` が正しいか確認
 3. バックエンドの `.env` ファイルで `CORS_ORIGINS` にフロントエンドの URL が含まれているか確認
@@ -329,6 +333,7 @@ npm run preview
 **エラー**: `Cannot find module` または `ENOENT`
 
 **解決策**:
+
 1. 依存関係を再インストール: `rm -rf node_modules package-lock.json && npm install`
 2. Node.js のバージョンが 18.x 以上であることを確認
 3. キャッシュをクリア: `npm cache clean --force`
@@ -336,11 +341,13 @@ npm run preview
 ### ノートが保存されない
 
 **原因**:
+
 - タイトルが空白のみ
 - 本文が 50,000 文字を超えている
 - MongoDB への書き込み権限がない
 
 **解決策**:
+
 1. ブラウザの開発者ツールでネットワークタブを確認し、エラーレスポンスを確認
 2. バックエンドのログを確認: `docker-compose logs backend` または `uvicorn` のコンソール出力
 

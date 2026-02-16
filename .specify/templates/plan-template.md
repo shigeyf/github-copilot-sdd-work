@@ -42,6 +42,7 @@ _参照: `.specify/memory/constitution.md` の基本原則に準拠すること�
 [構成ファイルに基づいて決定されたゲート]
 
 **Constitution 準拠チェックリスト**:
+
 - [ ] 最新の安定バージョンを使用しているか
 - [ ] 型安全性が確保されているか（TypeScript strict mode、Python type hints）
 - [ ] TDD アプローチを採用しているか

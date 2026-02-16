@@ -155,16 +155,16 @@ db.createCollection("notes", {
 export interface Note {
   /** ノートの一意識別子 (UUID v4) */
   id: string;
-  
+
   /** ノートのタイトル */
   title: string;
-  
+
   /** Markdown 形式の本文 */
   content: string;
-  
+
   /** 作成日時 (ISO 8601 文字列) */
   created_at: string;
-  
+
   /** 最終更新日時 (ISO 8601 文字列) */
   updated_at: string;
 }
@@ -175,7 +175,7 @@ export interface Note {
 export interface CreateNoteRequest {
   /** ノートのタイトル */
   title: string;
-  
+
   /** Markdown 形式の本文 (任意) */
   content?: string;
 }
@@ -186,7 +186,7 @@ export interface CreateNoteRequest {
 export interface UpdateNoteRequest {
   /** ノートのタイトル (任意) */
   title?: string;
-  
+
   /** Markdown 形式の本文 (任意) */
   content?: string;
 }
@@ -197,13 +197,13 @@ export interface UpdateNoteRequest {
 export interface ListNotesParams {
   /** ソート順 (created_at または updated_at) */
   sort_by?: 'created_at' | 'updated_at';
-  
+
   /** ソート方向 (asc または desc) */
   order?: 'asc' | 'desc';
-  
+
   /** ページネーション: スキップする件数 */
   skip?: number;
-  
+
   /** ページネーション: 取得する件数 */
   limit?: number;
 }
@@ -220,7 +220,7 @@ class NoteBase(BaseModel):
     """ノートの基本スキーマ"""
     title: str = Field(..., min_length=1, max_length=200, description="ノートのタイトル")
     content: str = Field(default="", max_length=50000, description="Markdown 形式の本文")
-    
+
     @field_validator("title")
     @classmethod
     def validate_title_not_empty(cls, v: str) -> str:
@@ -237,7 +237,7 @@ class NoteUpdate(BaseModel):
     """ノート更新時のリクエストスキーマ"""
     title: str | None = Field(None, min_length=1, max_length=200, description="ノートのタイトル")
     content: str | None = Field(None, max_length=50000, description="Markdown 形式の本文")
-    
+
     @field_validator("title")
     @classmethod
     def validate_title_not_empty(cls, v: str | None) -> str | None:
@@ -251,7 +251,7 @@ class Note(NoteBase):
     id: str = Field(..., description="ノートの UUID v4")
     created_at: datetime = Field(..., description="作成日時")
     updated_at: datetime = Field(..., description="最終更新日時")
-    
+
     class Config:
         from_attributes = True  # Pydantic v2
         json_schema_extra = {
@@ -272,11 +272,13 @@ class Note(NoteBase):
 **シナリオ**: ユーザーがタイトルを空白のみ、または空文字列で保存しようとした場合
 
 **処理**:
+
 - バックエンドの Pydantic バリデーションで検出
 - HTTP 422 (Unprocessable Entity) を返す
 - エラーメッセージ: `{"detail": [{"loc": ["body", "title"], "msg": "タイトルは空白のみにできません", "type": "value_error"}]}`
 
 **フロントエンド対応**:
+
 - 保存ボタンをクリック前にクライアント側でもバリデーション
 - エラーメッセージをユーザーに表示
 
@@ -285,11 +287,13 @@ class Note(NoteBase):
 **シナリオ**: ユーザーが非常に長いノートを作成しようとした場合
 
 **処理**:
+
 - バックエンドの Pydantic バリデーションで検出
 - HTTP 422 (Unprocessable Entity) を返す
 - エラーメッセージ: `{"detail": [{"loc": ["body", "content"], "msg": "本文は50,000文字以内にしてください", "type": "value_error"}]}`
 
 **フロントエンド対応**:
+
 - 編集中に文字数カウンターを表示
 - 50,000 文字に達したら警告を表示
 
@@ -298,23 +302,25 @@ class Note(NoteBase):
 **シナリオ**: ユーザーが既存のノートと同じタイトルで新規ノートを作成しようとした場合
 
 **処理**:
+
 - バックエンドで既存のタイトルをチェック
 - 自動的に番号を付加 (例: `ノート` → `ノート (2)`)
 - 番号は既存の最大番号 + 1
 
 **実装例**:
+
 ```python
 async def generate_unique_title(title: str, db) -> str:
     """同じタイトルが存在する場合、番号を付加"""
     existing_notes = await db.notes.find({"title": {"$regex": f"^{title}( \\(\\d+\\))?$"}}).to_list(None)
     if not existing_notes:
         return title
-    
+
     max_number = 0
     for note in existing_notes:
         if match := re.match(r"^.+ \((\d+)\)$", note["title"]):
             max_number = max(max_number, int(match.group(1)))
-    
+
     return f"{title} ({max_number + 1})"
 ```
 
@@ -323,6 +329,7 @@ async def generate_unique_title(title: str, db) -> str:
 **シナリオ**: ユーザーが既に削除されたノート、または無効な ID を指定した場合
 
 **処理**:
+
 - バックエンドで MongoDB に該当ノートが存在するかチェック
 - 存在しない場合、HTTP 404 (Not Found) を返す
 - エラーメッセージ: `{"detail": "ノートが見つかりません"}`
@@ -332,6 +339,7 @@ async def generate_unique_title(title: str, db) -> str:
 **シナリオ**: MongoDB が起動していない、またはネットワークエラーが発生した場合
 
 **処理**:
+
 - バックエンドの起動時に MongoDB への接続を確認
 - 接続できない場合、アプリケーションを起動しない (またはヘルスチェックで異常を報告)
 - リクエスト中に接続エラーが発生した場合、HTTP 503 (Service Unavailable) を返す

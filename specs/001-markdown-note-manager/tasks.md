@@ -11,6 +11,7 @@
 `plan.md` (必須), `spec.md` (ユーザーストーリーに必須), `research.md`, `data-model.md`, `contracts/openapi.yaml`, `quickstart.md`
 
 **Constitution 準拠**: すべてのタスクは `.specify/memory/constitution.md` の基本原則に従うこと
+
 - TDD（テスト駆動開発）を採用: テストを先に書き、実装前に失敗を確認（Red-Green-Refactor）
 - すべての API にユニットテストを記述
 - 型安全性の確保（TypeScript strict mode、Python type hints）
@@ -28,6 +29,7 @@
 ## パス規約
 
 このプロジェクトはWebアプリケーション構成を採用しており、以下の構造を使用します:
+
 - **バックエンド**: `backend/src/`, `backend/tests/`
 - **フロントエンド**: `frontend/src/`, `frontend/tests/`
 - **共有ドキュメント**: `specs/001-markdown-note-manager/`
@@ -38,14 +40,14 @@
 
 **目的**: プロジェクトの初期化と基本構造
 
-- [x] T001 backend/ と frontend/ ディレクトリを作成してプロジェクト構造をセットアップ
-- [x] T002 backend/pyproject.toml に FastAPI、motor、Pydantic、pytest の依存関係を含む Python プロジェクトを初期化
-- [x] T003 frontend/package.json に React、TypeScript、Vite、TipTap、react-markdown の依存関係を含む Node.js プロジェクトを初期化
-- [x] T004 [P] backend/ に Black、Ruff、mypy のリンティングとフォーマットツールを設定
-- [x] T005 [P] frontend/ に ESLint、Prettier のリンティングとフォーマットツールを設定
-- [x] T006 [P] backend/.env.example と frontend/.env.example に環境変数サンプルを作成
-- [x] T007 [P] docker-compose.yaml に MongoDB、バックエンド、フロントエンドのサービスを定義
-- [x] T008 [P] backend/README.md と frontend/README.md に基本的なセットアップ手順を記述
+- [x] T001 `backend/` と `frontend/` ディレクトリを作成してプロジェクト構造をセットアップ
+- [x] T002 `backend/pyproject.toml` に FastAPI、motor、Pydantic、pytest の依存関係を含む Python プロジェクトを初期化
+- [x] T003 `frontend/package.json` に React、TypeScript、Vite、TipTap、react-markdown の依存関係を含む Node.js プロジェクトを初期化
+- [x] T004 [P] `backend/` に Black、Ruff、mypy のリンティングとフォーマットツールを設定
+- [x] T005 [P] `frontend/` に ESLint、Prettier のリンティングとフォーマットツールを設定
+- [x] T006 [P] `backend/.env.example` と `frontend/.env.example` に環境変数サンプルを作成
+- [x] T007 [P] `docker-compose.yaml` に MongoDB、バックエンド、フロントエンドのサービスを定義
+- [x] T008 [P] `backend/README.md` と `frontend/README.md` に基本的なセットアップ手順を記述
 
 ---
 
@@ -55,24 +57,24 @@
 
 **⚠️ 重要**: このフェーズが完了するまでユーザーストーリーの作業は開始できません
 
-- [x] T010 backend/src/config.py に環境変数と設定管理を実装（Pydantic Settings を使用）
-- [x] T009 backend/src/utils/db.py に MongoDB 接続管理を実装（motor を使用、T010 の config.py に依存）
-- [x] T011 backend/src/main.py に FastAPI アプリケーションのエントリーポイントを作成（T009 の db.py に依存）
-- [x] T012 [P] backend/src/main.py に CORS ミドルウェアを設定（フロントエンドのオリジンを許可）
-- [x] T013 [P] backend/src/api/routes.py に API ルーター集約を作成
-- [x] T014 [P] backend/src/models/__init__.py を作成してモデルパッケージを初期化
-- [x] T015 [P] backend/src/repositories/__init__.py を作成してリポジトリパッケージを初期化
-- [x] T016 [P] backend/src/services/__init__.py を作成してサービスパッケージを初期化
-- [x] T017 [P] backend/src/api/__init__.py を作成して API パッケージを初期化
-- [x] T018 backend/src/main.py に /health エンドポイントを実装（MongoDB 接続状態を確認）
-- [x] T018a backend/src/main.py に起動時 MongoDB 接続エラーハンドリングを実装（FR-020 対応: 接続失敗時にエラーメッセージを標準エラー出力とログに表示し、アプリケーション起動を中断）
-- [x] T019 [P] backend/tests/conftest.py に pytest フィクスチャ（MongoDB テストクライアント、FastAPI テストクライアント）を作成
-- [x] T020 [P] frontend/src/main.tsx に React アプリケーションのエントリーポイントを作成
-- [x] T021 [P] frontend/src/App.tsx にルートコンポーネントとルーティング設定を作成
-- [x] T022 [P] frontend/src/services/noteService.ts に axios を使用した API クライアントの基礎を実装
-- [x] T023 [P] frontend/src/types/note.ts に Note、CreateNoteRequest、UpdateNoteRequest の TypeScript 型定義を作成
-- [x] T024 [P] frontend/vite.config.ts に Vite 設定（プロキシ設定でバックエンドに接続）を作成
-- [x] T025 [P] frontend/tsconfig.json に TypeScript strict mode 設定を作成
+- [x] T010 `backend/src/config.py` に環境変数と設定管理を実装（Pydantic Settings を使用）
+- [x] T009 `backend/src/utils/db.py` に MongoDB 接続管理を実装（motor を使用、T010 の config.py に依存）
+- [x] T011 `backend/src/main.py` に FastAPI アプリケーションのエントリーポイントを作成（T009 の db.py に依存）
+- [x] T012 [P] `backend/src/main.py` に CORS ミドルウェアを設定（フロントエンドのオリジンを許可）
+- [x] T013 [P] `backend/src/api/routes.py` に API ルーター集約を作成
+- [x] T014 [P] `backend/src/models/__init__.py` を作成してモデルパッケージを初期化
+- [x] T015 [P] `backend/src/repositories/__init__.py` を作成してリポジトリパッケージを初期化
+- [x] T016 [P] `backend/src/services/__init__.py` を作成してサービスパッケージを初期化
+- [x] T017 [P] `backend/src/api/__init__.py` を作成して API パッケージを初期化
+- [x] T018 `backend/src/main.py` に /health エンドポイントを実装（MongoDB 接続状態を確認）
+- [x] T018a `backend/src/main.py` に起動時 MongoDB 接続エラーハンドリングを実装（FR-020 対応: 接続失敗時にエラーメッセージを標準エラー出力とログに表示し、アプリケーション起動を中断）
+- [x] T019 [P] `backend/tests/conftest.py` に pytest フィクスチャ（MongoDB テストクライアント、FastAPI テストクライアント）を作成
+- [x] T020 [P] `frontend/src/main.tsx` に React アプリケーションのエントリーポイントを作成
+- [x] T021 [P] `frontend/src/App.tsx` にルートコンポーネントとルーティング設定を作成
+- [x] T022 [P] `frontend/src/services/noteService.ts` に axios を使用した API クライアントの基礎を実装
+- [x] T023 [P] `frontend/src/types/note.ts` に Note、CreateNoteRequest、UpdateNoteRequest の TypeScript 型定義を作成
+- [x] T024 [P] `frontend/vite.config.ts` に Vite 設定（プロキシ設定でバックエンドに接続）を作成
+- [x] T025 [P] `frontend/tsconfig.json` に TypeScript strict mode 設定を作成
 - [x] T026 リンター・フォーマッター実行（backend と frontend 両方）
 
 **チェックポイント**: 基盤準備完了 - ヘルスチェックエンドポイントが動作し、フロントエンドがバックエンドに接続可能
@@ -88,29 +90,29 @@
 ### ユーザーストーリー 1 のテスト（Constitution に従い TDD を適用）🔴
 
 > **重要 (Constitution III. TDD 原則)**: これらのテストを最初に書き、実装前に失敗することを確認してください（Red-Green-Refactor サイクル）
-
+>
 > **重要 (Constitution IV. API ユニットテスト必須)**: すべての API エンドポイントにユニットテストを記述すること
 
-- [x] T027 [P] [US1] backend/tests/integration/test_notes_api.py に GET /notes エンドポイントの統合テストを記述（200 レスポンス、空リスト、ページネーション、ソート）
-- [x] T028 [P] [US1] backend/tests/unit/test_note_repository.py に NoteRepository.list() のユニットテストを記述（MongoDB クエリ、ページネーション）
-- [x] T029 [P] [US1] backend/tests/unit/test_note_service.py に NoteService.list_notes() のユニットテストを記述（ビジネスロジック）
-- [x] T030 [P] [US1] frontend/tests/unit/components/NoteList.test.tsx に NoteList コンポーネントのユニットテストを記述（レンダリング、空状態）
+- [x] T027 [P] [US1] `backend/tests/integration/test_notes_api.py` に GET /notes エンドポイントの統合テストを記述（200 レスポンス、空リスト、ページネーション、ソート）
+- [x] T028 [P] [US1] `backend/tests/unit/test_note_repository.py` に NoteRepository.list() のユニットテストを記述（MongoDB クエリ、ページネーション）
+- [x] T029 [P] [US1] `backend/tests/unit/test_note_service.py` に NoteService.list_notes() のユニットテストを記述（ビジネスロジック）
+- [x] T030 [P] [US1] `frontend/tests/unit/components/NoteList.test.tsx` に NoteList コンポーネントのユニットテストを記述（レンダリング、空状態）
 
 **チェックポイント**: すべてのテストが失敗（Red）することを確認してから次へ進む
 
 ### ユーザーストーリー 1 の実装
 
-- [x] T031 [P] [US1] backend/src/models/note.py に Note、NoteCreate、NoteUpdate の Pydantic モデルを作成（型安全性確保: type hints 必須、バリデーションルール）
-- [x] T032 [US1] backend/src/repositories/note_repository.py に NoteRepository クラスを実装（list メソッド: MongoDB からノート一覧を取得、ページネーション、ソート）
-- [x] T033 [US1] backend/src/services/note_service.py に NoteService クラスを実装（list_notes メソッド: リポジトリを呼び出し、ビジネスロジック）
-- [x] T034 [US1] backend/src/api/notes.py に GET /notes エンドポイントを実装（NoteService を呼び出し、レスポンスを返す）
-- [x] T035 [US1] backend/src/api/routes.py に notes ルーターを登録
-- [x] T036 [US1] backend/src/api/notes.py に適切なエラーハンドリングを追加（503 Service Unavailable）
-- [x] T037 [P] [US1] frontend/src/services/noteService.ts に listNotes 関数を実装（GET /notes を呼び出し）
-- [x] T038 [P] [US1] frontend/src/hooks/useNotes.ts に React Query を使用した useNotes カスタムフックを実装
-- [x] T039 [US1] frontend/src/components/NoteList.tsx に NoteList コンポーネントを実装（タイトル、作成日時、最終更新日時を表示）
-- [x] T040 [US1] frontend/src/pages/NotesPage.tsx に NotesPage コンポーネントを実装（NoteList を表示、空状態メッセージ）
-- [x] T041 [US1] frontend/src/App.tsx に NotesPage へのルーティングを追加
+- [x] T031 [P] [US1] `backend/src/models/note.py` に Note、NoteCreate、NoteUpdate の Pydantic モデルを作成（型安全性確保: type hints 必須、バリデーションルール）
+- [x] T032 [US1] `backend/src/repositories/note_repository.py` に NoteRepository クラスを実装（list メソッド: MongoDB からノート一覧を取得、ページネーション、ソート）
+- [x] T033 [US1] `backend/src/services/note_service.py` に NoteService クラスを実装（list_notes メソッド: リポジトリを呼び出し、ビジネスロジック）
+- [x] T034 [US1] `backend/src/api/notes.py` に GET /notes エンドポイントを実装（NoteService を呼び出し、レスポンスを返す）
+- [x] T035 [US1] `backend/src/api/routes.py` に notes ルーターを登録
+- [x] T036 [US1] `backend/src/api/notes.py` に適切なエラーハンドリングを追加（503 Service Unavailable）
+- [x] T037 [P] [US1] `frontend/src/services/noteService.ts` に listNotes 関数を実装（GET /notes を呼び出し）
+- [x] T038 [P] [US1] `frontend/src/hooks/useNotes.ts` に React Query を使用した useNotes カスタムフックを実装
+- [x] T039 [US1] `frontend/src/components/NoteList.tsx` に NoteList コンポーネントを実装（タイトル、作成日時、最終更新日時を表示）
+- [x] T040 [US1] `frontend/src/pages/NotesPage.tsx` に NotesPage コンポーネントを実装（NoteList を表示、空状態メッセージ）
+- [x] T041 [US1] `frontend/src/App.tsx` に NotesPage へのルーティングを追加
 - [x] T042 [US1] リンター・フォーマッター実行（backend と frontend 両方）
 - [x] T043 [US1] すべてのテストが通過（Green）することを確認
 
@@ -128,27 +130,27 @@
 
 > **重要**: TDD サイクルに従い、テストを先に書き、実装前に失敗を確認
 
-- [x] T044 [P] [US2] backend/tests/integration/test_notes_api.py に POST /notes エンドポイントの統合テストを記述（201 レスポンス、UUID v4 生成、バリデーションエラー）
-- [x] T045 [P] [US2] backend/tests/unit/test_note_repository.py に NoteRepository.create() のユニットテストを記述（MongoDB 挿入、UUID 生成）
-- [x] T046 [P] [US2] backend/tests/unit/test_note_service.py に NoteService.create_note() のユニットテストを記述（タイトル重複処理、日時自動設定）
-- [x] T047 [P] [US2] frontend/tests/unit/components/NoteEditor.test.tsx に NoteEditor コンポーネントのユニットテストを記述（入力、バリデーション）
-- [x] T048 [P] [US2] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（新規作成フロー全体）
-- [x] T048a [P] [US2] backend/tests/integration/test_notes_api.py に重複タイトル処理のテストを記述（FR-019 対応: 同名タイトルで番号付加を検証）
+- [x] T044 [P] [US2] `backend/tests/integration/test_notes_api.py` に POST /notes エンドポイントの統合テストを記述（201 レスポンス、UUID v4 生成、バリデーションエラー）
+- [x] T045 [P] [US2] `backend/tests/unit/test_note_repository.py` に NoteRepository.create() のユニットテストを記述（MongoDB 挿入、UUID 生成）
+- [x] T046 [P] [US2] `backend/tests/unit/test_note_service.py` に NoteService.create_note() のユニットテストを記述（タイトル重複処理、日時自動設定）
+- [x] T047 [P] [US2] `frontend/tests/unit/components/NoteEditor.test.tsx` に NoteEditor コンポーネントのユニットテストを記述（入力、バリデーション）
+- [x] T048 [P] [US2] `frontend/tests/e2e/notes.spec.ts` に E2E テストを記述（新規作成フロー全体）
+- [x] T048a [P] [US2] `backend/tests/integration/test_notes_api.py` に重複タイトル処理のテストを記述（FR-019 対応: 同名タイトルで番号付加を検証）
 
 **チェックポイント**: すべてのテストが失敗（Red）することを確認
 
 ### ユーザーストーリー 2 の実装
 
-- [x] T049 [US2] backend/src/repositories/note_repository.py に create メソッドを実装（UUID v4 生成、MongoDB 挿入、created_at/updated_at 自動設定）
-- [x] T050 [US2] backend/src/services/note_service.py に create_note メソッドを実装（同名タイトル処理、リポジトリを呼び出し）
-- [x] T051 [US2] backend/src/api/notes.py に POST /notes エンドポイントを実装（NoteService を呼び出し、201 レスポンス）
-- [x] T052 [US2] backend/src/api/notes.py にバリデーションエラーハンドリングを追加（422 Unprocessable Entity）
-- [x] T053 [P] [US2] frontend/src/services/noteService.ts に createNote 関数を実装（POST /notes を呼び出し）
-- [x] T054 [US2] frontend/src/hooks/useNotes.ts に useMutation を使用した createNote ミューテーションを追加
-- [x] T055 [US2] frontend/src/components/NoteEditor.tsx に NoteEditor コンポーネントを実装（タイトル入力、本文入力、保存ボタン）
-- [x] T056 [US2] frontend/src/pages/CreateNotePage.tsx に CreateNotePage コンポーネントを実装（NoteEditor を表示、保存後に一覧へ遷移）
-- [x] T057 [US2] frontend/src/App.tsx に CreateNotePage へのルーティングを追加
-- [x] T058 [US2] frontend/src/components/NoteList.tsx に「新規作成」ボタンを追加（CreateNotePage へのナビゲーション）
+- [x] T049 [US2] `backend/src/repositories/note_repository.py` に create メソッドを実装（UUID v4 生成、MongoDB 挿入、created_at/updated_at 自動設定）
+- [x] T050 [US2] `backend/src/services/note_service.py` に create_note メソッドを実装（同名タイトル処理、リポジトリを呼び出し）
+- [x] T051 [US2] `backend/src/api/notes.py` に POST /notes エンドポイントを実装（NoteService を呼び出し、201 レスポンス）
+- [x] T052 [US2] `backend/src/api/notes.py` にバリデーションエラーハンドリングを追加（422 Unprocessable Entity）
+- [x] T053 [P] [US2] `frontend/src/services/noteService.ts` に createNote 関数を実装（POST /notes を呼び出し）
+- [x] T054 [US2] `frontend/src/hooks/useNotes.ts` に useMutation を使用した createNote ミューテーションを追加
+- [x] T055 [US2] `frontend/src/components/NoteEditor.tsx` に NoteEditor コンポーネントを実装（タイトル入力、本文入力、保存ボタン）
+- [x] T056 [US2] `frontend/src/pages/CreateNotePage.tsx` に CreateNotePage コンポーネントを実装（NoteEditor を表示、保存後に一覧へ遷移）
+- [x] T057 [US2] `frontend/src/App.tsx` に CreateNotePage へのルーティングを追加
+- [x] T058 [US2] `frontend/src/components/NoteList.tsx` に「新規作成」ボタンを追加（CreateNotePage へのナビゲーション）
 - [x] T059 [US2] リンター・フォーマッター実行（backend と frontend 両方）
 - [x] T060 [US2] すべてのテストが通過（Green）することを確認
 
@@ -166,30 +168,30 @@
 
 > **重要**: TDD サイクルに従い、テストを先に書き、実装前に失敗を確認
 
-- [x] T061 [P] [US3] backend/tests/integration/test_notes_api.py に GET /notes/{note_id} と PUT /notes/{note_id} エンドポイントの統合テストを記述（200/404 レスポンス、更新処理）
-- [x] T062 [P] [US3] backend/tests/unit/test_note_repository.py に NoteRepository.get_by_id() と update() のユニットテストを記述
-- [x] T063 [P] [US3] backend/tests/unit/test_note_service.py に NoteService.get_note() と update_note() のユニットテストを記述（updated_at 自動更新）
-- [x] T064 [P] [US3] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（編集フロー全体）
+- [x] T061 [P] [US3] `backend/tests/integration/test_notes_api.py` に GET /notes/{note_id} と PUT /notes/{note_id} エンドポイントの統合テストを記述（200/404 レスポンス、更新処理）
+- [x] T062 [P] [US3] `backend/tests/unit/test_note_repository.py` に NoteRepository.get_by_id() と update() のユニットテストを記述
+- [x] T063 [P] [US3] `backend/tests/unit/test_note_service.py` に NoteService.get_note() と update_note() のユニットテストを記述（updated_at 自動更新）
+- [x] T064 [P] [US3] `frontend/tests/e2e/notes.spec.ts` に E2E テストを記述（編集フロー全体）
 
 **チェックポイント**: すべてのテストが失敗（Red）することを確認
 
 ### ユーザーストーリー 3 の実装
 
-- [x] T065 [P] [US3] backend/src/repositories/note_repository.py に get_by_id メソッドを実装（MongoDB からノートを取得）
-- [x] T066 [P] [US3] backend/src/repositories/note_repository.py に update メソッドを実装（MongoDB 更新、updated_at 自動更新）
-- [x] T067 [US3] backend/src/services/note_service.py に get_note メソッドを実装（リポジトリを呼び出し、404 エラー処理）
-- [x] T068 [US3] backend/src/services/note_service.py に update_note メソッドを実装（リポジトリを呼び出し、部分更新対応）
-- [x] T069 [US3] backend/src/api/notes.py に GET /notes/{note_id} エンドポイントを実装（NoteService を呼び出し）
-- [x] T070 [US3] backend/src/api/notes.py に PUT /notes/{note_id} エンドポイントを実装（NoteService を呼び出し）
-- [x] T071 [US3] backend/src/api/notes.py に 404 Not Found エラーハンドリングを追加
-- [x] T072 [P] [US3] frontend/src/services/noteService.ts に getNote と updateNote 関数を実装
-- [x] T073 [US3] frontend/src/hooks/useNotes.ts に useQuery と useMutation を使用した getNote と updateNote を追加
-- [x] T074 [US3] frontend/src/pages/EditNotePage.tsx に EditNotePage コンポーネントを実装（NoteEditor を再利用、既存データをロード）
-- [x] T075 [US3] frontend/src/App.tsx に EditNotePage へのルーティングを追加
-- [x] T076 [US3] frontend/src/components/NoteList.tsx に各ノート項目にクリックイベントを追加（EditNotePage へ遷移）
-- [x] T076a [US3] frontend/src/hooks/useUnsavedChanges.ts に未保存変更検出フックを実装（FR-018 対応: フォームの変更を監視）
-- [x] T076b [US3] frontend/src/components/UnsavedChangesDialog.tsx に未保存変更警告ダイアログを実装（FR-018 対応: 「変更を保存しますか？」確認ダイアログ）
-- [x] T076c [US3] frontend/src/pages/EditNotePage.tsx と CreateNotePage.tsx に未保存変更警告を統合（FR-018 対応: ノート切り替え時に確認ダイアログを表示）
+- [x] T065 [P] [US3] `backend/src/repositories/note_repository.py` に get_by_id メソッドを実装（MongoDB からノートを取得）
+- [x] T066 [P] [US3] `backend/src/repositories/note_repository.py` に update メソッドを実装（MongoDB 更新、updated_at 自動更新）
+- [x] T067 [US3] `backend/src/services/note_service.py` に get_note メソッドを実装（リポジトリを呼び出し、404 エラー処理）
+- [x] T068 [US3] `backend/src/services/note_service.py` に update_note メソッドを実装（リポジトリを呼び出し、部分更新対応）
+- [x] T069 [US3] `backend/src/api/notes.py` に GET /notes/{note_id} エンドポイントを実装（NoteService を呼び出し）
+- [x] T070 [US3] `backend/src/api/notes.py` に PUT /notes/{note_id} エンドポイントを実装（NoteService を呼び出し）
+- [x] T071 [US3] `backend/src/api/notes.py` に 404 Not Found エラーハンドリングを追加
+- [x] T072 [P] [US3] `frontend/src/services/noteService.ts` に getNote と updateNote 関数を実装
+- [x] T073 [US3] `frontend/src/hooks/useNotes.ts` に useQuery と useMutation を使用した getNote と updateNote を追加
+- [x] T074 [US3] `frontend/src/pages/EditNotePage.tsx` に EditNotePage コンポーネントを実装（NoteEditor を再利用、既存データをロード）
+- [x] T075 [US3] `frontend/src/App.tsx` に EditNotePage へのルーティングを追加
+- [x] T076 [US3] `frontend/src/components/NoteList.tsx` に各ノート項目にクリックイベントを追加（EditNotePage へ遷移）
+- [x] T076a [US3] `frontend/src/hooks/useUnsavedChanges.ts` に未保存変更検出フックを実装（FR-018 対応: フォームの変更を監視）
+- [x] T076b [US3] `frontend/src/components/UnsavedChangesDialog.tsx` に未保存変更警告ダイアログを実装（FR-018 対応: 「変更を保存しますか？」確認ダイアログ）
+- [x] T076c [US3] `frontend/src/pages/EditNotePage.tsx` と `CreateNotePage.tsx` に未保存変更警告を統合（FR-018 対応: ノート切り替え時に確認ダイアログを表示）
 - [x] T077 [US3] リンター・フォーマッター実行（backend と frontend 両方）
 - [x] T078 [US3] すべてのテストが通過（Green）することを確認
 
@@ -207,23 +209,23 @@
 
 > **重要**: TDD サイクルに従い、テストを先に書き、実装前に失敗を確認
 
-- [x] T079 [P] [US4] backend/tests/integration/test_notes_api.py に DELETE /notes/{note_id} エンドポイントの統合テストを記述（204 レスポンス、404 エラー）
-- [x] T080 [P] [US4] backend/tests/unit/test_note_repository.py に NoteRepository.delete() のユニットテストを記述
-- [x] T081 [P] [US4] backend/tests/unit/test_note_service.py に NoteService.delete_note() のユニットテストを記述
-- [x] T082 [P] [US4] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（削除フロー全体、確認ダイアログ）
+- [x] T079 [P] [US4] `backend/tests/integration/test_notes_api.py` に DELETE /notes/{note_id} エンドポイントの統合テストを記述（204 レスポンス、404 エラー）
+- [x] T080 [P] [US4] `backend/tests/unit/test_note_repository.py` に NoteRepository.delete() のユニットテストを記述
+- [x] T081 [P] [US4] `backend/tests/unit/test_note_service.py` に NoteService.delete_note() のユニットテストを記述
+- [x] T082 [P] [US4] `frontend/tests/e2e/notes.spec.ts` に E2E テストを記述（削除フロー全体、確認ダイアログ）
 
 **チェックポイント**: すべてのテストが失敗（Red）することを確認
 
 ### ユーザーストーリー 4 の実装
 
-- [x] T083 [US4] backend/src/repositories/note_repository.py に delete メソッドを実装（MongoDB から削除）
-- [x] T084 [US4] backend/src/services/note_service.py に delete_note メソッドを実装（リポジトリを呼び出し、404 エラー処理）
-- [x] T085 [US4] backend/src/api/notes.py に DELETE /notes/{note_id} エンドポイントを実装（NoteService を呼び出し、204 レスポンス）
-- [x] T086 [P] [US4] frontend/src/services/noteService.ts に deleteNote 関数を実装
-- [x] T087 [US4] frontend/src/hooks/useNotes.ts に useMutation を使用した deleteNote ミューテーションを追加
-- [x] T088 [US4] frontend/src/components/DeleteConfirmDialog.tsx に削除確認ダイアログコンポーネントを実装
-- [x] T089 [US4] frontend/src/pages/EditNotePage.tsx に「削除」ボタンと削除確認ダイアログを追加
-- [x] T090 [US4] frontend/src/components/NoteList.tsx に各ノート項目に「削除」ボタンを追加（オプション）
+- [x] T083 [US4] `backend/src/repositories/note_repository.py` に delete メソッドを実装（MongoDB から削除）
+- [x] T084 [US4] `backend/src/services/note_service.py` に delete_note メソッドを実装（リポジトリを呼び出し、404 エラー処理）
+- [x] T085 [US4] `backend/src/api/notes.py` に DELETE /notes/{note_id} エンドポイントを実装（NoteService を呼び出し、204 レスポンス）
+- [x] T086 [P] [US4] `frontend/src/services/noteService.ts` に deleteNote 関数を実装
+- [x] T087 [US4] `frontend/src/hooks/useNotes.ts` に useMutation を使用した deleteNote ミューテーションを追加
+- [x] T088 [US4] `frontend/src/components/DeleteConfirmDialog.tsx` に削除確認ダイアログコンポーネントを実装
+- [x] T089 [US4] `frontend/src/pages/EditNotePage.tsx` に「削除」ボタンと削除確認ダイアログを追加
+- [x] T090 [US4] `frontend/src/components/NoteList.tsx` に各ノート項目に「削除」ボタンを追加（オプション）
 - [x] T091 [US4] リンター・フォーマッター実行（backend と frontend 両方）
 - [x] T092 [US4] すべてのテストが通過（Green）することを確認
 
@@ -248,13 +250,13 @@
 
 ### ユーザーストーリー 5 の実装
 
-- [x] T095 [US5] frontend/package.json に TipTap 関連パッケージを追加（@tiptap/react、@tiptap/starter-kit、@tiptap/extension-markdown）
-- [x] T096 [US5] frontend/src/components/WysiwygEditor.tsx に WysiwygEditor コンポーネントを実装（TipTap エディタ、ツールバー）
-- [x] T097 [US5] frontend/src/components/WysiwygEditor.tsx に太字、斜体、見出し、リスト、リンクのツールバーボタンを追加
-- [x] T098 [US5] frontend/src/components/WysiwygEditor.tsx に Markdown との相互変換機能を実装
-- [x] T099 [US5] frontend/src/components/NoteEditor.tsx に「Markdownモード」と「WYSIWYGモード」の切り替えボタンを追加
-- [x] T100 [US5] frontend/src/components/NoteEditor.tsx に WysiwygEditor を統合
-- [x] T101 [US5] frontend/src/styles/ に WysiwygEditor のスタイルを追加（Tailwind CSS）
+- [x] T095 [US5] `frontend/package.json` に TipTap 関連パッケージを追加（@tiptap/react、@tiptap/starter-kit、@tiptap/extension-markdown）
+- [x] T096 [US5] `frontend/src/components/WysiwygEditor.tsx` に WysiwygEditor コンポーネントを実装（TipTap エディタ、ツールバー）
+- [x] T097 [US5] `frontend/src/components/WysiwygEditor.tsx` に太字、斜体、見出し、リスト、リンクのツールバーボタンを追加
+- [x] T098 [US5] `frontend/src/components/WysiwygEditor.tsx` に Markdown との相互変換機能を実装
+- [x] T099 [US5] `frontend/src/components/NoteEditor.tsx` に「Markdownモード」と「WYSIWYGモード」の切り替えボタンを追加
+- [x] T100 [US5] `frontend/src/components/NoteEditor.tsx` に WysiwygEditor を統合
+- [x] T101 [US5] `frontend/src/styles/` に WysiwygEditor のスタイルを追加（Tailwind CSS）
 - [x] T102 [US5] リンター・フォーマッター実行（frontend）
 - [x] T103 [US5] すべてのテストが通過（Green）することを確認
 
@@ -272,20 +274,20 @@
 
 > **重要**: TDD サイクルに従い、テストを先に書き、実装前に失敗を確認
 
-- [x] T104 [P] [US6] frontend/tests/unit/components/MarkdownPreview.test.tsx に MarkdownPreview コンポーネントのユニットテストを記述（レンダリング、サニタイズ）
-- [x] T105 [P] [US6] frontend/tests/e2e/notes.spec.ts に E2E テストを記述（プレビューのリアルタイム更新、表示/非表示切り替え）
+- [x] T104 [P] [US6] `frontend/tests/unit/components/MarkdownPreview.test.tsx` に MarkdownPreview コンポーネントのユニットテストを記述（レンダリング、サニタイズ）
+- [x] T105 [P] [US6] `frontend/tests/e2e/notes.spec.ts` に E2E テストを記述（プレビューのリアルタイム更新、表示/非表示切り替え）
 
 **チェックポイント**: すべてのテストが失敗（Red）することを確認
 
 ### ユーザーストーリー 6 の実装
 
-- [x] T106 [US6] frontend/package.json に react-markdown と remark-gfm（GitHub Flavored Markdown）を追加
-- [x] T107 [US6] frontend/src/components/MarkdownPreview.tsx に MarkdownPreview コンポーネントを実装（react-markdown を使用）
-- [x] T108 [US6] frontend/src/components/MarkdownPreview.tsx に XSS 対策（react-markdown のデフォルトサニタイズ）を確認
-- [x] T109 [US6] frontend/src/components/NoteEditor.tsx にプレビューパネルを右側に配置（横並びレイアウト）
-- [x] T110 [US6] frontend/src/components/NoteEditor.tsx にプレビューパネルの表示/非表示切り替えボタンを追加
-- [x] T111 [US6] frontend/src/components/NoteEditor.tsx に入力のデバウンス処理を追加（300ms、パフォーマンス向上）
-- [x] T112 [US6] frontend/src/styles/ にプレビューパネルのスタイルを追加（Tailwind CSS、レスポンシブ対応）
+- [x] T106 [US6] `frontend/package.json` に react-markdown と remark-gfm（GitHub Flavored Markdown）を追加
+- [x] T107 [US6] `frontend/src/components/MarkdownPreview.tsx` に MarkdownPreview コンポーネントを実装（react-markdown を使用）
+- [x] T108 [US6] `frontend/src/components/MarkdownPreview.tsx` に XSS 対策（react-markdown のデフォルトサニタイズ）を確認
+- [x] T109 [US6] `frontend/src/components/NoteEditor.tsx` にプレビューパネルを右側に配置（横並びレイアウト）
+- [x] T110 [US6] `frontend/src/components/NoteEditor.tsx` にプレビューパネルの表示/非表示切り替えボタンを追加
+- [x] T111 [US6] `frontend/src/components/NoteEditor.tsx` に入力のデバウンス処理を追加（300ms、パフォーマンス向上）
+- [x] T112 [US6] `frontend/src/styles/` にプレビューパネルのスタイルを追加（Tailwind CSS、レスポンシブ対応）
 - [x] T113 [US6] リンター・フォーマッター実行（frontend）
 - [x] T114 [US6] すべてのテストが通過（Green）することを確認
 
@@ -297,21 +299,21 @@
 
 **目的**: 複数のユーザーストーリーに影響する改善と品質保証
 
-- [x] T115 [P] backend/src/ のすべてのモジュールに docstring を追加（Constitution III. 準拠）
-- [x] T116 [P] frontend/src/ のすべてのコンポーネントと関数に JSDoc コメントを追加
-- [x] T117 [P] backend/tests/ のテストカバレッジを確認（目標: 80% 以上、API は 100%）
-- [x] T118 [P] frontend/tests/ のテストカバレッジを確認（目標: 80% 以上）
-- [x] T118a [P] backend/tests/performance/test_startup_performance.py に 100 件ノート時の起動時間テストを追加（SC-004 検証: 3 秒以内）
-- [x] T118b [P] frontend/tests/performance/wysiwyg_performance.spec.ts に WYSIWYG フォーマット反映時間テストを追加（SC-005 検証: 1 秒以内）
-- [x] T118c [P] frontend/tests/performance/large_note_performance.spec.ts に 10,000 文字ノート編集時間テストを追加（SC-008 検証: 2 秒以内）
-- [x] T119 [P] backend/ でセキュリティスキャンを実行（Bandit など）
-- [x] T120 [P] frontend/ でセキュリティスキャンを実行（npm audit）
-- [x] T121 backend/src/api/notes.py にレート制限を追加（オプション、将来的な DoS 対策）
-- [x] T122 [P] frontend/src/components/ でアクセシビリティチェックを実行（axe-core）
-- [x] T123 frontend/src/ でパフォーマンス最適化を実装（コード分割、React.lazy）
-- [x] T124 backend/src/repositories/note_repository.py に MongoDB インデックスを作成（created_at、updated_at）
-- [x] T125 [P] specs/001-markdown-note-manager/quickstart.md の手順を検証（セットアップから起動まで）
-- [x] T126 [P] README.md にプロジェクトの概要と基本的な使い方を記述
+- [x] T115 [P] `backend/src/` のすべてのモジュールに docstring を追加（Constitution III. 準拠）
+- [x] T116 [P] `frontend/src/` のすべてのコンポーネントと関数に JSDoc コメントを追加
+- [x] T117 [P] `backend/tests/` のテストカバレッジを確認（目標: 80% 以上、API は 100%）
+- [x] T118 [P] `frontend/tests/` のテストカバレッジを確認（目標: 80% 以上）
+- [x] T118a [P] `backend/tests/performance/test_startup_performance.py` に 100 件ノート時の起動時間テストを追加（SC-004 検証: 3 秒以内）
+- [x] T118b [P] `frontend/tests/performance/wysiwyg_performance.spec.ts` に WYSIWYG フォーマット反映時間テストを追加（SC-005 検証: 1 秒以内）
+- [x] T118c [P] `frontend/tests/performance/large_note_performance.spec.ts` に 10,000 文字ノート編集時間テストを追加（SC-008 検証: 2 秒以内）
+- [x] T119 [P] `backend/` でセキュリティスキャンを実行（Bandit など）
+- [x] T120 [P] `frontend/` でセキュリティスキャンを実行（npm audit）
+- [x] T121 `backend/src/api/notes.py` にレート制限を追加（オプション、将来的な DoS 対策）
+- [x] T122 [P] `frontend/src/components/` でアクセシビリティチェックを実行（axe-core）
+- [x] T123 `frontend/src/` でパフォーマンス最適化を実装（コード分割、React.lazy）
+- [x] T124 `backend/src/repositories/note_repository.py` に MongoDB インデックスを作成（created_at、updated_at）
+- [x] T125 [P] `specs/001-markdown-note-manager/quickstart.md` の手順を検証（セットアップから起動まで）
+- [x] T126 [P] `README.md` にプロジェクトの概要と基本的な使い方を記述
 - [x] T127 コードクリーンアップとリファクタリング（重複コード削減、命名の一貫性）
 - [x] T128 すべてのリンター・フォーマッターを最終実行（backend と frontend 両方）
 - [x] T129 全テストスイートを実行して 100% 通過することを確認
@@ -368,17 +370,21 @@
 ### 並列実行の機会
 
 **フェーズ 1（セットアップ）**:
+
 - T004 と T005（リンティング設定）
 - T006（環境変数）、T007（Docker）、T008（README）
 
 **フェーズ 2（基盤）**:
+
 - バックエンド基盤タスク（T009-T019）とフロントエンド基盤タスク（T020-T025）は並列実行可能
 
 **各ユーザーストーリー内**:
+
 - [P] マークされたすべてのテストは並列実行可能
 - [P] マークされたバックエンドとフロントエンドのタスクは並列実行可能
 
 **ユーザーストーリー間**:
+
 - US4、US5、US6 は US1-3 完了後に並列実行可能
 
 ---
@@ -499,6 +505,7 @@
 - **チェックポイント**: 任意のチェックポイントで停止してストーリーを独立して検証可能
 
 **避けるべきこと**:
+
 - 曖昧なタスク（具体的なファイルパスが不明）
 - 同一ファイルの競合（複数人が同じファイルを編集）
 - ストーリー間の強い依存関係（独立性を壊す）

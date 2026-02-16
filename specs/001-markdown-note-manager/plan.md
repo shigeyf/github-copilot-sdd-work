@@ -23,6 +23,7 @@ Markdownノート管理アプリは、ユーザーがブラウザ上でMarkdown�
 - **リアルタイムプレビュー**: Markdownテキストの入力時に、右側パネルでリアルタイムレンダリング
 
 技術的アプローチ：
+
 - フロントエンド: React 18+ と TypeScript (strict mode) で構築、Vite をビルドツールとして使用
 - バックエンド: FastAPI (Python 3.11+) で RESTful API を提供
 - データ永続化: MongoDB (NoSQL) でノートデータを JSON ドキュメントとして保存
@@ -31,10 +32,12 @@ Markdownノート管理アプリは、ユーザーがブラウザ上でMarkdown�
 ## 技術コンテキスト
 
 **言語/バージョン**:
+
 - フロントエンド: TypeScript 5.x (strict mode), React 18+
 - バックエンド: Python 3.11+
 
 **主要な依存関係**:
+
 - フロントエンド:
   - React 18+ (UI フレームワーク)
   - Vite (ビルドツール、開発サーバー)
@@ -51,18 +54,21 @@ Markdownノート管理アプリは、ユーザーがブラウザ上でMarkdown�
   - structlog (構造化ロギング)
 
 **ストレージ**:
+
 - MongoDB (NoSQL ドキュメントデータベース)
   - ノートを JSON ドキュメントとして保存
   - UUID v4 を識別子として使用
   - 将来的に Azure Cosmos DB (MongoDB API) へ移行予定
 
 **テスト**:
+
 - フロントエンド: Vitest, React Testing Library
 - バックエンド: pytest, pytest-asyncio
 - E2E テスト: Playwright (複数ブラウザ対応、TypeScript サポート)
 - API 契約テスト: pytest + httpx + OpenAPI スキーマ検証
 
 **ターゲットプラットフォーム**:
+
 - Web ブラウザ (Chrome, Firefox, Safari, Edge の最新版)
 - ローカル開発環境 (Windows, macOS, Linux)
 - 将来的に Azure App Service へデプロイ予定
@@ -70,18 +76,21 @@ Markdownノート管理アプリは、ユーザーがブラウザ上でMarkdown�
 **プロジェクトタイプ**: Web アプリケーション (frontend + backend 分離構成)
 
 **パフォーマンス目標**:
+
 - ノート一覧読み込み: 3秒以内 (100個のノートがある場合でも)
 - Markdown プレビュー更新: 500ミリ秒以内
 - ノート保存/削除: 2秒以内
 - 10,000文字以上の長文ノート編集: 2秒以内でプレビュー表示
 
 **制約**:
+
 - ローカル環境での開発・動作が必須
 - 将来的なクラウド移行を考慮した設計
 - セキュリティ: XSS 対策、入力バリデーション必須
 - アクセシビリティ: WCAG 2.1 AA レベル準拠を推奨
 
 **規模/スコープ**:
+
 - 初期段階: シングルユーザー向け
 - 想定ノート数: 100〜1,000件
 - コードベース規模: 小〜中規模 (5,000〜10,000 LOC 見込み)
@@ -249,6 +258,7 @@ frontend/
 ```
 
 **構造の決定**:
+
 - Web アプリケーション構成 (frontend + backend 分離) を採用
 - レイヤードアーキテクチャ: Router → Service → Repository の3層構造
 - フロントエンドは React コンポーネントベースで構成
@@ -276,6 +286,7 @@ frontend/
 **成果物**: `research.md`
 
 調査完了項目:
+
 - Markdown エディタライブラリ: **TipTap** を選定
 - Markdown パーサー/レンダラー: **react-markdown** を選定
 - 状態管理ライブラリ: **Zustand** + **React Query** を選定
@@ -290,11 +301,13 @@ frontend/
 ### フェーズ 1: 設計 ✅ 完了
 
 **成果物**:
+
 - `data-model.md`: データモデル、バリデーション、スキーマ定義
 - `contracts/openapi.yaml`: REST API の OpenAPI 3.0 仕様
 - `quickstart.md`: 開発者向けクイックスタートガイド
 
 主要な設計決定:
+
 - MongoDB コレクション `notes` にノートを保存
 - UUID v4 を識別子として使用
 - REST API で 5 つのエンドポイントを提供 (GET /notes, POST /notes, GET /notes/{id}, PUT /notes/{id}, DELETE /notes/{id})
