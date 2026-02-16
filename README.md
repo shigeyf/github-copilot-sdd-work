@@ -1,12 +1,12 @@
 # GitHub Copilot ベストプラクティス (日本語)
 
-GitHub Copilot
-の構成ファイルのテンプレートとベストプラクティスを提供するリポジトリです。
+GitHub Copilot の構成ファイルのテンプレートとベストプラクティスを提供するリポジトリです。
+また、これらのベストプラクティスを実証するためのサンプルアプリケーション「**Markdown ノート管理アプリ**」を含んでいます。
 
 ## Markdown ノート管理アプリ
 
-このリポジトリには、**Markdown ノート管理アプリ**のサンプル実装が含まれています。
 ブラウザ上で Markdown 形式のノートを作成、編集、削除、閲覧できる Web アプリケーションです。
+Specification-Driven Development (SDD) のアプローチで、GitHub Copilot Coding Agent を活用して開発されました。
 
 ### 主な機能
 
@@ -16,16 +16,17 @@ GitHub Copilot
 - **リアルタイムプレビュー**: Markdown 入力時に右側パネルでリアルタイムレンダリング
 - **重複タイトル処理**: 同名タイトルのノート作成時に自動番号付加
 - **未保存変更の警告**: ページ遷移時に確認ダイアログを表示
+- **レート制限**: API エンドポイントごとのレート制限によるセキュリティ強化
 
 ### 技術スタック
 
 | レイヤー | 技術 |
 |----------|------|
-| フロントエンド | React 18+, TypeScript (strict mode), Vite, Tailwind CSS |
-| バックエンド | Python 3.11+, FastAPI, Pydantic v2 |
-| データベース | MongoDB (motor ドライバー) |
-| エディタ | TipTap (WYSIWYG), react-markdown (プレビュー) |
-| テスト | pytest (バックエンド), Vitest (フロントエンド) |
+| フロントエンド | React 19, TypeScript 5.9 (strict mode), Vite 7, Tailwind CSS 4 |
+| バックエンド | Python 3.11+, FastAPI 0.115+, Pydantic v2 |
+| データベース | MongoDB 7+ (motor ドライバー) |
+| エディタ | TipTap v2 (WYSIWYG), react-markdown (プレビュー) |
+| テスト | pytest + pytest-asyncio (バックエンド), Vitest (フロントエンド), Playwright (E2E) |
 | インフラ | Docker Compose |
 
 ### クイックスタート
@@ -39,28 +40,75 @@ docker-compose up -d
 # ブラウザで http://localhost:5173 にアクセス
 ```
 
+### ローカル開発 (Docker を使用しない場合)
+
+#### バックエンド
+
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -e ".[dev]"
+cp .env.example .env
+uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+#### フロントエンド
+
+```bash
+cd frontend
+npm install
+cp .env.example .env
+npm run dev
+```
+
+#### 開発コマンド
+
+| コマンド | バックエンド | フロントエンド |
+|----------|-------------|---------------|
+| テスト実行 | `pytest` | `npm run test` |
+| E2E テスト | - | `npm run test:e2e` |
+| リンター | `ruff check src/` | `npm run lint` |
+| フォーマット | `black src/` | `npm run format` |
+| 型チェック | `mypy src/` | `npm run type-check` |
+
 詳細なセットアップ手順は [クイックスタートガイド](specs/001-markdown-note-manager/quickstart.md) を参照してください。
 
 ### プロジェクト構造
 
 ```text
-├── backend/          # FastAPI バックエンド
+├── backend/              # FastAPI バックエンド
 │   ├── src/
-│   │   ├── api/      # REST API エンドポイント
-│   │   ├── models/   # Pydantic モデル
-│   │   ├── repositories/  # データアクセス層
-│   │   ├── services/      # ビジネスロジック層
-│   │   └── utils/         # ユーティリティ
-│   └── tests/        # テスト
-├── frontend/         # React フロントエンド
+│   │   ├── api/          # REST API エンドポイント
+│   │   ├── models/       # Pydantic モデル
+│   │   ├── repositories/ # データアクセス層
+│   │   ├── services/     # ビジネスロジック層
+│   │   └── utils/        # ユーティリティ
+│   └── tests/            # テスト
+├── frontend/             # React フロントエンド
 │   ├── src/
-│   │   ├── components/    # UI コンポーネント
-│   │   ├── hooks/         # カスタムフック
-│   │   ├── pages/         # ページコンポーネント
-│   │   ├── services/      # API サービス
-│   │   └── types/         # TypeScript 型定義
-│   └── tests/        # テスト
-├── specs/            # 仕様書・設計ドキュメント
+│   │   ├── components/   # UI コンポーネント
+│   │   ├── hooks/        # カスタムフック
+│   │   ├── pages/        # ページコンポーネント
+│   │   ├── services/     # API サービス
+│   │   └── types/        # TypeScript 型定義
+│   └── tests/            # テスト
+├── specs/                # 仕様書・設計ドキュメント
+│   └── 001-markdown-note-manager/
+│       ├── spec.md       # 機能仕様書
+│       ├── plan.md       # 実装計画書
+│       ├── tasks.md      # タスクリスト
+│       ├── quickstart.md # クイックスタートガイド
+│       └── contracts/    # API 契約 (OpenAPI)
+├── .github/              # GitHub Copilot 設定
+│   ├── copilot-instructions.md
+│   ├── instructions/
+│   ├── prompts/
+│   └── agents/
+├── .specify/             # 開発プロセステンプレート
+│   ├── memory/
+│   │   └── constitution.md
+│   └── templates/
 └── docker-compose.yaml
 ```
 
